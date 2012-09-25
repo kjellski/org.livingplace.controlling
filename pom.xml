@@ -78,4 +78,14 @@
     </plugins>
   </build>
 
+  <repositories>
+    <repository>
+      <id>apache-felix.releases</id>
+      <url>http://felix.apache.org/obr/releases.xml</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
 </project>

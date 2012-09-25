@@ -1,16 +1,16 @@
-bin/
-bin_test/
-target/
-local/
-runner/ 
+/bin
+/bin_test
+/target
+/local
+/runner
 
 # Eclipse, Netbeans and IntelliJ files
 /.*
 !.gitignore
-nbproject/
-/*.ipr
-/*.iws
-/*.iml
+/nbproject
+*.ipr
+*.iws
+*.iml
 
 *.jar
 

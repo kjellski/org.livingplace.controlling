@@ -47,6 +47,7 @@
   <modules>
     <module>poms</module>
     <module>provision</module>
+    <module>org.livingplace.actions.api</module>
   </modules>
 
   <build>

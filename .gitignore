@@ -1,8 +1,8 @@
-/bin
-/bin_test
-/target
-/local
-/runner
+bin/
+bin_test/
+target/
+local/
+runner/
 
 # Eclipse, Netbeans and IntelliJ files
 /.*

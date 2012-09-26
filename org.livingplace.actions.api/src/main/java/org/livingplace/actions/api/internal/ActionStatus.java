@@ -1,4 +1,4 @@
-package org.livingplace.actions.api.impl;
+package org.livingplace.actions.api.internal;
 
 import org.livingplace.actions.api.IActionResult;
 import org.livingplace.actions.api.IActionStateChangedListener;

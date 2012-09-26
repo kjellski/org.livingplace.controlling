@@ -1,5 +1,6 @@
 package org.livingplace.actions.registry.api.internal;
 
+import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.livingplace.actions.api.IAction;
@@ -15,12 +16,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-
 @Component
-public class ActionRegistry implements IActionRegistry {
+public class ActionRegistryImpl implements IActionRegistry {
     private static final int THREADPOOL_SIZE = 100;
     private final Map<String, IAction> actions = new ConcurrentHashMap<String, IAction>();
     private static final Executor executor = Executors.newFixedThreadPool(THREADPOOL_SIZE); 
+
+    @Activate
+    void start(){
+        System.out.println("STARTEDDD The R3gistry :) olololo");
+    }
 
     @Reference
     private LogService log;
@@ -43,7 +48,7 @@ public class ActionRegistry implements IActionRegistry {
         if (old != null) {
             log.log(LogService.LOG_INFO, "Replaced IAction: " + old.toString() + " with new IAction: " + action.toString());
         }
-        log.log(LogService.LOG_INFO, "Added IAction to ActionRegistry: " + action.toString());
+        log.log(LogService.LOG_INFO, "Added IAction to ActionRegistryImpl: " + action.toString());
     }
 
     @Override

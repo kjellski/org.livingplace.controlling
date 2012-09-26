@@ -1,8 +1,5 @@
 package org.livingplace.actions.api;
 
-import org.livingplace.actions.api.impl.ActionProperties;
-import org.livingplace.actions.api.impl.ActionQualifier;
-
 /*
 * The general interface for all ations to be processed by actors.
 * Also adapter interface for future actions to be implemented.
@@ -10,11 +7,11 @@ import org.livingplace.actions.api.impl.ActionQualifier;
 * @author kjellski
 */
 public interface IAction extends Runnable{
-    ActionQualifier getActionQualifier();
+    IActionQualifier getActionQualifier();
 
-    void setActionProperties(ActionProperties operationProperties);
+    void setActionProperties(IActionProperties operationProperties);
 
-    ActionProperties getActionProperties();
+    IActionProperties getActionProperties();
 
     IActionStatus getStatus();
 

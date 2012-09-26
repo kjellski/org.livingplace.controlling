@@ -1,6 +1,8 @@
-package org.livingplace.actions.api.impl;
+package org.livingplace.actions.api.internal;
 
 import org.livingplace.actions.api.IAction;
+import org.livingplace.actions.api.IActionProperties;
+import org.livingplace.actions.api.IActionQualifier;
 import org.livingplace.actions.api.IActionStatus;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
@@ -10,15 +12,15 @@ import java.io.StringWriter;
 
 public abstract class AbstractAction implements IAction {
 
-    protected ActionQualifier qualifier;
+    protected IActionQualifier qualifier;
     protected IActionStatus status;
     protected ServiceTracker logServiceTracker;
     protected LogService logService;
 
     // optional parameters
-    ActionProperties properties;
+    IActionProperties properties;
 
-    protected AbstractAction(ActionQualifier qualifier) {
+    protected AbstractAction(IActionQualifier qualifier) {
         this.qualifier = qualifier;
         this.status = new ActionStatus();
 
@@ -39,12 +41,12 @@ public abstract class AbstractAction implements IAction {
     }
 
     @Override
-    public void setActionProperties(ActionProperties properties) {
+    public void setActionProperties(IActionProperties properties) {
         this.properties = properties;
     }
 
     @Override
-    public ActionProperties getActionProperties() {
+    public IActionProperties getActionProperties() {
         return this.properties;
     }
 
@@ -59,7 +61,7 @@ public abstract class AbstractAction implements IAction {
     }
 
     @Override
-    public ActionQualifier getActionQualifier() {
+    public IActionQualifier getActionQualifier() {
         return qualifier;
     };
 
@@ -82,7 +84,7 @@ public abstract class AbstractAction implements IAction {
             
 //            this.log.log(LogService.LOG_ERROR, "[Exception] Action: " + qualifier + "\nMessage: " + e.getMessage()
 //                            + "\nException: " + sw.toString());
-            this.status.setActionState(EActionState.FAILED);
+            this.status.setActionState(IActionStatus.EActionState.FAILED);
         }
     }
 

@@ -1,7 +1,5 @@
 package org.livingplace.actions.api;
 
-import org.livingplace.actions.api.impl.EActionState;
-
 import java.util.List;
 
 /*
@@ -9,6 +7,20 @@ import java.util.List;
  * @author kjellski
  */
 public interface IActionStatus {
+
+    enum EActionState {
+        /* to be set when collecting informations for an action to be started*/
+        INTIALIZING,
+        /* to be set when an action is in any setup phase */
+        STARTED,
+        /* to be set when an action is actually in progress */
+        PROCESSING,
+        /* to be set and never changed when the action has finished in a successful state */
+        SUCCESSED,
+        /* to be set and never changed when the action has finished in a erroneous state */
+        FAILED
+    };
+
 	EActionState getActionsState();
 	void setActionState(EActionState state);
 

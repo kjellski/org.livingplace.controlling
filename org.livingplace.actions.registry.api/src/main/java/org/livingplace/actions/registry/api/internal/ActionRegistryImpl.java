@@ -25,6 +25,7 @@ public class ActionRegistryImpl implements IActionRegistry {
     @Activate
     void start(){
         System.out.println("STARTEDDD The R3gistry :) olololo");
+
     }
 
     @Reference

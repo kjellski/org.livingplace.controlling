@@ -23,19 +23,21 @@ public class ActionRegistryImpl implements IActionRegistry {
 
   @Activate
   void start() {
-    System.out.println("STARTEDDD The R3gistry :) olololo");
+    log.log(LogService.LOG_INFO, ActionRegistryImpl.class.getName() + " started.");
   }
 
   @Reference
   private LogService log;
 
-  void setLog(LogService logService) {
-    log = logService;
+  public void setLog(LogService log) {
+    this.log = log;
+    log.log(LogService.LOG_WARNING, ActionRegistryImpl.class.getName() + ".log overidden.");
   }
+
 
   @Deactivate
   void stop() {
-    System.out.println("STOPPED The R3gistry :) olololo");
+    log.log(LogService.LOG_INFO, ActionRegistryImpl.class.getName() + " stopped.");
   }
 
 

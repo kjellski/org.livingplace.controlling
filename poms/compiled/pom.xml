@@ -33,6 +33,20 @@
       </resource>
     </resources>
     <plugins>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-scr-plugin</artifactId>
+        <version>1.8.0</version>
+        <executions>
+          <execution>
+            <id>generate-scr-scrdescriptor</id>
+            <goals>
+              <goal>scr</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <!--
          | the following instructions build a simple set of public/private classes into an OSGi bundle
@@ -53,6 +67,9 @@
              | each module can override these defaults in their osgi.bnd file
             -->
             <_include>-osgi.bnd</_include>
+            <Service-Component>
+              OSGI-INF/serviceComponents.xml
+            </Service-Component>
           </instructions>
         </configuration>
       </plugin>

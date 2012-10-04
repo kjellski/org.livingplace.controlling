@@ -7,43 +7,21 @@ import org.livingplace.actions.api.IActionQualifier;
 *
 * @author kjellski
 */
-public class ActionQualifier implements IActionQualifier {
-    private final String actionName;
-    private final String namespaceName;
+public class ActionQualifier extends Qualifier implements IActionQualifier {
 
-    public ActionQualifier(String actionName, String namespaceName) {
-        if(actionName == null || namespaceName == null)
-            throw new IllegalArgumentException("An ActionQualifier may never be initialized with empty qualification strings.");
+  public ActionQualifier(String actionNamespaceName, String actionName, String actionVersion) {
+    super(actionNamespaceName, actionName, actionVersion);
+  }
 
-        this.actionName = actionName;
-        this.namespaceName = namespaceName;
-    }
+  @Override
+  public String getFullQualifier() {
+    return PREFIX + ":" + super.getNamespace() + "." + super.getName() + ":" + super.getVersion();
+  }
 
-    @Override
-    public String getFullQualifier() {
-        return toString();
-    }
+  private static final String PREFIX = "ACTION";
 
-    @Override
-    public String getActionName() {
-        return actionName;
-    }
-
-    @Override
-    public String getActionNamespace() {
-        return namespaceName;
-    }
-
-    @Override
-    public String toString() {
-        return this.getActionNamespace() + "." + this.getActionName();
-    }
-
-    /*
-      * private to ensure that the qualifier couldn't be instantiated useless
-      */
-    @SuppressWarnings("unused")
-    private ActionQualifier() {
-        this("undefined", "undefined");
-    }
+  @Override
+  public String getPrefix() {
+    return PREFIX;
+  }
 }

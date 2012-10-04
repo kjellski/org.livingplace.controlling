@@ -23,12 +23,6 @@ public abstract class AbstractAction implements IAction {
     protected AbstractAction(IActionQualifier qualifier) {
         this.qualifier = qualifier;
         this.status = new ActionStatus();
-
-//        ServiceTracker logServiceTracker = new ServiceTracker(context, org.osgi.service.log.LogService.class.getName(), null);
-//        logServiceTracker.open();
-//        LogService logservice = (LogService) logServiceTracker.getService();
-
-//        this.log.log(LogService.LOG_DEBUG, "[Created  ] Action: " + qualifier);
     }
 
     /*
@@ -74,16 +68,11 @@ public abstract class AbstractAction implements IAction {
     @Override
     public void execute() {
         try {
-//            this.log.log(LogService.LOG_DEBUG, "[Executing] Action: " + qualifier);
             run();
-//            this.log.log(LogService.LOG_DEBUG, "[Executed ] Action: " + qualifier);
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
-            
-//            this.log.log(LogService.LOG_ERROR, "[Exception] Action: " + qualifier + "\nMessage: " + e.getMessage()
-//                            + "\nException: " + sw.toString());
             this.status.setActionState(IActionStatus.EActionState.FAILED);
         }
     }
@@ -91,7 +80,7 @@ public abstract class AbstractAction implements IAction {
     @Override
     public String toString() {
         StringBuilder b = new StringBuilder();
-        b.append("[" + this.qualifier.toString() + "]: ");
+        b.append("[" + this.qualifier.getFullQualifier() + "]: ");
         b.append(this.status.toString());
         return b.toString();
     }

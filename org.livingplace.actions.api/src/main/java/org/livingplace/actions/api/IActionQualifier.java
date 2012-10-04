@@ -1,12 +1,5 @@
 package org.livingplace.actions.api;
 
-public interface IActionQualifier {
-    String getFullQualifier();
-
-    String getActionName();
-
-    String getActionNamespace();
-
-    @Override
-    String toString();
+public interface IActionQualifier extends IQualifier {
+  public static final String PREFIX = "ACTION";
 }

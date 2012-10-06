@@ -14,6 +14,6 @@ public class ActorQualifier extends Qualifier implements IActorQualifier {
 
   @Override
   public String getFullQualifier() {
-    return PREFIX + ":" + super.getNamespace() + "." + super.getName() + ":" + super.getVersion();
+    return PREFIX + ":" + getNamespace() + "." + getName() + ":" + getVersion();
   }
 }

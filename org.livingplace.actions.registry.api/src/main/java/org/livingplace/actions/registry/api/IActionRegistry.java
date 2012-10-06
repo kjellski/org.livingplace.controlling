@@ -15,7 +15,6 @@ public interface IActionRegistry {
 
   List<IAction> getAllRegisteredActions();
 
-
   void registerActor(IActor actor);
 
   void unregisterActor(IActor actor);

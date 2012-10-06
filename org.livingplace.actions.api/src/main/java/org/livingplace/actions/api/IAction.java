@@ -18,6 +18,4 @@ public interface IAction extends Runnable{
     void setStatus(IActionStatus status);
 
     void execute();
-    
-    String toString();
 }

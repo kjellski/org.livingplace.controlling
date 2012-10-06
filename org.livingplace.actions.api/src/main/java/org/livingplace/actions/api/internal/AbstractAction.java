@@ -4,8 +4,6 @@ import org.livingplace.actions.api.IAction;
 import org.livingplace.actions.api.IActionProperties;
 import org.livingplace.actions.api.IActionQualifier;
 import org.livingplace.actions.api.IActionStatus;
-import org.osgi.service.log.LogService;
-import org.osgi.util.tracker.ServiceTracker;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -14,8 +12,6 @@ public abstract class AbstractAction implements IAction {
 
     protected IActionQualifier qualifier;
     protected IActionStatus status;
-    protected ServiceTracker logServiceTracker;
-    protected LogService logService;
 
     // optional parameters
     IActionProperties properties;

@@ -9,6 +9,8 @@ import org.livingplace.actions.registry.api.IActionRegistry;
 import org.mockito.Mockito;
 import org.osgi.service.log.LogService;
 
+import java.util.List;
+
 public class ActionRegistryImplTest {
   IActor actor;
   IActionRegistry registry;
@@ -27,61 +29,85 @@ public class ActionRegistryImplTest {
 
   @Test
   public void testExecuteAction() throws Exception {
+    IAction actionToExecute = actor.getAllActions().get(0);
+    registry.registerAction(actionToExecute);
 
+    registry.executeAction(actionToExecute.getActionQualifier());
   }
 
   @Test
-  public void testRegisterActor() throws Exception {
-    int actionCount = registry.getAllRegisteredActions().size();
-    registry.registerActor(actor);
-    Assert.assertEquals(actionCount + TestActor.ACTION_COUNT, registry.getAllRegisteredActions().size());
-  }
+  public void testRegisterAndUnregisterActions() throws Exception {
+    List<IAction> registryActions = registry.getAllRegisteredActions();
+    List<IAction> actorsActions = actor.getAllActions();
+    int registeredActions = registryActions.size();
+    int actorActions = actorsActions.size();
 
-  @Test
-  public void testUnregisterActor() throws Exception {
-    int actionCount = registry.getAllRegisteredActions().size();
-    registry.registerActor(actor);
-    Assert.assertEquals(actionCount + TestActor.ACTION_COUNT, registry.getAllRegisteredActions().size());
-    registry.unregisterActor(actor);
-    Assert.assertEquals(actionCount, registry.getAllRegisteredActions().size());
-  }
+    for (IAction actorsAction : actorsActions) {
+      registry.registerAction(actorsAction);
+    }
+    Assert.assertEquals(registeredActions + actorActions, registry.getAllRegisteredActions().size());
 
-  @Test
-  public void testExecuteActionOnActorWithActionProperties() throws Exception {
+    for (IAction actorsAction : actorsActions) {
+      registry.unregisterAction(actorsAction);
+    }
 
-  }
-
-  @Test
-  public void testExecuteActionOnActor() throws Exception {
-
-  }
-
-  @Test
-  public void testGetAllRegisteredActors() throws Exception {
-
-  }
-
-  @Test
-  public void testRegisterActions() throws Exception {
-
-  }
-
-  @Test
-  public void testUnregisterActions() throws Exception {
-
+    Assert.assertEquals(registeredActions, registry.getAllRegisteredActions().size());
   }
 
   @Test
   public void testGetAllRegisteredActions() throws Exception {
-    int actionCount = registry.getAllRegisteredActions().size();
-    Assert.assertTrue(actionCount >= 0);
+    List<IAction> registryActions = registry.getAllRegisteredActions();
+    List<IAction> actorsActions = actor.getAllActions();
+    int registeredActions = registryActions.size();
+    int actorActions = actorsActions.size();
 
-    if (actionCount > 0) {
+    for (IAction actorsAction : actorsActions) {
+      registry.registerAction(actorsAction);
+    }
+
+    Assert.assertTrue(registry.getAllRegisteredActions().size() > 0);
+
+    if (registeredActions > 0) {
       for (IAction iAction : registry.getAllRegisteredActions()) {
         Assert.assertTrue(iAction != null);
         Assert.assertTrue(iAction.getActionQualifier() != null);
+        actorsActions.contains(iAction);
       }
+    }
+
+    for (IAction actorsAction : actorsActions) {
+      registry.unregisterAction(actorsAction);
     }
   }
 }
 
+//  @Test
+//  public void testRegisterActor() throws Exception {
+//    int actionCount = registry.getAllRegisteredActions().size();
+//    registry.registerActor(actor);
+//    Assert.assertEquals(actionCount + TestActor.ACTION_COUNT, registry.getAllRegisteredActions().size());
+//  }
+
+//  @Test
+//  public void testUnregisterActor() throws Exception {
+//    int actionCount = registry.getAllRegisteredActions().size();
+//    registry.registerActor(actor);
+//    Assert.assertEquals(actionCount + TestActor.ACTION_COUNT, registry.getAllRegisteredActions().size());
+//    registry.unregisterActor(actor);
+//    Assert.assertEquals(actionCount, registry.getAllRegisteredActions().size());
+//  }
+//
+//  @Test
+//  public void testExecuteActionOnActorWithActionProperties() throws Exception {
+//
+//  }
+//
+//  @Test
+//  public void testExecuteActionOnActor() throws Exception {
+//
+//  }
+//
+//  @Test
+//  public void testGetAllRegisteredActors() throws Exception {
+//
+//  }

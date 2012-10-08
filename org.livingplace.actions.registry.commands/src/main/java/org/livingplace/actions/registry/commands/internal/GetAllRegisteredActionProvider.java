@@ -1,6 +1,8 @@
 package org.livingplace.actions.registry.commands.internal;
 
+import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.shell.Command;
 import org.livingplace.actions.api.IAction;
@@ -18,6 +20,16 @@ public class GetAllRegisteredActionProvider implements Command {
 
   @Reference
   protected LogService log;
+
+  @Activate
+  void start(){
+    this.log.log(LogService.LOG_INFO, "Added Command.");
+  }
+
+  @Deactivate
+  void stop(){
+    this.log.log(LogService.LOG_INFO, "Removed Command.");
+  }
 
   @Override
   public void execute(String line, PrintStream out, PrintStream err) {

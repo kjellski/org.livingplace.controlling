@@ -18,7 +18,7 @@ public interface IActionRegistry {
 //  void registerActor(IActor actor);
 //
 //  void unregisterActor(IActor actor);
-//
+// 
 //  void executeActionOnActor(IActorQualifier actorQualifier, IActionQualifier actionQualifier, IActionProperties properties);
 //
 //  void executeActionOnActor(IActorQualifier actorQualifier, IActionQualifier actionQualifier);

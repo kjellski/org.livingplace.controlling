@@ -1,9 +1,6 @@
 package org.livingplace.actions.registry.api.internal;
 
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Deactivate;
-import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.*;
 import org.livingplace.actions.api.IAction;
 import org.livingplace.actions.api.IActionProperties;
 import org.livingplace.actions.api.IActionQualifier;
@@ -21,7 +18,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-@Component(name = "IActionRegistry")
+@Component(name="ActionRegistryImpl")
+@Service
 public class ActionRegistryImpl implements IActionRegistry {
   private static final int THREADPOOL_SIZE = 100;
   private final Map<String, IAction> actions = new ConcurrentHashMap<String, IAction>();

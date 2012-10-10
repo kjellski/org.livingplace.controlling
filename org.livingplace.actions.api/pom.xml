@@ -10,8 +10,8 @@
   </parent>
 
   <properties>
-    <bundle.symbolicName>org.livingplace.actions.api</bundle.symbolicName>
-    <bundle.namespace>org.livingplace.actions.api</bundle.namespace>
+    <bundle.symbolicName>${project.artifactId}</bundle.symbolicName>
+    <bundle.namespace>${project.artifactId}</bundle.namespace>
   </properties>
 
   <modelVersion>4.0.0</modelVersion>
@@ -42,6 +42,12 @@
       <groupId>org.osgi</groupId>
       <artifactId>osgi_R4_compendium</artifactId>
       <optional>true</optional>
+    </dependency>
+    <!-- Component Annotations Dependencies -->
+    <dependency>
+      <groupId>org.apache.felix</groupId>
+      <artifactId>org.apache.felix.scr</artifactId>
+      <version>1.6.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.felix</groupId>

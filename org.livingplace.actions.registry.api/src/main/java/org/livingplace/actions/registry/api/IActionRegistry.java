@@ -1,6 +1,8 @@
 package org.livingplace.actions.registry.api;
 
-import org.livingplace.actions.api.*;
+import org.livingplace.actions.api.IAction;
+import org.livingplace.actions.api.IActionProperties;
+import org.livingplace.actions.api.IActionQualifier;
 
 import java.util.List;
 

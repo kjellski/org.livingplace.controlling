@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <parent>
     <relativePath>../poms/compiled/</relativePath>
@@ -16,10 +15,10 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.livingplace.bundles.controlling-actions</groupId>
-  <artifactId>org.livingplace.actions.registry.commands</artifactId>
+  <artifactId>org.livingplace.actions.registry.impl</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>LivingPlace :: Controlling :: Actions :: Registry :: Commands</name>
+  <name>LivingPlace :: Controlling :: Actions :: Registry :: Provider</name>
 
   <packaging>bundle</packaging>
 
@@ -52,12 +51,6 @@
       <groupId>org.livingplace.bundles.controlling-actions</groupId>
       <artifactId>org.livingplace.actions.api</artifactId>
       <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <!-- Shell Dependencies -->
-    <dependency>
-      <groupId>org.apache.felix</groupId>
-      <artifactId>org.apache.felix.shell</artifactId>
-      <version>1.4.3</version>
     </dependency>
     <!-- Component Annotations Dependencies -->
     <dependency>

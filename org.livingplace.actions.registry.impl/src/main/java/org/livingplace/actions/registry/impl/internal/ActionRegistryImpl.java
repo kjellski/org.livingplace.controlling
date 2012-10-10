@@ -1,4 +1,4 @@
-package org.livingplace.actions.registry.api.internal;
+package org.livingplace.actions.registry.impl.internal;
 
 import org.apache.felix.scr.annotations.*;
 import org.livingplace.actions.api.IAction;

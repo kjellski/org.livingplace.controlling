@@ -83,11 +83,12 @@
             -->
             <_include>-osgi.bnd</_include>
             <Service-Component>
-              OSGI-INF/serviceComponents.xml
+              OSGI-INF/*.xml
             </Service-Component>
           </instructions>
         </configuration>
       </plugin>
     </plugins>
   </build>
+
 </project>

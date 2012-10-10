@@ -18,7 +18,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-@Component(name="ActionRegistryImpl")
+@Component
 @Service
 public class ActionRegistryImpl implements IActionRegistry {
   private static final int THREADPOOL_SIZE = 100;
@@ -140,6 +140,12 @@ public class ActionRegistryImpl implements IActionRegistry {
       readLock.unlock();
     }
   }
+
+  @Override
+  public IAction getAction(IActionQualifier actionQualifier) {
+    return actions.get(actionQualifier.getFullQualifier());
+  }
+
 }
 //  @Override
 //  public void registerActor(IActor actor) {

@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.livingplace.actions.api.IActionQualifier;
+import org.livingplace.actions.api.providers.ActionQualifier;
 
 public class ActionQualifierTest {
 

@@ -1,6 +1,8 @@
-package org.livingplace.actions.api.internal;
+package org.livingplace.actions.api.providers;
 
-import org.livingplace.actions.api.*;
+import org.livingplace.actions.api.IAction;
+import org.livingplace.actions.api.IActor;
+import org.livingplace.actions.api.IActorQualifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +11,7 @@ public class AbstractActor implements IActor {
   protected IActorQualifier qualifier;
   protected List<IAction> actions = new ArrayList<IAction>();
 
-  protected AbstractActor(IActorQualifier qualifier){
+  protected AbstractActor(IActorQualifier qualifier) {
     this.qualifier = qualifier;
   }
 
@@ -30,5 +32,19 @@ public class AbstractActor implements IActor {
   @Override
   public List<IAction> getAllActions() {
     return actions;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder b = new StringBuilder();
+    b.append("[" + this.qualifier.getFullQualifier() + "]: ");
+    if (this.actions.size() > 0)
+      for (IAction action : actions) {
+        b.append(action.toString());
+      }
+    else
+      b.append("  No actions for this IActor.");
+
+    return b.toString();
   }
 }

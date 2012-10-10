@@ -1,84 +1,53 @@
 package org.livingplace.actions.registry.commands.internal;
 
 import org.apache.felix.scr.annotations.*;
-
-import org.apache.felix.shell.Command;
-import org.livingplace.actions.api.IAction;
+import org.apache.felix.service.command.CommandProcessor;
 import org.livingplace.actions.registry.api.IActionRegistry;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.log.LogService;
-import java.io.PrintStream;
 
-import java.util.List;
-import java.util.StringTokenizer;
-
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
 
 @Component(immediate = true)
-@Service
-public class GetAllRegisteredActionProvider implements Command {
+public class GetAllRegisteredActionProvider {
+
+  private Set<ServiceRegistration> regs = new HashSet<ServiceRegistration>();
+  protected BundleContext context;
+
   @Reference
-  protected IActionRegistry actionRegistrySvc;
+  protected IActionRegistry registry;
 
   @Reference
   protected LogService log;
 
   @Activate
-  void start(){
+  void start(BundleContext context) {
+    this.context = context;
+
+    Hashtable dict = new Hashtable();
+    dict.put(CommandProcessor.COMMAND_SCOPE, "lp:act:reg");
+    dict.put(CommandProcessor.COMMAND_FUNCTION, ActionRegistryCommands.commands);
+
+    regs.add(context.registerService(ActionRegistryCommands.class.getName(), new ActionRegistryCommands(registry, log), dict));
+
     this.log.log(LogService.LOG_INFO, "Added Command.");
   }
 
   @Deactivate
-  void stop(){
+  void stop() {
     this.log.log(LogService.LOG_INFO, "Removed Command.");
-  }
 
-  @Override
-  public void execute(String line, PrintStream out, PrintStream err) {
-    StringTokenizer tokenizer = new StringTokenizer(line);
-    tokenizer.nextToken(); // discard first token
-
-    List<IAction> actions = actionRegistrySvc.getAllRegisteredActions();
-    if (actions.size() > 0) {
-      for (IAction action : actions) {
-        String msg = action.toString();
-        this.log.log(LogService.LOG_INFO, msg);
-        System.out.println(msg);
-      }
-    } else {
-      String msg = "No Actions Registered.";
-      this.log.log(LogService.LOG_INFO, msg);
-      System.out.println(msg);
+    // from apache gogo shell sources
+    Iterator<ServiceRegistration> iterator = regs.iterator();
+    while (iterator.hasNext())
+    {
+      ServiceRegistration reg = iterator.next();
+      reg.unregister();
+      iterator.remove();
     }
   }
-
-  @Override
-  public String getName() {
-    return "act:reg:show";
-  }
-
-  @Override
-  public String getShortDescription() {
-    return "Lists all registered actions.";
-  }
-
-  @Override
-  public String getUsage() {
-    return "act:reg:show";
-  }
-
-//  @Override
-//  protected Object doExecute() throws Exception {
-//    List<IAction> actions = actionRegistrySvc.getAllRegisteredActions();
-//    if (actions.size() > 0) {
-//      for (IAction action : actions) {
-//        String msg = action.toString();
-//        this.log.log(LogService.LOG_INFO, msg);
-//        System.out.println(msg);
-//      }
-//    } else {
-//      String msg = "No Actions Registered.";
-//      this.log.log(LogService.LOG_INFO, msg);
-//      System.out.println(msg);
-//    }
-//    return null;
-//  }
 }

@@ -1,4 +1,4 @@
-package org.livingplace.actions.api.internal;
+package org.livingplace.actions.api.providers;
 
 import java.util.Properties;
 

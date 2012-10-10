@@ -56,8 +56,8 @@
     <!-- Shell Dependencies -->
     <dependency>
       <groupId>org.apache.felix</groupId>
-      <artifactId>org.apache.felix.shell</artifactId>
-      <version>1.4.3</version>
+      <artifactId>org.apache.felix.gogo.runtime</artifactId>
+      <version>0.10.0</version>
     </dependency>
     <!-- Component Annotations Dependencies -->
     <dependency>

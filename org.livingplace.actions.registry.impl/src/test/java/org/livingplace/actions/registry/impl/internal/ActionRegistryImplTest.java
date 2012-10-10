@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.livingplace.actions.api.IAction;
+import org.livingplace.actions.api.IActionStatus;
 import org.livingplace.actions.api.IActor;
 import org.livingplace.actions.registry.api.IActionRegistry;
 import org.mockito.Mockito;
@@ -33,6 +34,16 @@ public class ActionRegistryImplTest {
     registry.registerAction(actionToExecute);
 
     registry.executeAction(actionToExecute.getActionQualifier());
+
+    Assert.assertTrue(actionToExecute.getStatus() != null);
+    Assert.assertTrue(actionToExecute.getStatus().getActionResult() != null);
+
+    while (actionToExecute.getStatus().getActionsState() == IActionStatus.EActionState.PROCESSING ||
+            actionToExecute.getStatus().getActionsState() == IActionStatus.EActionState.INITIALIZING){
+      Thread.sleep(100);
+    }
+
+    Assert.assertNotNull(actionToExecute.getStatus().getActionResult().getResult());
   }
 
   @Test

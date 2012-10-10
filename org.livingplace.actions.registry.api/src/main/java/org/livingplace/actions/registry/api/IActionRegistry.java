@@ -16,6 +16,8 @@ public interface IActionRegistry {
   void executeAction(IActionQualifier actionQualifier);
 
   List<IAction> getAllRegisteredActions();
+
+  IAction getAction(IActionQualifier actionQualifier);
 //
 //  void registerActor(IActor actor);
 //

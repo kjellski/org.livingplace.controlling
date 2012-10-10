@@ -2,4 +2,4 @@
 # Use this file to add customized Bnd instructions for the bundle
 #-----------------------------------------------------------------
 
-Service-Component: *
+Import-Service: org.osgi.service.log.LogService, org.livingplace.actions.registry.api.IActionRegistry

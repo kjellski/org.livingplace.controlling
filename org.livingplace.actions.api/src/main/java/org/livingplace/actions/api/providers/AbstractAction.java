@@ -1,4 +1,4 @@
-package org.livingplace.actions.api.internal;
+package org.livingplace.actions.api.providers;
 
 import org.livingplace.actions.api.IAction;
 import org.livingplace.actions.api.IActionProperties;
@@ -18,7 +18,7 @@ public abstract class AbstractAction implements IAction {
 
     protected AbstractAction(IActionQualifier qualifier) {
         this.qualifier = qualifier;
-        this.status = new ActionStatus();
+        this.status = new SimpleActionStatus();
     }
 
     /*
@@ -64,6 +64,7 @@ public abstract class AbstractAction implements IAction {
     @Override
     public void execute() {
         try {
+            this.status.setActionState(IActionStatus.EActionState.PROCESSING);
             run();
         } catch (Exception e) {
             StringWriter sw = new StringWriter();

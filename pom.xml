@@ -67,6 +67,7 @@
           -->
           <provision>
             <param>--platform=felix</param>
+
           </provision>
         </configuration>
         <executions>

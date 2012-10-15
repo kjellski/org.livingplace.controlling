@@ -1,12 +1,12 @@
-package org.livingplace.controlling.actions.actors.internal;
+package org.livingplace.controlling.actions.actors.time;
 
 import org.apache.felix.scr.annotations.*;
+import org.livingplace.controlling.actions.actors.time.internal.BroadcastTimeOnAMQ;
 import org.livingplace.controlling.actions.api.IAction;
 import org.livingplace.controlling.actions.api.IActor;
 import org.livingplace.controlling.actions.api.providers.AbstractActor;
 import org.livingplace.controlling.actions.api.providers.ActorQualifier;
 import org.livingplace.controlling.actions.registry.api.IActionRegistry;
-import org.livingplace.controlling.actions.actors.internal.BroadcastTimeOnAMQ;
 import org.osgi.service.log.LogService;
 
 @Component(immediate = true)

@@ -2,5 +2,4 @@
 # Use this file to add customized Bnd instructions for the bundle
 #-----------------------------------------------------------------
 
--failok
-#Service-Component: org.livingplace.controlling.actions.api.*
+Service-Component: *

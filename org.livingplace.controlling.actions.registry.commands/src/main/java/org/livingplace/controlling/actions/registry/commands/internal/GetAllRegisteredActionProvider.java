@@ -34,13 +34,11 @@ public class GetAllRegisteredActionProvider {
 
     regs.add(context.registerService(ActionRegistryCommands.class.getName(), new ActionRegistryCommands(registry, log), dict));
 
-    this.log.log(LogService.LOG_INFO, "Added Command.");
+    this.log.log(LogService.LOG_INFO, "Added Commands.");
   }
 
   @Deactivate
   void stop() {
-    this.log.log(LogService.LOG_INFO, "Removed Command.");
-
     // from apache gogo shell sources
     Iterator<ServiceRegistration> iterator = regs.iterator();
     while (iterator.hasNext())
@@ -49,5 +47,7 @@ public class GetAllRegisteredActionProvider {
       reg.unregister();
       iterator.remove();
     }
+
+    this.log.log(LogService.LOG_INFO, "Removed Commands.");
   }
 }

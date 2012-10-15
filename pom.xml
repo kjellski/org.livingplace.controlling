@@ -48,11 +48,11 @@
   <modules>
     <module>poms</module>
     <module>provision</module>
-    <module>org.livingplace.actions.api</module>
-    <module>org.livingplace.actions.registry.api</module>
-    <module>org.livingplace.actions.registry.commands</module>
-    <module>org.livingplace.actions.registry.impl</module>
-    <module>org.livingplace.actions.actors.time</module>
+    <module>org.livingplace.controlling.actions.api</module>
+    <module>org.livingplace.controlling.actions.registry.api</module>
+    <module>org.livingplace.controlling.actions.registry.commands</module>
+    <module>org.livingplace.controlling.actions.registry.impl</module>
+    <module>org.livingplace.controlling.actions.actors.time</module>
   </modules>
 
   <build>

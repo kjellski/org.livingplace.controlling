@@ -8,7 +8,7 @@ public class QualifierParserTest {
 
   @Test
   public void testActionParse() throws Exception {
-    IActionQualifier qualifier = QualifierParser.parseActionQualifier(ActionQualifierTest.NAMESPACE
+    IActionQualifier qualifier = ActionQualifierParser.parseActionQualifier(ActionQualifierTest.NAMESPACE
             + "." + ActionQualifierTest.NAME
             + ":" + ActionQualifierTest.VERSION);
 

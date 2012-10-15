@@ -4,15 +4,15 @@
 
   <parent>
     <groupId>org.livingplace.bundles</groupId>
-    <artifactId>controlling-actions</artifactId>
+    <artifactId>controlling</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.livingplace.bundles.controlling-actions.build</groupId>
+  <groupId>org.livingplace.bundles.controlling.build</groupId>
   <artifactId>provision</artifactId>
 
-  <name>controlling-actions - imported bundles</name>
+  <name>controlling - imported bundles</name>
 
   <packaging>pom</packaging>
 

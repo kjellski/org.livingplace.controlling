@@ -1,7 +1,8 @@
 package org.livingplace.controlling.actions.api.providers;
 
 import org.livingplace.controlling.actions.api.IActorQualifier;
-import org.livingplace.controlling.actions.api.IQualifier;
+import org.livingplace.controlling.api.IQualifier;
+import org.livingplace.controlling.api.providers.Qualifier;
 
 public class ActorQualifier extends Qualifier implements IActorQualifier {
 

@@ -1,8 +1,11 @@
-package org.livingplace.controlling.actions.registry.commands.internal;
+package org.livingplace.controlling.informations.registry.commands.internal;
 
-import org.apache.felix.scr.annotations.*;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Deactivate;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.service.command.CommandProcessor;
-import org.livingplace.controlling.actions.registry.api.IActionRegistry;
+import org.livingplace.controlling.informations.registry.api.IInformationRegistry;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.log.LogService;
@@ -13,13 +16,13 @@ import java.util.Iterator;
 import java.util.Set;
 
 @Component(immediate = true)
-public class GetAllRegisteredActionProvider {
+public class InformationRegistryCommandsProvider {
 
   private Set<ServiceRegistration> regs = new HashSet<ServiceRegistration>();
   protected BundleContext context;
 
   @Reference
-  protected IActionRegistry registry;
+  protected IInformationRegistry registry;
 
   @Reference
   protected LogService log;
@@ -29,10 +32,10 @@ public class GetAllRegisteredActionProvider {
     this.context = context;
 
     Hashtable dict = new Hashtable();
-    dict.put(CommandProcessor.COMMAND_SCOPE, "lp:act:reg");
-    dict.put(CommandProcessor.COMMAND_FUNCTION, ActionRegistryCommands.commands);
+    dict.put(CommandProcessor.COMMAND_SCOPE, "lp:inf:reg");
+    dict.put(CommandProcessor.COMMAND_FUNCTION, InformationRegistryCommands.commands);
 
-    regs.add(context.registerService(ActionRegistryCommands.class.getName(), new ActionRegistryCommands(registry, log), dict));
+    regs.add(context.registerService(InformationRegistryCommands.class.getName(), new InformationRegistryCommands(registry, log), dict));
 
     this.log.log(LogService.LOG_INFO, "Added Commands.");
   }

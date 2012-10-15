@@ -1,4 +1,4 @@
-package org.livingplace.controlling.actions.api;
+package org.livingplace.controlling.api;
 
 public interface IQualifier {
   String getFullQualifier();

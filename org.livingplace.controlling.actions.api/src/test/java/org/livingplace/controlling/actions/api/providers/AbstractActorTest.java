@@ -16,8 +16,8 @@ public class AbstractActorTest {
 
   @Test
   public void testGetActorQualifer() throws Exception {
-    Assert.assertNotNull(actor.getActorQualifer());
-    Assert.assertNotSame(actor.getActorQualifer(), IActorQualifier.PREFIX + ":.:");
+    Assert.assertNotNull(actor.getQualifier());
+    Assert.assertNotSame(actor.getQualifier(), IActorQualifier.PREFIX + ":.:");
   }
 
   @Test

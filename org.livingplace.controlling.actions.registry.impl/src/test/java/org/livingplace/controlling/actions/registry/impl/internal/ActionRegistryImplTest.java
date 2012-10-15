@@ -31,9 +31,9 @@ public class ActionRegistryImplTest {
   @Test
   public void testExecuteAction() throws Exception {
     IAction actionToExecute = actor.getAllActions().get(0);
-    registry.registerAction(actionToExecute);
+    registry.register(actionToExecute);
 
-    registry.executeAction(actionToExecute.getActionQualifier());
+    registry.executeAction(actionToExecute.getQualifier());
 
     Assert.assertTrue(actionToExecute.getStatus() != null);
     Assert.assertTrue(actionToExecute.getStatus().getActionResult() != null);
@@ -48,46 +48,46 @@ public class ActionRegistryImplTest {
 
   @Test
   public void testRegisterAndUnregisterActions() throws Exception {
-    List<IAction> registryActions = registry.getAllRegisteredActions();
+    List<IAction> registryActions = registry.getAllRegistered();
     List<IAction> actorsActions = actor.getAllActions();
     int registeredActions = registryActions.size();
     int actorActions = actorsActions.size();
 
     for (IAction actorsAction : actorsActions) {
-      registry.registerAction(actorsAction);
+      registry.register(actorsAction);
     }
-    Assert.assertEquals(registeredActions + actorActions, registry.getAllRegisteredActions().size());
+    Assert.assertEquals(registeredActions + actorActions, registry.getAllRegistered().size());
 
     for (IAction actorsAction : actorsActions) {
-      registry.unregisterAction(actorsAction);
+      registry.unregister(actorsAction);
     }
 
-    Assert.assertEquals(registeredActions, registry.getAllRegisteredActions().size());
+    Assert.assertEquals(registeredActions, registry.getAllRegistered().size());
   }
 
   @Test
   public void testGetAllRegisteredActions() throws Exception {
-    List<IAction> registryActions = registry.getAllRegisteredActions();
+    List<IAction> registryActions = registry.getAllRegistered();
     List<IAction> actorsActions = actor.getAllActions();
     int registeredActions = registryActions.size();
     int actorActions = actorsActions.size();
 
     for (IAction actorsAction : actorsActions) {
-      registry.registerAction(actorsAction);
+      registry.register(actorsAction);
     }
 
-    Assert.assertTrue(registry.getAllRegisteredActions().size() > 0);
+    Assert.assertTrue(registry.getAllRegistered().size() > 0);
 
     if (registeredActions > 0) {
-      for (IAction iAction : registry.getAllRegisteredActions()) {
+      for (IAction iAction : registry.getAllRegistered()) {
         Assert.assertTrue(iAction != null);
-        Assert.assertTrue(iAction.getActionQualifier() != null);
+        Assert.assertTrue(iAction.getQualifier() != null);
         actorsActions.contains(iAction);
       }
     }
 
     for (IAction actorsAction : actorsActions) {
-      registry.unregisterAction(actorsAction);
+      registry.unregister(actorsAction);
     }
   }
 }

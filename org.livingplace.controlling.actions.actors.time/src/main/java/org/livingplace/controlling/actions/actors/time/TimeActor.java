@@ -29,7 +29,7 @@ public class TimeActor extends AbstractActor implements IActor {
     actions.add(new BroadcastTimeOnAMQ());
 
     for (IAction action : actions) {
-      registry.registerAction(action);
+      registry.register(action);
     }
   }
 
@@ -38,7 +38,7 @@ public class TimeActor extends AbstractActor implements IActor {
     log.log(LogService.LOG_INFO, "Timer stopped");
 
     for (IAction action : actions) {
-      registry.unregisterAction(action);
+      registry.unregister(action);
     }
   }
 }

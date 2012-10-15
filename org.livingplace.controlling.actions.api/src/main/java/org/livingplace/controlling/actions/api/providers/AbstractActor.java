@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AbstractActor implements IActor {
-  protected IActorQualifier qualifier;
+  protected final IActorQualifier qualifier;
   protected List<IAction> actions = new ArrayList<IAction>();
 
   protected AbstractActor(IActorQualifier qualifier) {
@@ -25,7 +25,7 @@ public class AbstractActor implements IActor {
   }
 
   @Override
-  public IActorQualifier getActorQualifer() {
+  public IActorQualifier getQualifier() {
     return qualifier;
   }
 

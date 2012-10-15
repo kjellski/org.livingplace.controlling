@@ -4,7 +4,7 @@ import org.apache.felix.service.command.Descriptor;
 import org.livingplace.controlling.actions.api.IAction;
 import org.livingplace.controlling.actions.api.IActionQualifier;
 import org.livingplace.controlling.actions.api.providers.ActionQualifier;
-import org.livingplace.controlling.actions.api.providers.QualifierParser;
+import org.livingplace.controlling.actions.api.providers.ActionQualifierParser;
 import org.livingplace.controlling.actions.registry.api.IActionRegistry;
 import org.osgi.service.log.LogService;
 
@@ -33,7 +33,7 @@ public class ActionRegistryCommands {
           @Descriptor("full qualified action in the form: \"<namespace>.<name>:<version>\"")
           String fullQualifier) {
 
-    IActionQualifier qualifier = new ActionQualifier(QualifierParser.parseActionQualifier(fullQualifier));
+    IActionQualifier qualifier = new ActionQualifier(ActionQualifierParser.parseActionQualifier(fullQualifier));
     StringBuilder b = new StringBuilder("Executing IAction with qualifier: " + qualifier.getFullQualifier());
 
     registry.executeAction(qualifier);
@@ -45,9 +45,9 @@ public class ActionRegistryCommands {
   @Descriptor("shows all registered actions")
   public void show() {
     StringBuilder b = new StringBuilder("Looking up registered actions in Registry... ");
-    b.append(" found " + registry.getAllRegisteredActions().size() + " IActions.\n");
+    b.append(" found " + registry.getAllRegistered().size() + " IActions.\n");
 
-    List<IAction> actions = registry.getAllRegisteredActions();
+    List<IAction> actions = registry.getAllRegistered();
     if (actions.size() > 0) {
       for (IAction action : actions) {
         b.append(action.toString() + "\n");

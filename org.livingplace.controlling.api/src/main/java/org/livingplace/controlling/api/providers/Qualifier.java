@@ -1,6 +1,6 @@
-package org.livingplace.controlling.actions.api.providers;
+package org.livingplace.controlling.api.providers;
 
-import org.livingplace.controlling.actions.api.IQualifier;
+import org.livingplace.controlling.api.IQualifier;
 
 public abstract class Qualifier implements IQualifier {
   private final String name;

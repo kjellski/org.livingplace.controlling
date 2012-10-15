@@ -10,7 +10,7 @@ import java.io.StringWriter;
 
 public abstract class AbstractAction implements IAction {
 
-    protected IActionQualifier qualifier;
+    protected final IActionQualifier qualifier;
     protected IActionStatus status;
 
     // optional parameters
@@ -51,7 +51,7 @@ public abstract class AbstractAction implements IAction {
     }
 
     @Override
-    public IActionQualifier getActionQualifier() {
+    public IActionQualifier getQualifier() {
         return qualifier;
     };
 

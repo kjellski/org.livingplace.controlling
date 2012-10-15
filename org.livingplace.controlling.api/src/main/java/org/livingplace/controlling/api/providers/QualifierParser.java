@@ -1,23 +1,11 @@
-package org.livingplace.controlling.actions.api.providers;
-
-import org.livingplace.controlling.actions.api.IQualifier;
+package org.livingplace.controlling.api.providers;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class QualifierParser {
 
-  public static ActorQualifier parseActorQualifier(String fullActionQualifier) {
-    IQualifier qualifier = parseQualifier(fullActionQualifier);
-    return new ActorQualifier(qualifier);
-  }
-
-  public static ActionQualifier parseActionQualifier(String fullActionQualifier) {
-    IQualifier qualifier = parseQualifier(fullActionQualifier);
-    return new ActionQualifier(qualifier);
-  }
-
-  private static Qualifier parseQualifier(String fullQualifier) {
+  public static Qualifier parseQualifier(String fullQualifier) {
     // matches <namespace>.<name>:<version>
     Pattern pattern = Pattern.compile("^([\\w+\\.*]+)\\.([\\w]+):([\\w\\.\\-]+)$");
     Matcher matcher = pattern.matcher(fullQualifier);

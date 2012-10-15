@@ -84,7 +84,7 @@ public class ActionRegistryImpl implements IActionRegistry {
       else
         b.append("null");
 
-      b.append("        on IActor: ");
+      b.append(" on IActor: ");
       if (actorToExecuteAction != null && actorToExecuteAction.getActorQualifer() != null)
         b.append(actorToExecuteAction.getActorQualifer().getFullQualifier());
       else
@@ -102,7 +102,6 @@ public class ActionRegistryImpl implements IActionRegistry {
       readLock.unlock();
     }
   }
-
 
   @Override
   public void registerAction(IAction action) {

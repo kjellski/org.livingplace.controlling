@@ -1,6 +1,7 @@
 package org.livingplace.actions.api.providers;
 
 import org.livingplace.actions.api.IActionQualifier;
+import org.livingplace.actions.api.IQualifier;
 
 /*
 * This class is representing the actions identifier
@@ -9,16 +10,13 @@ import org.livingplace.actions.api.IActionQualifier;
 */
 public class ActionQualifier extends Qualifier implements IActionQualifier {
 
+  public ActionQualifier(IQualifier qualifier) {
+    super(qualifier.getNamespace(), qualifier.getName(), qualifier.getVersion());
+  }
+
   public ActionQualifier(String actionNamespaceName, String actionName, String actionVersion) {
     super(actionNamespaceName, actionName, actionVersion);
   }
-
-  @Override
-  public String getFullQualifier() {
-    return PREFIX + ":" + super.getNamespace() + "." + super.getName() + ":" + super.getVersion();
-  }
-
-  private static final String PREFIX = "ACTION";
 
   @Override
   public String getPrefix() {

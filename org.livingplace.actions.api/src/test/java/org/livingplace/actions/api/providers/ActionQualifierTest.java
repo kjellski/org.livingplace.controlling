@@ -1,17 +1,16 @@
-package org.livingplace.actions.api.internal;
+package org.livingplace.actions.api.providers;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.livingplace.actions.api.IActionQualifier;
-import org.livingplace.actions.api.providers.ActionQualifier;
 
 public class ActionQualifierTest {
 
   private IActionQualifier testObject;
-  String VERSION = "1.0.0-SNAPSHOT";
-  String NAME = "TestName";
-  String NAMESPACE = "TestNamespace";
+  public static final String VERSION = "1.0.0-SNAPSHOT";
+  public static final String NAME = "TestName";
+  public static final String NAMESPACE = "TestNamespace";
 
   @Before
   public void setup() {

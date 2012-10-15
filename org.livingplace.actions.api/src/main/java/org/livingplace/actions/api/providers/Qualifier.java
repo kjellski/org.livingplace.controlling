@@ -16,8 +16,11 @@ public abstract class Qualifier implements IQualifier {
     this.version = version;
   }
 
-  public abstract String getFullQualifier();
   public abstract String getPrefix();
+
+  public String getFullQualifier(){
+    return getPrefix() + ":" + getNamespace() + "." + getName() + ":" + getVersion();
+  }
 
   @Override
   public String getName() {

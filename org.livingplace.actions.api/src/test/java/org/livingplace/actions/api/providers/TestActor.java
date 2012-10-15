@@ -1,7 +1,4 @@
-package org.livingplace.actions.api.internal;
-
-import org.livingplace.actions.api.providers.AbstractActor;
-import org.livingplace.actions.api.providers.ActorQualifier;
+package org.livingplace.actions.api.providers;
 
 /**
  * This class is just for testing purposes and is unusable in production. It just shows how to implement

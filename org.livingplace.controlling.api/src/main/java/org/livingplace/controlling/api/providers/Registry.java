@@ -11,23 +11,19 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Registry<T extends IQualifiable> implements IRegistry<T> {
 
-  private final Map<String, T> registry = new ConcurrentHashMap<String, T>();
+  protected final Map<String, T> registry = new ConcurrentHashMap<String, T>();
 
   @Override
   public void register(T toBeRegistered) {
-
     T old = registry.put(toBeRegistered.getQualifier().getFullQualifier(), toBeRegistered);
     if (old != null) {
       System.out.println("Replaced " + old.getQualifier().getFullQualifier() + " with new : " + toBeRegistered.getQualifier().getFullQualifier());
     }
-    System.out.println("Added to " + toBeRegistered.getQualifier().getFullQualifier() + " Registry.");
   }
-
 
   @Override
   public void unregister(T toBeUnregistered) {
     this.registry.remove(toBeUnregistered.getQualifier().getFullQualifier());
-    System.out.println("Removed " + toBeUnregistered.getQualifier().getFullQualifier() + " from Registry.");
   }
 
   @Override
@@ -39,5 +35,4 @@ public class Registry<T extends IQualifiable> implements IRegistry<T> {
   public T get(IQualifier qualifier) {
     return this.registry.get(qualifier.getFullQualifier());
   }
-
 }

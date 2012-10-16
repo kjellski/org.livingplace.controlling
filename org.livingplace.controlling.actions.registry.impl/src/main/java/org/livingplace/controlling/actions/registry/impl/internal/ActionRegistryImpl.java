@@ -10,14 +10,19 @@ import org.livingplace.controlling.api.IQualifier;
 import org.livingplace.controlling.api.providers.Registry;
 import org.osgi.service.log.LogService;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 @Component
 @Service
-public class ActionRegistryImpl extends Registry<IAction> implements IActionRegistry {
+public class ActionRegistryImpl implements IActionRegistry {
   private static final int THREADPOOL_SIZE = 100;
   private static final Executor executor = Executors.newFixedThreadPool(THREADPOOL_SIZE);
+  protected final Map<String, IAction> registry = new ConcurrentHashMap<String, IAction>();
 
   @Reference
   protected LogService log;
@@ -54,7 +59,6 @@ public class ActionRegistryImpl extends Registry<IAction> implements IActionRegi
     executeAction(actionQualifier, null);
   }
 
-
   private String buildPrintoutFor(IActionQualifier actionQualifier, IActionProperties actionProperties, IActor actorToExecuteAction) {
 
     StringBuilder b = new StringBuilder();
@@ -79,4 +83,29 @@ public class ActionRegistryImpl extends Registry<IAction> implements IActionRegi
 
     return b.toString();
   }
+
+  @Override
+  public void register(IAction action) {
+    IAction old = registry.put(action.getQualifier().getFullQualifier(), action);
+    if (old != null) {
+      log.log(LogService.LOG_INFO, "Replaced IAction: " + old.toString() + " with new IAction: " + action.toString());
+    }
+    log.log(LogService.LOG_INFO, "Added IAction to ActionRegistryImpl: " + action.getQualifier().getFullQualifier());
+  }
+
+  @Override
+  public void unregister(IAction action) {
+    this.registry.remove(action.getQualifier().getFullQualifier());
+  }
+
+  @Override
+  public List<IAction> getAllRegistered() {
+    return new ArrayList<IAction>(this.registry.values());
+  }
+
+  @Override
+  public IAction get(IQualifier actionQualifier) {
+    return registry.get(actionQualifier.getFullQualifier());
+  }
+
 }

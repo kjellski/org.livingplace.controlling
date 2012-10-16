@@ -12,7 +12,7 @@ public class TestSensor extends AbstractSensor {
     super(new SensorQualifier("testnamespace", "testname", "testversion"));
 
     for (int i = 0; i < INFORMATION_COUNT; i++) {
-      this.informations.add(new TestInformation("" + i));
+      this.informations.add(new TestInformation(this, "" + i));
     }
   }
 }

@@ -1,6 +1,7 @@
 package org.livingplace.controlling.informations.api.providers;
 
 import org.livingplace.controlling.informations.api.IInformation;
+import org.livingplace.controlling.informations.api.ISensor;
 import org.livingplace.controlling.informations.api.IInformationQualifier;
 
 /**
@@ -10,8 +11,8 @@ import org.livingplace.controlling.informations.api.IInformationQualifier;
 public class TestInformation extends AbstractInformation implements IInformation {
   private String prefix;
 
-  public TestInformation(String prefix) {
-    super(new InformationQualifier(prefix + "testnamespace", prefix + "testname", prefix + "testversion"));
+  public TestInformation(ISensor sensor, String prefix) {
+    super(sensor, new InformationQualifier(prefix + "testnamespace", prefix + "testname", prefix + "testversion"));
     this.prefix = prefix;
   }
 

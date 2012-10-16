@@ -3,9 +3,9 @@ package org.livingplace.controlling.api;
 import java.util.List;
 
 public interface IRegistry<T> {
-  void register(T action);
+  void register(T toBeRegistered);
 
-  void unregister(T action);
+  void unregister(T toBeUnregistered);
 
   List<T> getAllRegistered();
 

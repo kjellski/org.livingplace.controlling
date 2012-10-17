@@ -23,6 +23,7 @@
   -->
 
   <dependencies>
+    <!-- Platform Provided OSGi Service implementations -->
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.log</artifactId>
@@ -43,11 +44,28 @@
       <artifactId>org.apache.felix.bundlerepository</artifactId>
       <version>1.6.6</version>
     </dependency>
+    <!-- Command line Extensions -->
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.gogo.runtime</artifactId>
       <version>0.10.0</version>
     </dependency>
+    <!-- Drools Rule Engine Bundles -->
+    <!--<dependency>-->
+      <!--<groupId>org.drools</groupId>-->
+      <!--<artifactId> drools-core</artifactId>-->
+      <!--<version>5.4.0.Final</version>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.drools</groupId>-->
+      <!--<artifactId> drools-compiler</artifactId>-->
+      <!--<version>5.4.0.Final</version>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.drools</groupId>-->
+      <!--<artifactId>knowledge-api</artifactId>-->
+      <!--<version>5.4.0.Final</version>-->
+    <!--</dependency>-->
   </dependencies>
 
 </project>

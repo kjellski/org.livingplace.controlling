@@ -19,7 +19,7 @@
   <artifactId>org.livingplace.controlling.informations.registry.commands</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>LivingPlace :: Controlling :: informations :: Registry :: Commands</name>
+  <name>LivingPlace :: Controlling :: Informations :: Registry :: Commands</name>
 
   <packaging>bundle</packaging>
 

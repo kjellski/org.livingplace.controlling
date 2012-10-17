@@ -51,6 +51,9 @@ public class SimpleActionStatus implements IActionStatus {
   @Override
   public void setActionState(EActionState state) {
     this.state = state;
+    for (IActionStateChangedListener listener : listeners) {
+      listener.actionStateChanged(state);
+    }
   }
 
   @Override

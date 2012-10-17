@@ -25,7 +25,7 @@ public class AbstractSensor implements ISensor {
   }
 
   @Override
-  public ISensorQualifier getSensorQualifer() {
+  public ISensorQualifier getQualifier() {
     return qualifier;
   }
 

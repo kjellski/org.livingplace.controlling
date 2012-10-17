@@ -2,22 +2,37 @@ package org.livingplace.controlling.actions.api;
 
 import org.livingplace.controlling.api.IQualifiable;
 
-/*
-* The general interface for all ations to be processed by actors.
-* Also adapter interface for future actions to be implemented.
-*
-* @author kjellski
-*/
-public interface IAction extends IQualifiable, Runnable{
-    IActionQualifier getQualifier();
+/**
+ * The general interface for all ations to be provided by actors.
+ * Also adapter interface for future actions to be implemented.
+ */
+public interface IAction extends IQualifiable, Runnable {
+  /**
+   * sets the properties for this action. available in the action itself
+   * @param operationProperties
+   */
+  void setActionProperties(IActionProperties operationProperties);
 
-    void setActionProperties(IActionProperties operationProperties);
+  /**
+   * gets the properties for the action
+   * @return
+   */
+  IActionProperties getActionProperties();
 
-    IActionProperties getActionProperties();
+  /**
+   * gets the actual status of the operation
+   * @return
+   */
+  IActionStatus getStatus();
 
-    IActionStatus getStatus();
+  /**
+   * sets the status of the operation
+   * @param status
+   */
+  void setStatus(IActionStatus status);
 
-    void setStatus(IActionStatus status);
-
-    void execute();
+  /**
+   * executes the action in the registrys executor poolw
+   */
+  void execute();
 }

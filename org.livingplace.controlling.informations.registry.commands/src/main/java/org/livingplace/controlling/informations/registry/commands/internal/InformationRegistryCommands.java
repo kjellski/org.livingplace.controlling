@@ -7,6 +7,7 @@ import org.livingplace.controlling.informations.api.providers.InformationQualifi
 import org.livingplace.controlling.informations.api.providers.InformationQualifierParser;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistry;
 import org.osgi.service.log.LogService;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -28,9 +29,9 @@ public class InformationRegistryCommands {
     }
   }
 
-  @Descriptor("executes an action qualified by the parameters")
+  @Descriptor("shows the last seen informations for the qualified information")
   public void last(
-          @Descriptor("full qualified action in the form: \"<namespace>.<name>:<version>\"")
+          @Descriptor("full qualified information in the form: \"<namespace>.<name>:<version>\"")
           String fullQualifier) {
 
     IInformationQualifier qualifier = new InformationQualifier(InformationQualifierParser.parseInformationQualifier(fullQualifier));
@@ -38,6 +39,8 @@ public class InformationRegistryCommands {
 
     log.log(LogService.LOG_INFO, b.toString());
     System.out.println(b.toString());
+
+    throw new NotImplementedException();
   }
 
   @Descriptor("shows all registered informations")

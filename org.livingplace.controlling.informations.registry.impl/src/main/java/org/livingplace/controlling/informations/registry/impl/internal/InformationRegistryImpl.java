@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Registry that registeres known informations provided by sensors registering
+ * by the
+ */
 @Component
 @Service
 public class InformationRegistryImpl implements IInformationRegistry {

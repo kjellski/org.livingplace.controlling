@@ -16,8 +16,8 @@ public class AbstractSensorTest {
 
   @Test
   public void testGetSensorQualifer() throws Exception {
-    Assert.assertNotNull(sensor.getSensorQualifer());
-    Assert.assertNotSame(sensor.getSensorQualifer(), ISensorQualifier.PREFIX + ":.:");
+    Assert.assertNotNull(sensor.getQualifier());
+    Assert.assertNotSame(sensor.getQualifier(), ISensorQualifier.PREFIX + ":.:");
   }
 
   @Test

@@ -7,6 +7,9 @@ import org.livingplace.controlling.api.IQualifiable;
  * Also adapter interface for future actions to be implemented.
  */
 public interface IAction extends IQualifiable, Runnable {
+  @Override
+  IActionQualifier getQualifier();
+
   /**
    * sets the properties for this action. available in the action itself
    * @param operationProperties

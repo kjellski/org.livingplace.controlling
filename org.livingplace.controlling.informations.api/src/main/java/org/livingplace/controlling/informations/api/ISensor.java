@@ -16,6 +16,9 @@ import java.util.List;
  * are able to tell the user what informations they provide.
  */
 public interface ISensor extends IQualifiable {
+  @Override
+  ISensorQualifier getQualifier();
+
   /**
    * All informations this sensor provides
    * @return List of Informations the sensor provides

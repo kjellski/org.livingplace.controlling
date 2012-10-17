@@ -7,7 +7,6 @@ import org.livingplace.controlling.informations.api.providers.InformationQualifi
 import org.livingplace.controlling.informations.api.providers.InformationQualifierParser;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistry;
 import org.osgi.service.log.LogService;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class InformationRegistryCommands {
     log.log(LogService.LOG_INFO, b.toString());
     System.out.println(b.toString());
 
-    throw new NotImplementedException();
+    throw new IllegalAccessError("Not implemented :(");
   }
 
   @Descriptor("shows all registered informations")

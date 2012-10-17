@@ -9,6 +9,9 @@ import org.livingplace.controlling.api.IQualifiable;
  * in order to inform the registry provided listeners about this new fact.
  */
 public interface IInformation extends IQualifiable {
+  @Override
+  IInformationQualifier getQualifier();
+
   /**
    * setter for the information contained
    * @param information

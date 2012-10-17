@@ -43,7 +43,7 @@ public class AbstractSensor implements ISensor {
         b.append(information.toString());
       }
     else
-      b.append("  No informations for this Sensor.");
+      b.append("No informations for this Sensor.");
 
     return b.toString();
   }

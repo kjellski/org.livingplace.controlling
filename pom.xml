@@ -58,6 +58,7 @@
     <module>org.livingplace.controlling.informations.registry.api</module>
     <module>org.livingplace.controlling.informations.registry.commands</module>
     <module>org.livingplace.controlling.informations.registry.impl</module>
+    <module>org.livingplace.controlling.informations.sensors.time</module>
   </modules>
 
   <build>

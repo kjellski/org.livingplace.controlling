@@ -88,24 +88,27 @@ public class ActionRegistryImpl implements IActionRegistry {
   public void register(IAction action) {
     IAction old = registry.put(action.getQualifier().getFullQualifier(), action);
     if (old != null) {
-      log.log(LogService.LOG_INFO, "Replaced IAction: " + old.toString() + " with new IAction: " + action.toString());
+      log.log(LogService.LOG_INFO, "Replaced " + old.getQualifier().getFullQualifier() +
+              " with new " + action.getQualifier().getFullQualifier() + " in ActionRegistry.");
     }
-    log.log(LogService.LOG_INFO, "Added IAction to ActionRegistryImpl: " + action.getQualifier().getFullQualifier());
+    log.log(LogService.LOG_INFO, "Added " + action.getQualifier().getFullQualifier() + " to ActionRegistry.");
   }
 
   @Override
   public void unregister(IAction action) {
     this.registry.remove(action.getQualifier().getFullQualifier());
+    log.log(LogService.LOG_INFO, "Removed " + action.getQualifier().getFullQualifier() + " from ActionRegistry.");
   }
 
   @Override
   public List<IAction> getAllRegistered() {
+    log.log(LogService.LOG_INFO, "Returning " + registry.size() + " Entries from ActionRegistry.");
     return new ArrayList<IAction>(this.registry.values());
   }
 
   @Override
   public IAction get(IQualifier actionQualifier) {
+    log.log(LogService.LOG_INFO, "Returning " + actionQualifier.getFullQualifier() + " from ActionRegistry.");
     return registry.get(actionQualifier.getFullQualifier());
   }
-
 }

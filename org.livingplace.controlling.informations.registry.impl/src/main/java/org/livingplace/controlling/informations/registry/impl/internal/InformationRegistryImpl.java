@@ -40,38 +40,54 @@ public class InformationRegistryImpl implements IInformationRegistry {
 
   @Override
   public IInformationListener register(IInformation toBeRegistered) {
+
     PrintingInformationListener tmp = new PrintingInformationListener();
-    registry.put(toBeRegistered.getQualifier().getFullQualifier(),
+
+    Map.Entry<IInformation, IInformationListener> old = registry.put(toBeRegistered.getQualifier().getFullQualifier(),
             new AbstractMap.SimpleEntry<IInformation, IInformationListener>(toBeRegistered, tmp));
+
+    if (old != null)
+      log.log(LogService.LOG_INFO, "Replaced " + old.getKey().getQualifier().getFullQualifier() +
+              " with new " + toBeRegistered.getQualifier().getFullQualifier() + " in InformationRegistry.");
+
+    log.log(LogService.LOG_INFO, "Added " + toBeRegistered.getQualifier().getFullQualifier() + " to InformationRegistry.");
     return tmp;
   }
 
   @Override
   public void unregister(IInformation toBeUnregistered) {
     registry.remove(toBeUnregistered.getQualifier().getFullQualifier());
+    log.log(LogService.LOG_INFO, "Removed " + toBeUnregistered.getQualifier().getFullQualifier() + " from InformationRegistry.");
   }
 
   @Override
   public List<IInformation> getAllRegistered() {
     List<Map.Entry<IInformation, IInformationListener>> l =
             new ArrayList<Map.Entry<IInformation, IInformationListener>>(this.registry.values());
+
     List<IInformation> res = new ArrayList<IInformation>();
+
     for (Map.Entry<IInformation, IInformationListener> informationListenerEntry : l) {
       res.add(informationListenerEntry.getKey());
     }
+
+    log.log(LogService.LOG_INFO, "Returning " + res.size() + " Entries from InformationRegistry.");
 
     return res;
   }
 
   @Override
   public IInformation get(IQualifier qualifier) {
+    log.log(LogService.LOG_INFO, "Returning " + qualifier.getFullQualifier() + " from InformationRegistry.");
     return registry.get(qualifier.getFullQualifier()).getKey();
   }
 
   private class PrintingInformationListener implements IInformationListener {
     @Override
     public void sensedInformation(IInformation information) {
-      System.out.println(information.getQualifier().getFullQualifier() + ": " + information.toString());
+      String out = "\nSensed: " + information.toString();
+      log.log(LogService.LOG_INFO, out);
+      System.out.println(out);
     }
   }
 }

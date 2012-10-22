@@ -73,7 +73,8 @@
           -->
           <provision>
             <param>--platform=felix</param>
-
+            <param>--log=debug</param>
+            
           </provision>
         </configuration>
         <executions>

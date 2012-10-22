@@ -91,7 +91,7 @@ public class InformationRegistryImpl implements IInformationRegistry {
     public void sensedInformation(IInformation information) {
       String out = "\nSensed: " + information.toString();
       log.log(LogService.LOG_INFO, out);
-      System.out.println(out);
+//      System.out.println(out);
     }
   }
 }

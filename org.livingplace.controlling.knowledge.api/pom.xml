@@ -23,6 +23,20 @@
 
   <packaging>bundle</packaging>
 
+  <repositories>
+    <repository>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>warn</checksumPolicy>
+      </releases>
+      <id>clapper-org-maven-repo</id>
+      <name>org.clapper Maven Repo</name>
+      <url>http://maven.clapper.org/</url>
+      <layout>default</layout>
+    </repository>
+  </repositories>
+
   <dependencies>
     <!--
      | uncomment to add all imported (non-local) bundles to your compilation classpath
@@ -42,6 +56,39 @@
       <groupId>org.osgi</groupId>
       <artifactId>osgi_R4_compendium</artifactId>
       <optional>true</optional>
+    </dependency>
+    <!-- Classloading Dependencies -->
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.clapper</groupId>
+      <artifactId>javautil</artifactId>
+      <version>3.1.1</version>
+    </dependency>
+    <!-- Apache VFS -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-vfs2</artifactId>
+      <version>2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>
+    <!-- Drools Dependencies -->
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-core</artifactId>
+      <version>5.4.0.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-compiler</artifactId>
+      <version>5.4.0.Final</version>
     </dependency>
     <!-- Component Annotations Dependencies -->
     <dependency>

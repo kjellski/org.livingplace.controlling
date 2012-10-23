@@ -59,6 +59,7 @@
     <module>org.livingplace.controlling.informations.registry.commands</module>
     <module>org.livingplace.controlling.informations.registry.impl</module>
     <module>org.livingplace.controlling.informations.sensors.time</module>
+    <module>org.livingplace.controlling.knowledge.api</module>
   </modules>
 
   <build>
@@ -74,7 +75,6 @@
           <provision>
             <param>--platform=felix</param>
             <param>--log=debug</param>
-            
           </provision>
         </configuration>
         <executions>

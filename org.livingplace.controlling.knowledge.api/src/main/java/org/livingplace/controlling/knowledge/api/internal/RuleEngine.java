@@ -27,13 +27,13 @@ public class RuleEngine implements IRuleEngine {
   }
 
   private void init() {
-    Properties defaults = new Properties();
-    try {
-      defaults.load(new FileInputStream("droolsengine.properties"));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    log.log(LogService.LOG_INFO, "Default configuration for the RuleEngine: " + defaults.toString());
+//    Properties defaults = new Properties();
+//    try {
+//      defaults.load(new FileInputStream("droolsengine.properties"));
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+//    log.log(LogService.LOG_INFO, "Default configuration for the RuleEngine: " + defaults.toString());
 
     try {
       engineManager = new DroolsManager();

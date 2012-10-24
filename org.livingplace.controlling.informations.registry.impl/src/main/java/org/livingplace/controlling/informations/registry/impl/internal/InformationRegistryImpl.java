@@ -89,7 +89,7 @@ public class InformationRegistryImpl implements IInformationRegistry {
   private class PrintingInformationListener implements IInformationListener {
     @Override
     public void sensedInformation(IInformation information) {
-      String out = "\nSensed: " + information.toString();
+      String out = "Sensed: " + information.toString();
       log.log(LogService.LOG_INFO, out);
 //      System.out.println(out);
     }

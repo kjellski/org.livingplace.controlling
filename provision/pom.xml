@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <parent>
     <groupId>org.livingplace.bundles</groupId>
@@ -12,9 +13,22 @@
   <artifactId>provision</artifactId>
 
   <name>controlling - imported bundles</name>
+  <properties>
+    <org.apache.servicemix.bundles.jaxb-xjc.version>2.2.4_2</org.apache.servicemix.bundles.jaxb-xjc.version>
+    <org.apache.servicemix.bundles.xstream.version>1.4.3_1</org.apache.servicemix.bundles.xstream.version>
+    <org.apache.servicemix.bundles.protobuf-java.version>2.4.1_1</org.apache.servicemix.bundles.protobuf-java.version>
+    <org.apache.servicemix.bundles.stax-utils.version>20070216_1</org.apache.servicemix.bundles.stax-utils.version>
+    <org.apache.servicemix.bundles.woodstox.version>3.2.9_3</org.apache.servicemix.bundles.woodstox.version>
+    <org.apache.servicemix.bundles.antlr-runtime.version>3.4_2</org.apache.servicemix.bundles.antlr-runtime.version>
+    <org.apache.servicemix.bundles.antlr.version>3.4_1</org.apache.servicemix.bundles.antlr.version>
+    <org.apache.felix.log.version>1.0.1</org.apache.felix.log.version>
+    <org.apache.felix.scr.version>1.6.0</org.apache.felix.scr.version>
+    <org.apache.felix.configadmin.version>1.4.0</org.apache.felix.configadmin.version>
+    <org.apache.felix.bundlerepository.version>1.6.6</org.apache.felix.bundlerepository.version>
+    <org.apache.felix.gogo.runtime.version>0.10.0</org.apache.felix.gogo.runtime.version>
+  </properties>
 
   <packaging>pom</packaging>
-
   <!--
    | imported (non-local) bundles are listed here as dependencies
    | and will be deployed by pax:provision unless they are marked
@@ -26,57 +40,65 @@
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.log</artifactId>
-      <version>1.0.1</version>
+      <version>${org.apache.felix.log.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.scr</artifactId>
-      <version>1.6.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.drools</groupId>
-      <artifactId>drools-compiler</artifactId>
-      <version>5.4.0.Final</version>
-    </dependency>
-    <dependency>
-      <groupId>org.drools</groupId>
-      <artifactId>drools-core</artifactId>
-      <version>5.4.0.Final</version>
+      <version>${org.apache.felix.scr.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.felix</groupId>
-      <artifactId>org.osgi.core</artifactId>
-      <version>1.4.0</version>
+      <artifactId>org.apache.felix.configadmin</artifactId>
+      <version>${org.apache.felix.configadmin.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.felix</groupId>
-      <artifactId>org.osgi.compendium</artifactId>
-      <version>1.4.0</version>
+      <artifactId>org.apache.felix.bundlerepository</artifactId>
+      <version>${org.apache.felix.bundlerepository.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.eclipse.jdt.core.compiler</groupId>
-      <artifactId>ecj</artifactId>
-      <version>3.5.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mvel</groupId>
-      <artifactId>mvel2</artifactId>
-      <version>2.1.0.drools16</version>
-    </dependency>
-    <dependency>
-      <groupId>org.drools</groupId>
-      <artifactId>knowledge-api</artifactId>
-      <version>5.4.0.Final</version>
-    </dependency>
-    <dependency>
-      <groupId>org.drools</groupId>
-      <artifactId>knowledge-internal-api</artifactId>
-      <version>5.4.0.Final</version>
-    </dependency>
+    <!-- Command line Extensions -->
     <dependency>
       <groupId>org.apache.felix</groupId>
-      <artifactId>javax.servlet</artifactId>
-      <version>1.0.0</version>
+      <artifactId>org.apache.felix.gogo.runtime</artifactId>
+      <version>${org.apache.felix.gogo.runtime.version}</version>
+    </dependency>
+
+    <!-- Drools Dependencies -->
+    <dependency>
+      <groupId>org.apache.servicemix.bundles</groupId>
+      <artifactId>org.apache.servicemix.bundles.jaxb-xjc</artifactId>
+      <version>${org.apache.servicemix.bundles.jaxb-xjc.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.servicemix.bundles</groupId>
+      <artifactId>org.apache.servicemix.bundles.xstream</artifactId>
+      <version>${org.apache.servicemix.bundles.xstream.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.servicemix.bundles</groupId>
+      <artifactId>org.apache.servicemix.bundles.protobuf-java</artifactId>
+      <version>${org.apache.servicemix.bundles.protobuf-java.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.servicemix.bundles</groupId>
+      <artifactId>org.apache.servicemix.bundles.stax-utils</artifactId>
+      <version>${org.apache.servicemix.bundles.stax-utils.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.servicemix.bundles</groupId>
+      <artifactId>org.apache.servicemix.bundles.woodstox</artifactId>
+      <version>${org.apache.servicemix.bundles.woodstox.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.servicemix.bundles</groupId>
+      <artifactId>org.apache.servicemix.bundles.antlr-runtime</artifactId>
+      <version>${org.apache.servicemix.bundles.antlr-runtime.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.servicemix.bundles</groupId>
+      <artifactId>org.apache.servicemix.bundles.antlr</artifactId>
+      <version>${org.apache.servicemix.bundles.antlr.version}</version>
     </dependency>
   </dependencies>
 

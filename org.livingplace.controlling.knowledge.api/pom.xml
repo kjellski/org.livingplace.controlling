@@ -43,39 +43,40 @@
       <artifactId>osgi_R4_compendium</artifactId>
       <optional>true</optional>
     </dependency>
-    <!-- Classloading Dependencies -->
+    <!--Classloading Dependencies-->
     <!--<dependency>-->
-      <!--<groupId>commons-lang</groupId>-->
-      <!--<artifactId>commons-lang</artifactId>-->
-      <!--<version>2.6</version>-->
+    <!--<groupId>commons-lang</groupId>-->
+    <!--<artifactId>commons-lang</artifactId>-->
+    <!--<version>2.6</version>-->
     <!--</dependency>-->
     <!--<dependency>-->
-      <!--<groupId>org.clapper</groupId>-->
-      <!--<artifactId>javautil</artifactId>-->
-      <!--<version>3.1.1</version>-->
+    <!--<groupId>org.clapper</groupId>-->
+    <!--<artifactId>javautil</artifactId>-->
+    <!--<version>3.1.1</version>-->
     <!--</dependency>-->
-    <!-- Apache VFS -->
+    <!--Apache VFS-->
     <!--<dependency>-->
-      <!--<groupId>org.apache.commons</groupId>-->
-      <!--<artifactId>commons-vfs2</artifactId>-->
-      <!--<version>2.0</version>-->
+    <!--<groupId>org.apache.commons</groupId>-->
+    <!--<artifactId>commons-vfs2</artifactId>-->
+    <!--<version>2.0</version>-->
     <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>log4j</groupId>-->
-      <!--<artifactId>log4j</artifactId>-->
-      <!--<version>1.2.17</version>-->
-    <!--</dependency>-->
-    <!-- Drools Dependencies -->
-    <!--<dependency>-->
-      <!--<groupId>org.drools</groupId>-->
-      <!--<artifactId>drools-core</artifactId>-->
-      <!--<version>5.4.0.Final</version>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>org.drools</groupId>-->
-      <!--<artifactId>drools-compiler</artifactId>-->
-      <!--<version>5.4.0.Final</version>-->
-    <!--</dependency>-->
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>
+    <!--Drools Dependencies-->
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-core</artifactId>
+      <version>5.4.0.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-compiler</artifactId>
+      <version>5.4.0.Final</version>
+    </dependency>
+
     <!-- Component Annotations Dependencies -->
     <dependency>
       <groupId>org.apache.felix</groupId>
@@ -88,5 +89,4 @@
       <version>1.7.0</version>
     </dependency>
   </dependencies>
-
 </project>

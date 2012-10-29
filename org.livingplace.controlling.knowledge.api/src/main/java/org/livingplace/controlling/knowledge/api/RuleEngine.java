@@ -1,11 +1,9 @@
-package org.livingplace.controlling.knowledge.api.internal;
+package org.livingplace.controlling.knowledge.api;
 
 
 import org.apache.felix.scr.annotations.*;
-import org.livingplace.controlling.knowledge.api.IRuleEngine;
+import org.livingplace.controlling.knowledge.api.internal.DroolsManager;
 import org.osgi.service.log.LogService;
-
-import java.net.MalformedURLException;
 
 @Component(immediate = true)
 @Service
@@ -18,9 +16,15 @@ public class RuleEngine implements IRuleEngine {
 
   @Activate
   public void start(){
+    System.out.println("STARTING RULEENGINE..........");
     init();
-    log.log(LogService.LOG_INFO, RuleEngine.class.getName() + " started.");
     System.out.println("STARTED RULEENGINE!");
+    log.log(LogService.LOG_INFO, RuleEngine.class.getName() + " started.");
+  }
+
+  @Override
+  public void print() {
+    System.out.println("PRINT!");
   }
 
   private void init() {
@@ -33,9 +37,9 @@ public class RuleEngine implements IRuleEngine {
 //    log.log(LogService.LOG_INFO, "Default configuration for the RuleEngine: " + defaults.toString());
 
     try {
-      engineManager = new DroolsManager();
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
+      engineManager = new DroolsManager(log);
+    } catch (Exception e) {
+      e.printStackTrace(System.out);
     }
   }
 

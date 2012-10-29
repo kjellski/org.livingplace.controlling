@@ -1,6 +1,5 @@
 package org.livingplace.controlling.knowledge.api.internal;
 
-import org.apache.felix.scr.annotations.Reference;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseConfiguration;
 import org.drools.KnowledgeBaseFactory;
@@ -24,6 +23,7 @@ import org.osgi.service.log.LogService;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -43,23 +43,21 @@ public class DroolsManager extends Thread {
 
   private WorkingMemoryEntryPoint entryPoint;
 
-  @Reference
-  LogService log;
 
-  public DroolsManager() throws MalformedURLException {
-    this(null);
-  }
+  private LogService log;
 
-  public DroolsManager(List<SimpleEntry<String, ResourceType>> resources) throws MalformedURLException {
+  public DroolsManager(LogService log) {
+    this.log = log;
+
     ResourceFactory.getResourceChangeNotifierService().start();
-    ResourceFactory.getResourceChangeScannerService().start();
 
-    this.kbuilder = getConfiguredKnowledgeBuilder(resources);
+    this.kbuilder = getConfiguredKnowledgeBuilder(new ArrayList<SimpleEntry<String, ResourceType>>());
     this.kbase = getConfiguredKnowledgeBase(kbuilder);
     this.ksession = getConfiguredKnowledgeSession(kbase);
 
     this.klogger = KnowledgeRuntimeLoggerFactory.newFileLogger(ksession, knowledgeLoggerLogFilePath);
   }
+
 
   public void getClockTime() {
     Date d = new Date(this.clock.getCurrentTime());
@@ -151,7 +149,7 @@ public class DroolsManager extends Thread {
     }
   }
 
-  private KnowledgeBase getConfiguredKnowledgeBase(KnowledgeBuilder kbuilder) throws MalformedURLException {
+  private KnowledgeBase getConfiguredKnowledgeBase(KnowledgeBuilder kbuilder) {
     KnowledgeBaseConfiguration kbaseconfig = getConfiguredKnowledgeBaseConfiguration();
 
     KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase(kbaseconfig);
@@ -169,7 +167,15 @@ public class DroolsManager extends Thread {
     this.kagent = KnowledgeAgentFactory.newKnowledgeAgent("KnowledgeBaseAgent", this.kagentConfiguration);
 
     String path = "config/change-set.xml";
-    URL url = new URL("file:" + path);
+
+    URL url = null;
+    try {
+      url = new URL("file:" + path);
+    } catch (MalformedURLException e) {
+      System.out.println("[ERROR]: The URL for this path was malformed: " + path);
+      e.printStackTrace(System.out);
+      return null;
+    }
 
     UrlResource urlResource = (UrlResource) ResourceFactory.newUrlResource(url);
 
@@ -183,7 +189,6 @@ public class DroolsManager extends Thread {
     try {
       while (!Thread.currentThread().isInterrupted()) {
         Thread.sleep(1000);
-        //
         // s.start();
         // this.reason();
         // s.stop();

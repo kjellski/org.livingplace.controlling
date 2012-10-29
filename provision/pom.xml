@@ -19,6 +19,7 @@
     <org.apache.felix.configadmin.version>1.4.0</org.apache.felix.configadmin.version>
     <org.apache.felix.bundlerepository.version>1.6.6</org.apache.felix.bundlerepository.version>
     <org.apache.felix.gogo.runtime.version>0.10.0</org.apache.felix.gogo.runtime.version>
+    <org.apache.felix.gogo.shell.version>0.10.0</org.apache.felix.gogo.shell.version>
     <!-- Drools Dependencies -->
     <org.apache.servicemix.bundles.jaxb-xjc.version>2.2.4_2</org.apache.servicemix.bundles.jaxb-xjc.version>
     <org.apache.servicemix.bundles.xstream.version>1.4.3_1</org.apache.servicemix.bundles.xstream.version>
@@ -38,6 +39,17 @@
   -->
 
   <dependencies>
+    <!-- Command line Extensions -->
+    <dependency>
+      <groupId>org.apache.felix</groupId>
+      <artifactId>org.apache.felix.gogo.shell</artifactId>
+      <version>${org.apache.felix.gogo.shell.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.felix</groupId>
+      <artifactId>org.apache.felix.gogo.runtime</artifactId>
+      <version>${org.apache.felix.gogo.runtime.version}</version>
+    </dependency>
     <!-- Platform Provided OSGi Service implementations -->
     <dependency>
       <groupId>org.apache.felix</groupId>
@@ -58,12 +70,6 @@
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.bundlerepository</artifactId>
       <version>${org.apache.felix.bundlerepository.version}</version>
-    </dependency>
-    <!-- Command line Extensions -->
-    <dependency>
-      <groupId>org.apache.felix</groupId>
-      <artifactId>org.apache.felix.gogo.runtime</artifactId>
-      <version>${org.apache.felix.gogo.runtime.version}</version>
     </dependency>
 
      <!--Drools Dependencies-->

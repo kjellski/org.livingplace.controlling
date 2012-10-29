@@ -5,11 +5,7 @@ import org.apache.felix.scr.annotations.*;
 import org.livingplace.controlling.knowledge.api.IRuleEngine;
 import org.osgi.service.log.LogService;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Properties;
-
 
 @Component(immediate = true)
 @Service
@@ -24,6 +20,7 @@ public class RuleEngine implements IRuleEngine {
   public void start(){
     init();
     log.log(LogService.LOG_INFO, RuleEngine.class.getName() + " started.");
+    System.out.println("STARTED RULEENGINE!");
   }
 
   private void init() {
@@ -44,6 +41,7 @@ public class RuleEngine implements IRuleEngine {
 
   @Deactivate
   public void stop(){
+    System.out.println("STOPPED RULEENGINE!");
     log.log(LogService.LOG_INFO, RuleEngine.class.getName() + " stopped.");
   }
 }

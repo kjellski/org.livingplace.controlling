@@ -173,7 +173,7 @@ public class DroolsManager extends Thread {
 
     UrlResource urlResource = (UrlResource) ResourceFactory.newUrlResource(url);
 
-    this.kagent.applyChangeSet(urlResource);
+//    this.kagent.applyChangeSet(urlResource);
 
     return this.kagent.getKnowledgeBase();
   }

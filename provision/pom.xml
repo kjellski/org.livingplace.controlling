@@ -29,6 +29,13 @@
     <org.apache.servicemix.bundles.antlr-runtime.version>3.4_2</org.apache.servicemix.bundles.antlr-runtime.version>
     <org.apache.servicemix.bundles.antlr.version>3.4_1</org.apache.servicemix.bundles.antlr.version>
     <org.apache.servicemix.bundles.ant.version>1.8.4_1</org.apache.servicemix.bundles.ant.version>
+    <!--Webconsol Dependencies-->
+    <org.apache.felix.webconsole.version>3.1.8</org.apache.felix.webconsole.version>
+    <org.osgi.core.version>4.1.0</org.osgi.core.version>
+    <org.osgi.compendium.version>4.1.0</org.osgi.compendium.version>
+    <org.apache.felix.shell.version>1.0.0</org.apache.felix.shell.version>
+    <org.osgi.service.obr.version>1.0.2</org.osgi.service.obr.version>
+    <org.apache.felix.org.osgi.core.version>1.0.0</org.apache.felix.org.osgi.core.version>
   </properties>
 
   <packaging>pom</packaging>
@@ -112,37 +119,37 @@
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.webconsole</artifactId>
-      <version>3.1.8</version>
+      <version>${org.apache.felix.webconsole.version}</version>
     </dependency>
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
-      <version>4.1.0</version>
+      <version>${org.osgi.core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.compendium</artifactId>
-      <version>4.1.0</version>
+      <version>${org.osgi.compendium.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.scr</artifactId>
-      <version>1.6.0</version>
+      <version>${org.apache.felix.scr.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.shell</artifactId>
-      <version>1.0.0</version>
+      <version>${org.apache.felix.shell.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.osgi.service.obr</artifactId>
-      <version>1.0.2</version>
+      <version>${org.osgi.service.obr.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.osgi.core</artifactId>
-      <version>1.0.0</version>
+      <version>${org.apache.felix.org.osgi.core.version}</version>
     </dependency>
   </dependencies>
 

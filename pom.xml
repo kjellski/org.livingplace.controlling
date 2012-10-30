@@ -74,6 +74,7 @@
           -->
           <provision>
             <param>--platform=felix</param>
+            <param>--profiles=log,web</param>
             <param>--log=debug</param>
           </provision>
         </configuration>

@@ -137,8 +137,7 @@
             <!-- Package -->
             <Export-Package>
               !${bundle.namespace}.internal.*,
-              ${bundle.namespace}.*;version="${project.version}",
-              org.osgi.service.component
+              ${bundle.namespace}.*;version="${project.version}"
             </Export-Package>
             <Private-Package>${bundle.namespace}.internal.*</Private-Package>
             <Import-Package>*;resolution:=optional</Import-Package>

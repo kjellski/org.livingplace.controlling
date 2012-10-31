@@ -19,8 +19,7 @@ public class ActionRegistryImplTest {
   @Before
   public void setUp() throws Exception {
     actor = new TestActor();
-    registry = new ActionRegistryImpl();
-    ((ActionRegistryImpl) registry).setLog(Mockito.mock(LogService.class));
+    registry = new ActionRegistryImpl(Mockito.mock(LogService.class));
   }
 
   @Test
@@ -91,34 +90,3 @@ public class ActionRegistryImplTest {
     }
   }
 }
-
-//  @Test
-//  public void testRegisterActor() throws Exception {
-//    int actionCount = registry.getAllRegisteredActions().size();
-//    registry.registerActor(actor);
-//    Assert.assertEquals(actionCount + TestActor.ACTION_COUNT, registry.getAllRegisteredActions().size());
-//  }
-
-//  @Test
-//  public void testUnregisterActor() throws Exception {
-//    int actionCount = registry.getAllRegisteredActions().size();
-//    registry.registerActor(actor);
-//    Assert.assertEquals(actionCount + TestActor.ACTION_COUNT, registry.getAllRegisteredActions().size());
-//    registry.unregisterActor(actor);
-//    Assert.assertEquals(actionCount, registry.getAllRegisteredActions().size());
-//  }
-//
-//  @Test
-//  public void testExecuteActionOnActorWithActionProperties() throws Exception {
-//
-//  }
-//
-//  @Test
-//  public void testExecuteActionOnActor() throws Exception {
-//
-//  }
-//
-//  @Test
-//  public void testGetAllRegisteredActors() throws Exception {
-//
-//  }

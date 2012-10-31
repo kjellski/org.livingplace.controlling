@@ -6,6 +6,7 @@ import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.service.command.CommandProcessor;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistry;
+import org.livingplace.controlling.informations.registry.api.IInformationRegistryFactory;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.log.LogService;
@@ -21,8 +22,10 @@ public class InformationRegistryCommandsProvider {
   private Set<ServiceRegistration> regs = new HashSet<ServiceRegistration>();
   protected BundleContext context;
 
+  private IInformationRegistry registry;
+
   @Reference
-  protected IInformationRegistry registry;
+  protected IInformationRegistryFactory informationRegistryFactory;
 
   @Reference
   protected LogService log;
@@ -35,7 +38,7 @@ public class InformationRegistryCommandsProvider {
     dict.put(CommandProcessor.COMMAND_SCOPE, "lp:inf:reg");
     dict.put(CommandProcessor.COMMAND_FUNCTION, InformationRegistryCommands.commands);
 
-    regs.add(context.registerService(InformationRegistryCommands.class.getName(), new InformationRegistryCommands(registry, log), dict));
+    regs.add(context.registerService(InformationRegistryCommands.class.getName(), new InformationRegistryCommands(informationRegistryFactory, log), dict));
 
     this.log.log(LogService.LOG_INFO, "Added Commands.");
   }

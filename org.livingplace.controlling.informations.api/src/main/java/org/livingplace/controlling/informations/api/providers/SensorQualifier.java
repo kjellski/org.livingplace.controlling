@@ -14,8 +14,8 @@ public class SensorQualifier extends Qualifier implements ISensorQualifier {
     super(qualifier.getNamespace(), qualifier.getName(), qualifier.getVersion());
   }
 
-  public SensorQualifier(String actorNamespaceName, String actorName, String actorVersion) {
-    super(actorNamespaceName, actorName, actorVersion);
+  public SensorQualifier(String sensorNamespaceName, String sensorName, String sensorVersion) {
+    super(sensorNamespaceName, sensorName, sensorVersion);
   }
 
   @Override

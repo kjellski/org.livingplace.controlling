@@ -5,13 +5,13 @@ import org.livingplace.controlling.actions.api.IAction;
 import org.livingplace.controlling.actions.api.IActionQualifier;
 import org.livingplace.controlling.actions.api.providers.ActionQualifier;
 import org.livingplace.controlling.actions.api.providers.ActionQualifierParser;
-import org.livingplace.controlling.actions.registry.api.IActionRegistry;
+import org.livingplace.controlling.actions.registry.api.IActionRegistryFactory;
 import org.osgi.service.log.LogService;
 
 import java.util.List;
 
 public class ActionRegistryCommands {
-  private IActionRegistry registry;
+  private IActionRegistryFactory actionRegistryFactory;
   private LogService log;
 
   /**
@@ -19,8 +19,8 @@ public class ActionRegistryCommands {
    */
   public static String[] commands = {"show", "execute"};
 
-  public ActionRegistryCommands(IActionRegistry registry, LogService log) {
-    this.registry = registry;
+  public ActionRegistryCommands(IActionRegistryFactory actionRegistryFactory, LogService log) {
+    this.actionRegistryFactory = actionRegistryFactory;
     this.log = log;
 
     for (String command : commands) {
@@ -36,7 +36,7 @@ public class ActionRegistryCommands {
     IActionQualifier qualifier = new ActionQualifier(ActionQualifierParser.parseActionQualifier(fullQualifier));
     StringBuilder b = new StringBuilder("Executing IAction with qualifier: " + qualifier.getFullQualifier());
 
-    registry.executeAction(qualifier);
+    actionRegistryFactory.getInstance().executeAction(qualifier);
 
     log.log(LogService.LOG_INFO, b.toString());
     System.out.println(b.toString());
@@ -45,9 +45,9 @@ public class ActionRegistryCommands {
   @Descriptor("shows all registered actions")
   public void show() {
     StringBuilder b = new StringBuilder("Looking up registered actions in Registry... ");
-    b.append(" found " + registry.getAllRegistered().size() + " IActions.\n");
+    b.append(" found " + actionRegistryFactory.getInstance().getAllRegistered().size() + " IActions.\n");
 
-    List<IAction> actions = registry.getAllRegistered();
+    List<IAction> actions = actionRegistryFactory.getInstance().getAllRegistered();
     if (actions.size() > 0) {
       for (IAction action : actions) {
         b.append(action.toString() + "\n");

@@ -11,8 +11,12 @@ public class TestActor extends AbstractActor {
 
   public static final int ACTION_COUNT = 3;
 
+  public static String NAMESPACE = "TestActorNamespace";
+  public static String NAME = "TestActorNamespace";
+  public static String VERSION = "TestActorNamespace";
+
   public TestActor() {
-    super(new ActorQualifier("testnamespace", "testname", "testversion"));
+    super(new ActorQualifier(NAMESPACE, NAME, VERSION));
 
     for (int i = 0; i < ACTION_COUNT; i++) {
       this.actions.add(new TestAction("" + i));

@@ -1,6 +1,5 @@
 package org.livingplace.controlling.informations.registry.impl.internal;
 
-import org.apache.felix.scr.annotations.*;
 import org.livingplace.controlling.api.IQualifier;
 import org.livingplace.controlling.informations.api.IInformation;
 import org.livingplace.controlling.informations.api.IInformationListener;
@@ -17,29 +16,15 @@ import java.util.concurrent.ConcurrentHashMap;
  * Registry that registeres known informations provided by sensors registering
  * by the
  */
-@Component
-@Service
 public class InformationRegistryImpl implements IInformationRegistry {
 
   private final Map<String, Map.Entry<IInformation, IInformationListener>> registry
           = new ConcurrentHashMap<String, Map.Entry<IInformation, IInformationListener>>();
 
-  @Reference
   protected LogService log;
 
-  public void setLog(LogService log) {
+  public InformationRegistryImpl(LogService log) {
     this.log = log;
-    log.log(LogService.LOG_WARNING, InformationRegistryImpl.class.getName() + ".log overidden.");
-  }
-
-  @Activate
-  void start() {
-    log.log(LogService.LOG_INFO, InformationRegistryImpl.class.getName() + " started.");
-  }
-
-  @Deactivate
-  void stop() {
-    log.log(LogService.LOG_INFO, InformationRegistryImpl.class.getName() + " stopped.");
   }
 
   @Override

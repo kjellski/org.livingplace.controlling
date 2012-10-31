@@ -38,13 +38,14 @@ public class AbstractSensor implements ISensor {
   public String toString() {
     StringBuilder b = new StringBuilder();
     b.append("[" + this.qualifier.getFullQualifier() + "]: ");
-    if (this.informations.size() > 0)
+
+    if (this.informations.size() > 0) {
       for (IInformation information : informations) {
         b.append(information.toString());
       }
-    else
+    } else {
       b.append("No informations for this Sensor.");
-
+    }
     return b.toString();
   }
 }

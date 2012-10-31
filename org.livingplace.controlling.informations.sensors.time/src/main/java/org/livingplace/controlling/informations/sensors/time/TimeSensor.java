@@ -6,7 +6,7 @@ import org.livingplace.controlling.informations.api.IInformationListener;
 import org.livingplace.controlling.informations.api.ISensor;
 import org.livingplace.controlling.informations.api.providers.AbstractSensor;
 import org.livingplace.controlling.informations.api.providers.SensorQualifier;
-import org.livingplace.controlling.informations.registry.api.IInformationRegistry;
+import org.livingplace.controlling.informations.registry.api.IInformationRegistryFactory;
 import org.livingplace.controlling.informations.sensors.time.internal.UTCTimeInformation;
 import org.osgi.service.log.LogService;
 
@@ -26,7 +26,7 @@ public class TimeSensor extends AbstractSensor implements ISensor
   protected LogService log;
 
   @Reference
-  protected IInformationRegistry registry;
+  protected IInformationRegistryFactory informationRegistryFactory;
 
   public TimeSensor() {
     super(new SensorQualifier("time", "timer", "1.0"));
@@ -39,7 +39,7 @@ public class TimeSensor extends AbstractSensor implements ISensor
     informations.add(new UTCTimeInformation(this));
 
     for (IInformation information : informations) {
-      listeners.add(registry.register(information));
+      listeners.add(informationRegistryFactory.getInstance().register(information));
     }
 
     timer.schedule(new UTCTimeSensingTask(this), 10000, 60000);
@@ -67,7 +67,7 @@ public class TimeSensor extends AbstractSensor implements ISensor
     log.log(LogService.LOG_INFO, "Timer stopped");
 
     for (IInformation information : informations) {
-      registry.unregister(information);
+      informationRegistryFactory.getInstance().unregister(information);
     }
   }
 }

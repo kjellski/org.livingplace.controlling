@@ -3,6 +3,7 @@ package org.livingplace.controlling.actions.registry.commands.internal;
 import org.apache.felix.scr.annotations.*;
 import org.apache.felix.service.command.CommandProcessor;
 import org.livingplace.controlling.actions.registry.api.IActionRegistry;
+import org.livingplace.controlling.actions.registry.api.IActionRegistryFactory;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.log.LogService;
@@ -19,7 +20,7 @@ public class ActionRegistryCommandsProvider {
   protected BundleContext context;
 
   @Reference
-  protected IActionRegistry registry;
+  IActionRegistryFactory actionRegistryFactory;
 
   @Reference
   protected LogService log;
@@ -32,7 +33,7 @@ public class ActionRegistryCommandsProvider {
     dict.put(CommandProcessor.COMMAND_SCOPE, "lp:act:reg");
     dict.put(CommandProcessor.COMMAND_FUNCTION, ActionRegistryCommands.commands);
 
-    regs.add(context.registerService(ActionRegistryCommands.class.getName(), new ActionRegistryCommands(registry, log), dict));
+    regs.add(context.registerService(ActionRegistryCommands.class.getName(), new ActionRegistryCommands(actionRegistryFactory, log), dict));
 
     this.log.log(LogService.LOG_INFO, "Added Commands.");
   }

@@ -43,7 +43,6 @@ public class DroolsManager extends Thread {
 
   private WorkingMemoryEntryPoint entryPoint;
 
-
   private LogService log;
 
   public DroolsManager(LogService log) {
@@ -188,7 +187,7 @@ public class DroolsManager extends Thread {
     // StopWatch s = new StopWatch();
     try {
       while (!Thread.currentThread().isInterrupted()) {
-        Thread.sleep(1000);
+        Thread.sleep(100);
         // s.start();
         // this.reason();
         // s.stop();

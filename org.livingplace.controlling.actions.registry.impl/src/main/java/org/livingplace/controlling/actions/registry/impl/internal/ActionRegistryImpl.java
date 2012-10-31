@@ -1,13 +1,11 @@
 package org.livingplace.controlling.actions.registry.impl.internal;
 
-import org.apache.felix.scr.annotations.*;
 import org.livingplace.controlling.actions.api.IAction;
 import org.livingplace.controlling.actions.api.IActionProperties;
 import org.livingplace.controlling.actions.api.IActionQualifier;
 import org.livingplace.controlling.actions.api.IActor;
 import org.livingplace.controlling.actions.registry.api.IActionRegistry;
 import org.livingplace.controlling.api.IQualifier;
-import org.livingplace.controlling.api.providers.Registry;
 import org.osgi.service.log.LogService;
 
 import java.util.ArrayList;
@@ -17,29 +15,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-@Component
-@Service
+/**
+ *
+ */
 public class ActionRegistryImpl implements IActionRegistry {
   private static final int THREADPOOL_SIZE = 100;
   private static final Executor executor = Executors.newFixedThreadPool(THREADPOOL_SIZE);
   protected final Map<String, IAction> registry = new ConcurrentHashMap<String, IAction>();
 
-  @Reference
+//  @Reference
   protected LogService log;
 
-  public void setLog(LogService log) {
+  public ActionRegistryImpl(LogService log) {
     this.log = log;
-    log.log(LogService.LOG_WARNING, Registry.class.getName() + ".log overidden.");
-  }
-
-  @Activate
-  void start() {
-    log.log(LogService.LOG_INFO, ActionRegistryImpl.class.getName() + " started.");
-  }
-
-  @Deactivate
-  void stop() {
-    log.log(LogService.LOG_INFO, ActionRegistryImpl.class.getName() + " stopped.");
   }
 
   @Override

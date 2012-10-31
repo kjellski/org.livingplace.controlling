@@ -75,6 +75,33 @@
     <!--<artifactId>slf4j-log4j12</artifactId>-->
     <!--<version>1.6.4</version>-->
     <!--</dependency>-->
+
+    <!--LP Controlling Dependencies-->
+    <dependency>
+      <groupId>org.livingplace.bundles.controlling</groupId>
+      <artifactId>org.livingplace.controlling.api</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.livingplace.bundles.controlling</groupId>
+      <artifactId>org.livingplace.controlling.actions.api</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.livingplace.bundles.controlling</groupId>
+      <artifactId>org.livingplace.controlling.actions.registry.api</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.livingplace.bundles.controlling</groupId>
+      <artifactId>org.livingplace.controlling.informations.api</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.livingplace.bundles.controlling</groupId>
+      <artifactId>org.livingplace.controlling.informations.registry.api</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
     <!--Drools Dependencies-->
     <dependency>
       <groupId>org.drools</groupId>
@@ -131,7 +158,7 @@
             <Bundle-Vendor>${project.groupId}</Bundle-Vendor>
             <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
             <Include-Resource>{maven-resources}, {maven-dependencies}</Include-Resource>
-            <Embed-Dependency>*;scope=compile|runtime;inline=true;artifactId=!org.apache.felix.scr.*</Embed-Dependency>
+            <Embed-Dependency>*;scope=compile|runtime;inline=true;artifactId=!org.apache.felix.scr.*|org.livingplace.controlling.*</Embed-Dependency>
             <Embed-Transitive>true</Embed-Transitive>
 
             <!-- Package -->
@@ -145,7 +172,12 @@
             <!--<_exportcontents>org.drools.*,org.jbpm.*,org.mvel2.*,com.google.protobuf.*,com.sun.codemodel.*</_exportcontents>-->
 
             <!--Service-->
-            <Import-Service>org.osgi.service.log.LogService</Import-Service>
+            <Import-Service>
+              org.osgi.service.log.LogService,
+              org.livingplace.controlling.actions.registry.api.IActionRegistry,
+              org.livingplace.controlling.informations.registry.api.IInformationRegistry,
+              org.livingplace.controlling.informations.registry.api.IInformationRegistryFactory
+            </Import-Service>
             <Service-Component>
               OSGI-INF/serviceComponents.xml
             </Service-Component>

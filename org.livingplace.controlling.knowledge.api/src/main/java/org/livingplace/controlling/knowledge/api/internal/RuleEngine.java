@@ -26,15 +26,17 @@ public class RuleEngine implements IRuleEngine {
 
   @Activate
   public void start(){
+    System.out.println("\nSTARTING RULEENGINE...");
     init();
     System.out.println();
-    System.out.println("STARTED RULEENGINE!");
+    System.out.println("STARTED RULEENGINE.");
     System.out.println();
     log.log(LogService.LOG_INFO, RuleEngine.class.getName() + " started.");
   }
 
   private void init() {
     try {
+      System.out.println();
       System.out.println("Registered Actions:      " + actionRegistryFactory.getInstance().getAllRegistered());
       System.out.println("Registered Informations: " + informationRegistryFactory.getInstance().getAllRegistered());
       engineManager = new DroolsManager(log);

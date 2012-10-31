@@ -49,6 +49,7 @@ public class DroolsManager extends Thread {
     this.log = log;
 
     ResourceFactory.getResourceChangeNotifierService().start();
+    ResourceFactory.getResourceChangeScannerService().stop();
 
     this.kbuilder = getConfiguredKnowledgeBuilder(new ArrayList<SimpleEntry<String, ResourceType>>());
     this.kbase = getConfiguredKnowledgeBase(kbuilder);

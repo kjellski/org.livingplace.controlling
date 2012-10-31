@@ -19,6 +19,6 @@ public class InformationRegistryImplTest {
 
   @Test
   public void testSenseInformation() throws Exception {
-    
+
   }
 }

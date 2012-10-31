@@ -157,6 +157,7 @@
             <Bundle-Version>${project.version}</Bundle-Version>
             <Bundle-Vendor>${project.groupId}</Bundle-Vendor>
             <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+
             <Include-Resource>{maven-resources}, {maven-dependencies}</Include-Resource>
             <Embed-Dependency>*;scope=compile|runtime;inline=true;artifactId=!org.apache.felix.scr.*|org.livingplace.controlling.*</Embed-Dependency>
             <Embed-Transitive>true</Embed-Transitive>

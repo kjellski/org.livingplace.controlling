@@ -22,6 +22,11 @@
     <org.apache.servicemix.bundles.antlr-runtime.version>3.4_2</org.apache.servicemix.bundles.antlr-runtime.version>
     <org.apache.servicemix.bundles.antlr.version>3.4_1</org.apache.servicemix.bundles.antlr.version>
     <org.apache.servicemix.bundles.ant.version>1.8.4_1</org.apache.servicemix.bundles.ant.version>
+    <org.apache.felix.scr.annotations.version>1.7.0</org.apache.felix.scr.annotations.version>
+    <org.apache.felix.scr.version>1.6.0</org.apache.felix.scr.version>
+    <drools-compiler.version>5.4.0.Final</drools-compiler.version>
+    <drools-core.version>5.4.0.Final</drools-core.version>
+    <org.livingplace.controlling.version>1.0-SNAPSHOT</org.livingplace.controlling.version>
   </properties>
 
   <modelVersion>4.0.0</modelVersion>
@@ -80,50 +85,50 @@
     <dependency>
       <groupId>org.livingplace.bundles.controlling</groupId>
       <artifactId>org.livingplace.controlling.api</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${org.livingplace.controlling.version}</version>
     </dependency>
     <dependency>
       <groupId>org.livingplace.bundles.controlling</groupId>
       <artifactId>org.livingplace.controlling.actions.api</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${org.livingplace.controlling.version}</version>
     </dependency>
     <dependency>
       <groupId>org.livingplace.bundles.controlling</groupId>
       <artifactId>org.livingplace.controlling.actions.registry.api</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${org.livingplace.controlling.version}</version>
     </dependency>
     <dependency>
       <groupId>org.livingplace.bundles.controlling</groupId>
       <artifactId>org.livingplace.controlling.informations.api</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${org.livingplace.controlling.version}</version>
     </dependency>
     <dependency>
       <groupId>org.livingplace.bundles.controlling</groupId>
       <artifactId>org.livingplace.controlling.informations.registry.api</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${org.livingplace.controlling.version}</version>
     </dependency>
     <!--Drools Dependencies-->
     <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-core</artifactId>
-      <version>5.4.0.Final</version>
+      <version>${drools-core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-compiler</artifactId>
-      <version>5.4.0.Final</version>
+      <version>${drools-compiler.version}</version>
     </dependency>
 
     <!-- Component Annotations Dependencies -->
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.scr</artifactId>
-      <version>1.6.0</version>
+      <version>${org.apache.felix.scr.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.scr.annotations</artifactId>
-      <version>1.7.0</version>
+      <version>${org.apache.felix.scr.annotations.version}</version>
     </dependency>
   </dependencies>
 
@@ -159,7 +164,7 @@
             <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 
             <Include-Resource>{maven-resources}, {maven-dependencies}</Include-Resource>
-            <Embed-Dependency>*;scope=compile|runtime;inline=true;artifactId=!org.apache.felix.scr.*|org.livingplace.controlling.*</Embed-Dependency>
+            <Embed-Dependency>*;scope=compile|runtime;inline=true;artifactId=!org.apache.felix.*|org.livingplace.*|org.osgi.*</Embed-Dependency>
             <Embed-Transitive>true</Embed-Transitive>
 
             <!-- Package -->

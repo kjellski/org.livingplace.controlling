@@ -23,6 +23,13 @@
 
   <packaging>bundle</packaging>
 
+  <repositories>
+    <repository>
+      <id>devsupport.informatik.haw-hamburg.de-RELEASE</id>
+      <url>http://devsupport.informatik.haw-hamburg.de/nexus/content/repositories/releases</url>
+    </repository>
+  </repositories>
+
   <dependencies>
     <!--
      | uncomment to add all imported (non-local) bundles to your compilation classpath

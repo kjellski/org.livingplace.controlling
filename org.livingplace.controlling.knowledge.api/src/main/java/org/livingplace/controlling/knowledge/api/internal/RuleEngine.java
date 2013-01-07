@@ -5,14 +5,10 @@ import org.apache.felix.scr.annotations.*;
 import org.livingplace.controlling.actions.registry.api.IActionRegistryFactory;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistryFactory;
 import org.livingplace.controlling.knowledge.api.IRuleEngine;
-import org.osgi.service.cm.ConfigurationException;
-import org.osgi.service.cm.ManagedService;
 import org.osgi.service.log.LogService;
 
-import java.util.Dictionary;
-
 @Component(immediate = true)
-public class RuleEngine implements IRuleEngine, ManagedService {
+public class RuleEngine implements IRuleEngine {
 
   @Reference
   IActionRegistryFactory actionRegistryFactory;
@@ -36,11 +32,6 @@ public class RuleEngine implements IRuleEngine, ManagedService {
     log.log(LogService.LOG_INFO, RuleEngine.class.getName() + " started.");
   }
 
-  @Override
-  public void updated(Dictionary<String, ?> stringDictionary) throws ConfigurationException {
-
-  }
-
   @Deactivate
   public void stop(){
     engineManager.interrupt();
@@ -57,7 +48,4 @@ public class RuleEngine implements IRuleEngine, ManagedService {
       e.printStackTrace(System.out);
     }
   }
-
-
-
 }

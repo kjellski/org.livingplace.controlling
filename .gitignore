@@ -2,7 +2,11 @@ bin/
 bin_test/
 target/
 local/
-runner/
+
+# runner folder, except the ones needed for the ruleengine.
+runner/*
+!runner/rules/.empty
+!runner/rules/test.drl
 
 # Eclipse, Netbeans and IntelliJ files
 /.*

@@ -9,10 +9,10 @@ import org.drools.agent.KnowledgeAgentFactory;
 import org.drools.builder.*;
 import org.drools.conf.EventProcessingOption;
 import org.drools.definition.KnowledgePackage;
+import org.drools.io.ResourceChangeScannerConfiguration;
 import org.drools.io.ResourceFactory;
 import org.drools.io.impl.UrlResource;
 import org.drools.logger.KnowledgeRuntimeLogger;
-import org.drools.logger.KnowledgeRuntimeLoggerFactory;
 import org.drools.runtime.KnowledgeSessionConfiguration;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.conf.ClockTypeOption;
@@ -23,7 +23,6 @@ import org.osgi.service.log.LogService;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +30,11 @@ import java.util.concurrent.TimeUnit;
 
 public class DroolsManager extends Thread {
 
-  private final String knowledgeLoggerLogFilePath = "./log/org.drools.KnowledgeRuntimeLogger.log";
+  //private final String knowledgeLoggerLogFilePath = "./log/org.drools.KnowledgeRuntimeLogger.log";
+  /* This one is used for the agend, should point to a folder that will be asked for changes */
+  private static final String RULES_CHANGESET = "org/livingplace/controlling/knowledge/changeset.xml";
+
+  private static final int EXECUTION_INTERVAL = 500;
 
   private KnowledgeRuntimeLogger klogger;
   private KnowledgeBuilder kbuilder;
@@ -48,16 +51,49 @@ public class DroolsManager extends Thread {
   public DroolsManager(LogService log) {
     this.log = log;
 
+    KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+    kbuilder.add(ResourceFactory.newClassPathResource(RULES_CHANGESET, getClass()), ResourceType.CHANGE_SET);
+
+    if (kbuilder.hasErrors()) {
+      String errorMessage = "There are errors in the rules: " + kbuilder.getErrors();
+      System.out.println(errorMessage);
+      log.log(LogService.LOG_ERROR, errorMessage);
+      return;
+    }
+
+    KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+
+    KnowledgeAgentConfiguration aconf = KnowledgeAgentFactory.newKnowledgeAgentConfiguration();
+    aconf.setProperty("drools.agent.newInstance", "false");
+    KnowledgeAgent kagent = KnowledgeAgentFactory.newKnowledgeAgent("RuleAgent", kbase, aconf);
+    kagent.applyChangeSet(ResourceFactory.newClassPathResource(RULES_CHANGESET, getClass()));
+    kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
+    ksession = kbase.newStatefulKnowledgeSession();
+
+    // activate notifications
     ResourceFactory.getResourceChangeNotifierService().start();
-    ResourceFactory.getResourceChangeScannerService().stop();
+    ResourceFactory.getResourceChangeScannerService().start();
 
-    this.kbuilder = getConfiguredKnowledgeBuilder(new ArrayList<SimpleEntry<String, ResourceType>>());
-    this.kbase = getConfiguredKnowledgeBase(kbuilder);
-    this.ksession = getConfiguredKnowledgeSession(kbase);
+    // activate this for extensive logging
+    // KnowledgeRuntimeLoggerFactory.newConsoleLogger(ksession);
 
-    this.klogger = KnowledgeRuntimeLoggerFactory.newFileLogger(ksession, knowledgeLoggerLogFilePath);
+    // set the scan interval to 20 secs
+    ResourceChangeScannerConfiguration sconf = ResourceFactory.getResourceChangeScannerService().newResourceChangeScannerConfiguration();
+    sconf.setProperty("drools.resource.scanner.interval", "20");
+    ResourceFactory.getResourceChangeScannerService().configure(sconf);
+
+    this.start();
+
+    //selfmade
+//    ResourceFactory.getResourceChangeNotifierService().start();
+//    ResourceFactory.getResourceChangeScannerService().start();
+//
+//    this.kbuilder = getConfiguredKnowledgeBuilder(new ArrayList<SimpleEntry<String, ResourceType>>());
+//    this.kbase = getConfiguredKnowledgeBase(kbuilder);
+//    this.ksession = getConfiguredKnowledgeSession(kbase);
+//
+//    this.klogger = KnowledgeRuntimeLoggerFactory.newFileLogger(ksession, knowledgeLoggerLogFilePath);
   }
-
 
   public void getClockTime() {
     Date d = new Date(this.clock.getCurrentTime());
@@ -166,31 +202,32 @@ public class DroolsManager extends Thread {
     // the name of the agent
     this.kagent = KnowledgeAgentFactory.newKnowledgeAgent("KnowledgeBaseAgent", this.kagentConfiguration);
 
-    String path = "config/change-set.xml";
-
     URL url = null;
     try {
-      url = new URL("file:" + path);
+      url = new URL("file:" + RULES_CHANGESET);
     } catch (MalformedURLException e) {
-      System.out.println("[ERROR]: The URL for this path was malformed: " + path);
+      System.out.println("[ERROR]: The URL for this path was malformed: " + RULES_CHANGESET);
       e.printStackTrace(System.out);
       return null;
     }
 
     UrlResource urlResource = (UrlResource) ResourceFactory.newUrlResource(url);
 
-//    this.kagent.applyChangeSet(urlResource);
+    this.kagent.applyChangeSet(urlResource);
 
     return this.kagent.getKnowledgeBase();
   }
 
+  /**
+   * executes the resoning of the ruleengine all interval
+   */
   public void run() {
-    // StopWatch s = new StopWatch();
+
     try {
       while (!Thread.currentThread().isInterrupted()) {
-        Thread.sleep(100);
+        Thread.sleep(EXECUTION_INTERVAL);
         // s.start();
-        // this.reason();
+        this.reason();
         // s.stop();
         // logger.info("fireAllRules() took " + s.toString());
         // s.reset();

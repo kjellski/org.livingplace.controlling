@@ -36,8 +36,8 @@ public class DroolsManager extends Thread {
   public DroolsManager(LogService log) {
     this.log = log;
 
-    // selfmade
-// Builder
+    // part of this configuration is lend from openhab! :)
+    // Builder
     KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
     kbuilder.add(ResourceFactory.newClassPathResource(RULES_CHANGESET, getClass()), ResourceType.CHANGE_SET);
 
@@ -69,12 +69,15 @@ public class DroolsManager extends Thread {
     ResourceFactory.getResourceChangeScannerService().start();
 
     // activate this for extensive logging
-    // KnowledgeRuntimeLoggerFactory.newConsoleLogger(ksession);
+    KnowledgeRuntimeLoggerFactory.newConsoleLogger(ksession);
 
     // set the scan interval to 20 secs
     ResourceChangeScannerConfiguration sconf = ResourceFactory.getResourceChangeScannerService().newResourceChangeScannerConfiguration();
     sconf.setProperty("drools.resource.scanner.interval", "20");
     ResourceFactory.getResourceChangeScannerService().configure(sconf);
+
+    // activate this for extensive logging
+    KnowledgeRuntimeLoggerFactory.newConsoleLogger(ksession);
 
     klogger = KnowledgeRuntimeLoggerFactory.newFileLogger(ksession, knowledgeLoggerLogFilePath);
 

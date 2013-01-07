@@ -4,9 +4,12 @@ target/
 local/
 
 # runner folder, except the ones needed for the ruleengine.
-runner/*
 !runner/rules/.empty
 !runner/rules/test.drl
+runner/bundles
+runner/cache
+runner/deploy-pom.xml
+runner/felix
 
 # Eclipse, Netbeans and IntelliJ files
 /.*

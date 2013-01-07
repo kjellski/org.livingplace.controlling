@@ -1,0 +1,9 @@
+import org.livingplace.controlling.informations.sensors.time.internal;
+
+rule "Hello World"
+    dialect "mvel"
+    when
+        t : UTCTimeInformation()
+    then
+        System.out.println( t.toString() ); 
+end

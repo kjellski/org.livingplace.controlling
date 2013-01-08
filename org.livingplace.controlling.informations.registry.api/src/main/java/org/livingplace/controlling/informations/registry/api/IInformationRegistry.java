@@ -10,6 +10,17 @@ import java.util.List;
  * Informations registry
  */
 public interface IInformationRegistry {
+
+  /**
+   * Adds a listener to be notified whenever any information is sensed.
+   */
+  void addAllInformationsListener(IInformationListener listener);
+
+  /**
+   * Adds a listener to be notified whenever any information is sensed.
+   */
+  void removeAllInformationsListener(IInformationListener listener);
+
   /**
    * Method to register a new Information to be provided by a sensor
    * @param toBeRegistered information to be registered

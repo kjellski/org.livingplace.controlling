@@ -42,7 +42,7 @@ public class TimeSensor extends AbstractSensor implements ISensor
       listeners.add(informationRegistryFactory.getInstance().register(information));
     }
 
-    timer.schedule(new UTCTimeSensingTask(this), 10000, 60000);
+    timer.schedule(new UTCTimeSensingTask(this), 1000, 60000);
   }
 
   private class UTCTimeSensingTask extends TimerTask {

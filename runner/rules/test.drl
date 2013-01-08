@@ -1,5 +1,10 @@
 import org.livingplace.controlling.informations.sensors.time.internal.UTCTimeInformation;
 
+declare UTCTimeInformation
+    @role ( event )
+    @expires( 30s )
+end
+
 rule "Hello World"
     dialect "mvel"
     when

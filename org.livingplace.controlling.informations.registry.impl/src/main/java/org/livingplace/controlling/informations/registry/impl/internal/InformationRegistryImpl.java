@@ -6,10 +6,7 @@ import org.livingplace.controlling.informations.api.IInformationListener;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistry;
 import org.osgi.service.log.LogService;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -25,22 +22,42 @@ public class InformationRegistryImpl implements IInformationRegistry {
 
   public InformationRegistryImpl(LogService log) {
     this.log = log;
+    listeners.add(new PrintingInformationListener());
+  }
+
+  public List<IInformationListener> listeners = Collections.synchronizedList(new ArrayList<IInformationListener>());
+
+  private IInformationListener BroadcasterListener  = new IInformationListener() {
+    @Override
+    public void sensedInformation(IInformation information) {
+      for (IInformationListener listener : listeners) {
+        listener.sensedInformation(information);
+      }
+    }
+  };
+
+  @Override
+  public void addAllInformationsListener(IInformationListener listener) {
+    this.listeners.add(listener);
+  }
+
+  @Override
+  public void removeAllInformationsListener(IInformationListener listener) {
+    this.listeners.remove(listener);
   }
 
   @Override
   public IInformationListener register(IInformation toBeRegistered) {
 
-    PrintingInformationListener tmp = new PrintingInformationListener();
-
     Map.Entry<IInformation, IInformationListener> old = registry.put(toBeRegistered.getQualifier().getFullQualifier(),
-            new AbstractMap.SimpleEntry<IInformation, IInformationListener>(toBeRegistered, tmp));
+            new AbstractMap.SimpleEntry<IInformation, IInformationListener>(toBeRegistered, BroadcasterListener));
 
     if (old != null)
       log.log(LogService.LOG_INFO, "Replaced " + old.getKey().getQualifier().getFullQualifier() +
               " with new " + toBeRegistered.getQualifier().getFullQualifier() + " in InformationRegistry.");
 
     log.log(LogService.LOG_INFO, "Added " + toBeRegistered.getQualifier().getFullQualifier() + " to InformationRegistry.");
-    return tmp;
+    return BroadcasterListener;
   }
 
   @Override

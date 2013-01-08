@@ -1,5 +1,6 @@
 package org.livingplace.controlling.knowledge.api.internal;
 
+import org.drools.IntegrationException;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseConfiguration;
 import org.drools.KnowledgeBaseFactory;
@@ -11,23 +12,13 @@ import org.drools.builder.KnowledgeBuilderConfiguration;
 import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
 import org.drools.conf.EventProcessingOption;
-import org.drools.definition.KnowledgePackage;
 import org.drools.io.ResourceFactory;
-import org.drools.io.impl.UrlResource;
 import org.drools.logger.KnowledgeRuntimeLogger;
 import org.drools.logger.KnowledgeRuntimeLoggerFactory;
 import org.drools.runtime.KnowledgeSessionConfiguration;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.conf.ClockTypeOption;
-import org.drools.runtime.rule.WorkingMemoryEntryPoint;
-import org.drools.time.SessionPseudoClock;
 import org.osgi.service.log.LogService;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Collection;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class DroolsManager extends Thread {
 
@@ -41,51 +32,53 @@ public class DroolsManager extends Thread {
   private KnowledgeBuilder kbuilder;
   private KnowledgeBase kbase;
   private KnowledgeAgent kagent;
-  private KnowledgeAgentConfiguration kagentConfiguration;
   private StatefulKnowledgeSession ksession;
-  private SessionPseudoClock clock;
 
-  private WorkingMemoryEntryPoint entryPoint;
+//  private WorkingMemoryEntryPoint entryPoint;
 
   private LogService log;
 
   public DroolsManager(LogService log, ClassLoader classLoader) {
     this.log = log;
 
+    this.kbuilder = getConfiguredKnowledgeBuilder(classLoader);
+    if (this.kbuilder == null ) throw new IllegalStateException("KnowledgeBuilder was null.");
+
+    this.kagent = getConfiguredKnowledgeAgent(this.kbuilder, classLoader);
+    this.kagent.applyChangeSet(ResourceFactory.newClassPathResource(RULES_CHANGESET, getClass()));
+    if (this.kagent == null ) throw new IllegalStateException("KnowledgeAgent was null.");
+
+    this.kbase = this.kagent.getKnowledgeBase();
+    this.kbase.addKnowledgePackages(this.kbuilder.getKnowledgePackages());
+    if (this.kbase == null ) throw new IllegalStateException("KnowledgeBase was null.");
+
+    this.ksession = getConfiguredKnowledgeSession(this.kbase);
+    if (this.ksession == null ) throw new IllegalStateException("StatefulKnowledgeSession was null.");
+
+//    this.entryPoint = this.ksession.getWorkingMemoryEntryPoint("entryone");
+//    if (this.entryPoint == null ) throw new IllegalStateException("WorkingMemoryEntryPoint was null.");
+
+    this.klogger = KnowledgeRuntimeLoggerFactory.newFileLogger(this.ksession, this.knowledgeLoggerLogFilePath);
+    if (this.klogger == null ) throw new IllegalStateException("KnowledgeRuntimeLogger was null.");
+
     ResourceFactory.getResourceChangeNotifierService().start();
     ResourceFactory.getResourceChangeScannerService().start();
 
-    kbuilder = getConfiguredKnowledgeBuilder(classLoader);
-    kbase = getConfiguredKnowledgeBase(kbuilder, classLoader);
-    ksession = getConfiguredKnowledgeSession(kbase);
-
-    klogger = KnowledgeRuntimeLoggerFactory.newFileLogger(ksession, knowledgeLoggerLogFilePath);
-  }
-
-
-  public Date getClockTime() {
-    Date d = new Date(clock.getCurrentTime());
-    return d;
-  }
-
-  public void advance(long arg0, TimeUnit arg1) {
-    clock.advanceTime(arg0, arg1);
+    this.setDaemon(true);
+    this.start();
   }
 
   public void addFact(Object o) {
-    this.entryPoint.insert(o);
+    System.out.println("------------------------------------");
+    System.out.println("Add Fact: ");
+    System.out.println("\t" + o.toString());
+    this.ksession.insert(o);
+    System.out.println("------------------------------------");
   }
 
   public void reason() {
-    ksession.fireAllRules();
-  }
-
-  public void cancel() {
-    interrupt();
-  }
-
-  public Collection<KnowledgePackage> getKnowledgePackages() {
-    return this.kbase.getKnowledgePackages();
+    System.out.println("Reasoning with " + this.ksession.getFactCount() + " Facts.");
+    this.ksession.fireAllRules();
   }
 
   private void shutdown() {
@@ -103,15 +96,13 @@ public class DroolsManager extends Thread {
     KnowledgeSessionConfiguration ksessionConfig = getConfiguredKnowledgeSessionConfiguration();
     StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession(ksessionConfig, null);
 
-    this.entryPoint = ksession.getWorkingMemoryEntryPoint("entryone");
-    this.clock = ksession.getSessionClock();
-
     return ksession;
   }
 
   private KnowledgeSessionConfiguration getConfiguredKnowledgeSessionConfiguration() {
     KnowledgeSessionConfiguration ksessionConfig = KnowledgeBaseFactory.newKnowledgeSessionConfiguration();
-    ksessionConfig.setOption(ClockTypeOption.get("pseudo"));
+
+    ksessionConfig.setOption( ClockTypeOption.get("realtime") );
 
     return ksessionConfig;
   }
@@ -131,55 +122,43 @@ public class DroolsManager extends Thread {
    */
   private KnowledgeBuilder getConfiguredKnowledgeBuilder(ClassLoader classLoader) {
     KnowledgeBuilderConfiguration kbconf = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(null, classLoader);
-    KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(kbconf);
+    KnowledgeBuilder knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(kbconf);
 
     // Add the changeset in order to get the right classes loaded.
-    kbuilder.add(ResourceFactory.newClassPathResource(RULES_CHANGESET, getClass()), ResourceType.CHANGE_SET);
+    knowledgeBuilder.add(ResourceFactory.newClassPathResource(RULES_CHANGESET, getClass()), ResourceType.CHANGE_SET);
 
-    if (kbuilder.hasErrors()) {
-      String errors = "There are errors in the rules: " + kbuilder.getErrors();
+    if (knowledgeBuilder.hasErrors()) {
+      String errors = "There are errors in the rules: " + knowledgeBuilder.getErrors();
       System.out.println(errors);
       log.log(LogService.LOG_ERROR, errors);
-      return null;
+      throw new IntegrationException(errors);
     }
 
-    return kbuilder;
+    return knowledgeBuilder;
   }
 
-  private KnowledgeBase getConfiguredKnowledgeBase(KnowledgeBuilder kbuilder, ClassLoader classLoader) {
+  private KnowledgeAgentConfiguration getKnowledgeAgentConfiguration(){
+    KnowledgeAgentConfiguration agentConfiguration = KnowledgeAgentFactory.newKnowledgeAgentConfiguration();
+
+    // we do not want to scan directories, just files
+    agentConfiguration.setProperty("drools.agent.newInstance", "false");
+    agentConfiguration.setProperty("drools.agent.scanDirectories", "true");
+    agentConfiguration.setProperty("drools.agent.scanResources", "true");
+    agentConfiguration.setProperty("drools.agent.newInstance", "false");
+    agentConfiguration.setProperty("drools.agent.useKBaseClassLoaderForCompiling", "true");
+
+    return agentConfiguration;
+  }
+
+  private KnowledgeAgent getConfiguredKnowledgeAgent(KnowledgeBuilder kbuilder, ClassLoader classLoader) {
     KnowledgeBaseConfiguration kbaseconfig = getConfiguredKnowledgeBaseConfiguration(classLoader);
 
     KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase(kbaseconfig);
     kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
 
-    this.kagentConfiguration = KnowledgeAgentFactory.newKnowledgeAgentConfiguration();
+    KnowledgeAgentConfiguration kagentConfiguration = getKnowledgeAgentConfiguration();
 
-    // we do not want to scan directories, just files
-    this.kagentConfiguration.setProperty("drools.agent.newInstance", "false");
-    this.kagentConfiguration.setProperty("drools.agent.scanDirectories", "true");
-    this.kagentConfiguration.setProperty("drools.agent.scanResources", "true");
-    this.kagentConfiguration.setProperty("drools.agent.newInstance", "false");
-    this.kagentConfiguration.setProperty("drools.agent.useKBaseClassLoaderForCompiling", "true");
-
-    // the name of the agent
-    this.kagent = KnowledgeAgentFactory.newKnowledgeAgent("KnowledgeBaseAgent", this.kagentConfiguration);
-
-    String path = "config/change-set.xml";
-
-    URL url = null;
-    try {
-      url = new URL("file:" + path);
-    } catch (MalformedURLException e) {
-      System.out.println("[ERROR]: The URL for this path was malformed: " + path);
-      e.printStackTrace(System.out);
-      return null;
-    }
-
-    UrlResource urlResource = (UrlResource) ResourceFactory.newUrlResource(url);
-
-//    this.kagent.applyChangeSet(urlResource);
-
-    return this.kagent.getKnowledgeBase();
+    return KnowledgeAgentFactory.newKnowledgeAgent("KnowledgeBaseAgent", kbase, kagentConfiguration);
   }
 
   /**

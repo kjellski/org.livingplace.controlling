@@ -1,4 +1,5 @@
 import org.livingplace.controlling.informations.sensors.time.internal.UTCTimeInformation;
+import org.livingplace.controlling.actions.actors.time.internal.BroadcastTimeOnAMQ;
 
 declare UTCTimeInformation
     @role ( event )

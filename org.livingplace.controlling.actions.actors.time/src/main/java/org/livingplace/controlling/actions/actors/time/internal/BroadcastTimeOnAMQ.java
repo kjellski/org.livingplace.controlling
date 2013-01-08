@@ -12,6 +12,6 @@ public class BroadcastTimeOnAMQ extends AbstractAction implements IAction {
 
   @Override
   public void run() {
-    System.out.println("Time: " + System.currentTimeMillis());
+    System.out.println(this.getQualifier() + " - Time: " + System.currentTimeMillis());
   }
 }

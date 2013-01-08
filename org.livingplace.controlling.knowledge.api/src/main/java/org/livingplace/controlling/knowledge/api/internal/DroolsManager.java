@@ -37,29 +37,31 @@ public class DroolsManager extends Thread {
 //  private WorkingMemoryEntryPoint entryPoint;
 
   private LogService log;
+  private boolean consolePrinting = true;
+  private boolean newFact;
 
   public DroolsManager(LogService log, ClassLoader classLoader) {
     this.log = log;
 
     this.kbuilder = getConfiguredKnowledgeBuilder(classLoader);
-    if (this.kbuilder == null ) throw new IllegalStateException("KnowledgeBuilder was null.");
+    if (this.kbuilder == null) throw new IllegalStateException("KnowledgeBuilder was null.");
 
     this.kagent = getConfiguredKnowledgeAgent(this.kbuilder, classLoader);
     this.kagent.applyChangeSet(ResourceFactory.newClassPathResource(RULES_CHANGESET, getClass()));
-    if (this.kagent == null ) throw new IllegalStateException("KnowledgeAgent was null.");
+    if (this.kagent == null) throw new IllegalStateException("KnowledgeAgent was null.");
 
     this.kbase = this.kagent.getKnowledgeBase();
     this.kbase.addKnowledgePackages(this.kbuilder.getKnowledgePackages());
-    if (this.kbase == null ) throw new IllegalStateException("KnowledgeBase was null.");
+    if (this.kbase == null) throw new IllegalStateException("KnowledgeBase was null.");
 
     this.ksession = getConfiguredKnowledgeSession(this.kbase);
-    if (this.ksession == null ) throw new IllegalStateException("StatefulKnowledgeSession was null.");
+    if (this.ksession == null) throw new IllegalStateException("StatefulKnowledgeSession was null.");
 
 //    this.entryPoint = this.ksession.getWorkingMemoryEntryPoint("entryone");
 //    if (this.entryPoint == null ) throw new IllegalStateException("WorkingMemoryEntryPoint was null.");
 
     this.klogger = KnowledgeRuntimeLoggerFactory.newFileLogger(this.ksession, this.knowledgeLoggerLogFilePath);
-    if (this.klogger == null ) throw new IllegalStateException("KnowledgeRuntimeLogger was null.");
+    if (this.klogger == null) throw new IllegalStateException("KnowledgeRuntimeLogger was null.");
 
     ResourceFactory.getResourceChangeNotifierService().start();
     ResourceFactory.getResourceChangeScannerService().start();
@@ -69,15 +71,16 @@ public class DroolsManager extends Thread {
   }
 
   public void addFact(Object o) {
-    System.out.println("------------------------------------");
-    System.out.println("Add Fact: ");
-    System.out.println("\t" + o.toString());
+    this.newFact = true;
+    log(LogService.LOG_DEBUG, "Add Fact: \n\t" + o.toString());
     this.ksession.insert(o);
-    System.out.println("------------------------------------");
   }
 
   public void reason() {
-    System.out.println("Reasoning with " + this.ksession.getFactCount() + " Facts.");
+    if (this.newFact) {
+      this.newFact = false;
+      log(LogService.LOG_DEBUG, "Reasoning with " + this.ksession.getFactCount() + " Facts.");
+    }
     this.ksession.fireAllRules();
   }
 
@@ -102,7 +105,7 @@ public class DroolsManager extends Thread {
   private KnowledgeSessionConfiguration getConfiguredKnowledgeSessionConfiguration() {
     KnowledgeSessionConfiguration ksessionConfig = KnowledgeBaseFactory.newKnowledgeSessionConfiguration();
 
-    ksessionConfig.setOption( ClockTypeOption.get("realtime") );
+    ksessionConfig.setOption(ClockTypeOption.get("realtime"));
 
     return ksessionConfig;
   }
@@ -117,6 +120,7 @@ public class DroolsManager extends Thread {
 
   /**
    * Using the custom Classlaoder in order to get the right classes from registries loaded.
+   *
    * @param classLoader
    * @return
    */
@@ -137,7 +141,7 @@ public class DroolsManager extends Thread {
     return knowledgeBuilder;
   }
 
-  private KnowledgeAgentConfiguration getKnowledgeAgentConfiguration(){
+  private KnowledgeAgentConfiguration getKnowledgeAgentConfiguration() {
     KnowledgeAgentConfiguration agentConfiguration = KnowledgeAgentFactory.newKnowledgeAgentConfiguration();
 
     // we do not want to scan directories, just files
@@ -159,6 +163,12 @@ public class DroolsManager extends Thread {
     KnowledgeAgentConfiguration kagentConfiguration = getKnowledgeAgentConfiguration();
 
     return KnowledgeAgentFactory.newKnowledgeAgent("KnowledgeBaseAgent", kbase, kagentConfiguration);
+  }
+
+  private void log(int LogLevel, String msg) {
+    this.log.log(LogLevel, msg);
+    if (this.consolePrinting)
+      System.out.println(msg);
   }
 
   /**

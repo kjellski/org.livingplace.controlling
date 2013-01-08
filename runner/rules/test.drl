@@ -1,15 +1,18 @@
 import org.livingplace.controlling.informations.sensors.time.internal.UTCTimeInformation;
 import org.livingplace.controlling.actions.actors.time.internal.BroadcastTimeOnAMQ;
+import org.livingplace.controlling.actions.api.IAction;
+
+global org.livingplace.controlling.actions.registry.api.IActionRegistry action;
 
 declare UTCTimeInformation
     @role ( event )
     @expires( 30s )
 end
 
-rule "Hello World"
+rule "Timing rule"
     dialect "mvel"
     when
         t : UTCTimeInformation()
     then
-        System.out.println( t.toString() ); 
+        action.executeAction(new BroadcastTimeOnAMQ());
 end

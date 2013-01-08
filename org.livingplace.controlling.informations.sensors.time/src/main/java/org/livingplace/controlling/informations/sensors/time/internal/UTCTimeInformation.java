@@ -10,6 +10,6 @@ public class UTCTimeInformation extends AbstractInformation implements IInformat
   public UTCTimeInformation(ISensor source) {
     super(source, new InformationQualifier("time", "UTCTime", "1.0"));
 
-    this.setInformation("UTCTime: " + DateTime.now());
+    this.setInformation(this.getQualifier() + " - UTCTime: " + DateTime.now());
   }
 }

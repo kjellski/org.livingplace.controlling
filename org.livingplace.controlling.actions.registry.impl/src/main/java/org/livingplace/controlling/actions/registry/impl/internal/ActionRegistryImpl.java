@@ -47,6 +47,12 @@ public class ActionRegistryImpl implements IActionRegistry {
     executeAction(actionQualifier, null);
   }
 
+  @Override
+  public void executeAction(IAction action) {
+    log.log(LogService.LOG_INFO, buildPrintoutFor(action.getQualifier(), action.getActionProperties(), null));
+    executor.execute(action);
+  }
+
   private String buildPrintoutFor(IActionQualifier actionQualifier, IActionProperties actionProperties, IActor actorToExecuteAction) {
 
     StringBuilder b = new StringBuilder();

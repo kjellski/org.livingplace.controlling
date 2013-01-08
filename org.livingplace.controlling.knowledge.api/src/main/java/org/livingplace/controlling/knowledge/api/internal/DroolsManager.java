@@ -1,6 +1,5 @@
 package org.livingplace.controlling.knowledge.api.internal;
 
-import org.drools.IntegrationException;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseConfiguration;
 import org.drools.KnowledgeBaseFactory;
@@ -18,6 +17,7 @@ import org.drools.logger.KnowledgeRuntimeLoggerFactory;
 import org.drools.runtime.KnowledgeSessionConfiguration;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.conf.ClockTypeOption;
+import org.livingplace.controlling.actions.registry.api.IActionRegistry;
 import org.osgi.service.log.LogService;
 
 public class DroolsManager extends Thread {
@@ -40,7 +40,7 @@ public class DroolsManager extends Thread {
   private boolean consolePrinting = true;
   private boolean newFact;
 
-  public DroolsManager(LogService log, ClassLoader classLoader) {
+  public DroolsManager(LogService log, IActionRegistry actionRegistry, ClassLoader classLoader) {
     this.log = log;
 
     this.kbuilder = getConfiguredKnowledgeBuilder(classLoader);
@@ -56,6 +56,8 @@ public class DroolsManager extends Thread {
 
     this.ksession = getConfiguredKnowledgeSession(this.kbase);
     if (this.ksession == null) throw new IllegalStateException("StatefulKnowledgeSession was null.");
+
+    this.ksession.setGlobal("action", actionRegistry);
 
 //    this.entryPoint = this.ksession.getWorkingMemoryEntryPoint("entryone");
 //    if (this.entryPoint == null ) throw new IllegalStateException("WorkingMemoryEntryPoint was null.");
@@ -135,7 +137,7 @@ public class DroolsManager extends Thread {
       String errors = "There are errors in the rules: " + knowledgeBuilder.getErrors();
       System.out.println(errors);
       log.log(LogService.LOG_ERROR, errors);
-      throw new IntegrationException(errors);
+      throw new IllegalRuleEvaluationException(errors);
     }
 
     return knowledgeBuilder;

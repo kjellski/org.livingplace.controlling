@@ -52,7 +52,7 @@ public class RuleEngine implements IRuleEngine {
       log.log(LogService.LOG_INFO, "Registered Actions:      " + actionRegistry.getAllRegistered());
       log.log(LogService.LOG_INFO, "Registered Informations: " + informationRegistry.getAllRegistered());
 
-      engineManager = new DroolsManager(log, new RegistryClassLoader(
+      engineManager = new DroolsManager(log, actionRegistry, new RegistryClassLoader(
               this.getClass().getClassLoader(),
               actionRegistry,
               informationRegistry));

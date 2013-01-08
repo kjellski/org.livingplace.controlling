@@ -1,4 +1,4 @@
-import org.livingplace.controlling.informations.sensors.time.internal;
+import org.livingplace.controlling.informations.sensors.time.internal.UTCTimeInformation;
 
 rule "Hello World"
     dialect "mvel"

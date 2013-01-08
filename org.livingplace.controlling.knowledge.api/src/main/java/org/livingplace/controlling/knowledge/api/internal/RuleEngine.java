@@ -43,7 +43,10 @@ public class RuleEngine implements IRuleEngine {
     try {
       log.log(LogService.LOG_INFO, "Registered Actions:      " + actionRegistryFactory.getInstance().getAllRegistered());
       log.log(LogService.LOG_INFO, "Registered Informations: " + informationRegistryFactory.getInstance().getAllRegistered());
-      engineManager = new DroolsManager(log);
+      engineManager = new DroolsManager(log, new RegistryClassLoader(
+              this.getClass().getClassLoader(),
+              actionRegistryFactory.getInstance(),
+              informationRegistryFactory.getInstance()));
     } catch (Exception e) {
       e.printStackTrace(System.out);
     }

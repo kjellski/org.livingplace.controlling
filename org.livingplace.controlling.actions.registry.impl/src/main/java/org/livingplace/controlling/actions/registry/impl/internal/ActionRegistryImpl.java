@@ -1,12 +1,12 @@
 package org.livingplace.controlling.actions.registry.impl.internal;
 
+import org.apache.log4j.Logger;
 import org.livingplace.controlling.actions.api.IAction;
 import org.livingplace.controlling.actions.api.IActionProperties;
 import org.livingplace.controlling.actions.api.IActionQualifier;
 import org.livingplace.controlling.actions.api.IActor;
 import org.livingplace.controlling.actions.registry.api.IActionRegistry;
 import org.livingplace.controlling.api.IQualifier;
-import org.osgi.service.log.LogService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +21,10 @@ import java.util.concurrent.Executors;
 public class ActionRegistryImpl implements IActionRegistry {
   private static final int THREADPOOL_SIZE = 100;
   private static final Executor executor = Executors.newFixedThreadPool(THREADPOOL_SIZE);
+  private static Logger logger = Logger.getLogger(ActionRegistryImpl.class);
   protected final Map<String, IAction> registry = new ConcurrentHashMap<String, IAction>();
 
-//  @Reference
-  protected LogService log;
-
-  public ActionRegistryImpl(LogService log) {
-    this.log = log;
+  public ActionRegistryImpl() {
   }
 
   @Override
@@ -35,10 +32,10 @@ public class ActionRegistryImpl implements IActionRegistry {
     IAction action = (IAction) get((IQualifier) qualifier);
     if (action != null) {
       action.setActionProperties(properties);
-      log.log(LogService.LOG_INFO, buildPrintoutFor(qualifier, properties, null));
+      logger.info(buildPrintoutFor(qualifier, properties, null));
       executor.execute(action);
     } else {
-      log.log(LogService.LOG_WARNING, "Action not found: " + qualifier);
+      logger.warn("Action not found: " + qualifier);
     }
   }
 
@@ -49,7 +46,7 @@ public class ActionRegistryImpl implements IActionRegistry {
 
   @Override
   public void executeAction(IAction action) {
-    log.log(LogService.LOG_INFO, buildPrintoutFor(action.getQualifier(), action.getActionProperties(), null));
+    logger.info(buildPrintoutFor(action.getQualifier(), action.getActionProperties(), null));
     executor.execute(action);
   }
 
@@ -82,27 +79,27 @@ public class ActionRegistryImpl implements IActionRegistry {
   public void register(IAction action) {
     IAction old = registry.put(action.getQualifier().getFullQualifier(), action);
     if (old != null) {
-      log.log(LogService.LOG_INFO, "Replaced " + old.getQualifier().getFullQualifier() +
+      logger.info("Replaced " + old.getQualifier().getFullQualifier() +
               " with new " + action.getQualifier().getFullQualifier() + " in ActionRegistry.");
     }
-    log.log(LogService.LOG_INFO, "Added " + action.getQualifier().getFullQualifier() + " to ActionRegistry.");
+    logger.info("Added " + action.getQualifier().getFullQualifier() + " to ActionRegistry.");
   }
 
   @Override
   public void unregister(IAction action) {
     this.registry.remove(action.getQualifier().getFullQualifier());
-    log.log(LogService.LOG_INFO, "Removed " + action.getQualifier().getFullQualifier() + " from ActionRegistry.");
+    logger.info("Removed " + action.getQualifier().getFullQualifier() + " from ActionRegistry.");
   }
 
   @Override
   public List<IAction> getAllRegistered() {
-    log.log(LogService.LOG_INFO, "Returning " + registry.size() + " Entries from ActionRegistry.");
+    logger.info("Returning " + registry.size() + " Entries from ActionRegistry.");
     return new ArrayList<IAction>(this.registry.values());
   }
 
   @Override
   public IAction get(IQualifier actionQualifier) {
-    log.log(LogService.LOG_INFO, "Returning " + actionQualifier.getFullQualifier() + " from ActionRegistry.");
+    logger.info("Returning " + actionQualifier.getFullQualifier() + " from ActionRegistry.");
     return registry.get(actionQualifier.getFullQualifier());
   }
 }

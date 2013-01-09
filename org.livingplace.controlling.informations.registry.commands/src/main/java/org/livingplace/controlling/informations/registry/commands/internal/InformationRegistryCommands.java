@@ -1,30 +1,29 @@
 package org.livingplace.controlling.informations.registry.commands.internal;
 
-import org.apache.felix.service.command.Descriptor;
+import  org.apache.felix.service.command.Descriptor;
+import org.apache.log4j.Logger;
 import org.livingplace.controlling.informations.api.IInformation;
 import org.livingplace.controlling.informations.api.IInformationQualifier;
 import org.livingplace.controlling.informations.api.providers.InformationQualifier;
 import org.livingplace.controlling.informations.api.providers.InformationQualifierParser;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistryFactory;
-import org.osgi.service.log.LogService;
 
 import java.util.List;
 
 public class InformationRegistryCommands {
   private IInformationRegistryFactory registry;
-  private LogService log;
-
+  private static Logger logger = Logger.getLogger(InformationRegistryCommands.class);
+  
   /**
    * Functions available to the gogo shell from this registry
    */
   public static String[] commands = {"show", "last"};
 
-  public InformationRegistryCommands(IInformationRegistryFactory registry, LogService log) {
+  public InformationRegistryCommands(IInformationRegistryFactory registry) {
     this.registry = registry;
-    this.log = log;
 
     for (String command : commands) {
-      log.log(LogService.LOG_INFO, command + "() added.");
+      logger.info(command + "() added.");
     }
   }
 
@@ -36,7 +35,7 @@ public class InformationRegistryCommands {
     IInformationQualifier qualifier = new InformationQualifier(InformationQualifierParser.parseInformationQualifier(fullQualifier));
     StringBuilder b = new StringBuilder("Last Information with qualifier: " + qualifier.getFullQualifier());
 
-    log.log(LogService.LOG_INFO, b.toString());
+    logger.info(b.toString());
     System.out.println(b.toString());
 
     throw new IllegalAccessError("Not implemented :(");
@@ -59,7 +58,7 @@ public class InformationRegistryCommands {
       b.append("No informations Registered.\n");
     }
 
-    log.log(LogService.LOG_INFO, b.toString());
+    logger.info(b.toString());
     System.out.println(b.toString());
   }
 }

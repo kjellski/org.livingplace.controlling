@@ -1,10 +1,10 @@
 package org.livingplace.controlling.informations.registry.impl.internal;
 
+import org.apache.log4j.Logger;
 import org.livingplace.controlling.api.IQualifier;
 import org.livingplace.controlling.informations.api.IInformation;
 import org.livingplace.controlling.informations.api.IInformationListener;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistry;
-import org.osgi.service.log.LogService;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,11 +17,9 @@ public class InformationRegistryImpl implements IInformationRegistry {
 
   private final Map<String, Map.Entry<IInformation, IInformationListener>> registry
           = new ConcurrentHashMap<String, Map.Entry<IInformation, IInformationListener>>();
+  private static Logger logger = Logger.getLogger(InformationRegistryImpl.class);
 
-  protected LogService log;
-
-  public InformationRegistryImpl(LogService log) {
-    this.log = log;
+  public InformationRegistryImpl() {
     listeners.add(new PrintingInformationListener());
   }
 
@@ -53,17 +51,17 @@ public class InformationRegistryImpl implements IInformationRegistry {
             new AbstractMap.SimpleEntry<IInformation, IInformationListener>(toBeRegistered, BroadcasterListener));
 
     if (old != null)
-      log.log(LogService.LOG_INFO, "Replaced " + old.getKey().getQualifier().getFullQualifier() +
+      logger.info("Replaced " + old.getKey().getQualifier().getFullQualifier() +
               " with new " + toBeRegistered.getQualifier().getFullQualifier() + " in InformationRegistry.");
 
-    log.log(LogService.LOG_INFO, "Added " + toBeRegistered.getQualifier().getFullQualifier() + " to InformationRegistry.");
+    logger.info("Added " + toBeRegistered.getQualifier().getFullQualifier() + " to InformationRegistry.");
     return BroadcasterListener;
   }
 
   @Override
   public void unregister(IInformation toBeUnregistered) {
     registry.remove(toBeUnregistered.getQualifier().getFullQualifier());
-    log.log(LogService.LOG_INFO, "Removed " + toBeUnregistered.getQualifier().getFullQualifier() + " from InformationRegistry.");
+    logger.info("Removed " + toBeUnregistered.getQualifier().getFullQualifier() + " from InformationRegistry.");
   }
 
   @Override
@@ -77,14 +75,14 @@ public class InformationRegistryImpl implements IInformationRegistry {
       res.add(informationListenerEntry.getKey());
     }
 
-    log.log(LogService.LOG_INFO, "Returning " + res.size() + " Entries from InformationRegistry.");
+    logger.info("Returning " + res.size() + " Entries from InformationRegistry.");
 
     return res;
   }
 
   @Override
   public IInformation get(IQualifier qualifier) {
-    log.log(LogService.LOG_INFO, "Returning " + qualifier.getFullQualifier() + " from InformationRegistry.");
+    logger.info("Returning " + qualifier.getFullQualifier() + " from InformationRegistry.");
     return registry.get(qualifier.getFullQualifier()).getKey();
   }
 
@@ -92,7 +90,7 @@ public class InformationRegistryImpl implements IInformationRegistry {
     @Override
     public void sensedInformation(IInformation information) {
       String out = "Sensed: " + information.toString();
-      log.log(LogService.LOG_INFO, out);
+      logger.info(out);
     }
   }
 }

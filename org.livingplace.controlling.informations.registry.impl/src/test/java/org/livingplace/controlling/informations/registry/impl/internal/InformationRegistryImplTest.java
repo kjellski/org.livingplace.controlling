@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.livingplace.controlling.informations.api.ISensor;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistry;
-import org.mockito.Mockito;
-import org.osgi.service.log.LogService;
 
 public class InformationRegistryImplTest {
   ISensor Sensor;
@@ -14,7 +12,7 @@ public class InformationRegistryImplTest {
   @Before
   public void setUp() throws Exception {
     Sensor = new TestSensor();
-    registry = new InformationRegistryImpl(Mockito.mock(LogService.class));
+    registry = new InformationRegistryImpl();
   }
 
   @Test

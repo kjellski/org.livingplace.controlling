@@ -1,12 +1,14 @@
 package org.livingplace.controlling.actions.registry.commands.internal;
 
-import org.apache.felix.scr.annotations.*;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Deactivate;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.service.command.CommandProcessor;
-import org.livingplace.controlling.actions.registry.api.IActionRegistry;
+import org.apache.log4j.Logger;
 import org.livingplace.controlling.actions.registry.api.IActionRegistryFactory;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.log.LogService;
 
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -18,12 +20,10 @@ public class ActionRegistryCommandsProvider {
 
   private Set<ServiceRegistration> regs = new HashSet<ServiceRegistration>();
   protected BundleContext context;
+  private static Logger logger = Logger.getLogger(ActionRegistryCommandsProvider.class);
 
   @Reference
   IActionRegistryFactory actionRegistryFactory;
-
-  @Reference
-  protected LogService log;
 
   @Activate
   void start(BundleContext context) {
@@ -33,9 +33,9 @@ public class ActionRegistryCommandsProvider {
     dict.put(CommandProcessor.COMMAND_SCOPE, "lp:act:reg");
     dict.put(CommandProcessor.COMMAND_FUNCTION, ActionRegistryCommands.commands);
 
-    regs.add(context.registerService(ActionRegistryCommands.class.getName(), new ActionRegistryCommands(actionRegistryFactory, log), dict));
+    regs.add(context.registerService(ActionRegistryCommands.class.getName(), new ActionRegistryCommands(actionRegistryFactory), dict));
 
-    this.log.log(LogService.LOG_INFO, "Added Commands.");
+    logger.info("Added Commands.");
   }
 
   @Deactivate
@@ -49,6 +49,6 @@ public class ActionRegistryCommandsProvider {
       iterator.remove();
     }
 
-    this.log.log(LogService.LOG_INFO, "Removed Commands.");
+    logger.info("Removed Commands.");
   }
 }

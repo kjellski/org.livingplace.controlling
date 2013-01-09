@@ -1,31 +1,30 @@
 package org.livingplace.controlling.actions.registry.commands.internal;
 
 import org.apache.felix.service.command.Descriptor;
+import org.apache.log4j.Logger;
 import org.livingplace.controlling.actions.api.IAction;
 import org.livingplace.controlling.actions.api.IActionQualifier;
 import org.livingplace.controlling.actions.api.providers.ActionQualifier;
 import org.livingplace.controlling.actions.api.providers.ActionQualifierParser;
 import org.livingplace.controlling.actions.registry.api.IActionRegistry;
 import org.livingplace.controlling.actions.registry.api.IActionRegistryFactory;
-import org.osgi.service.log.LogService;
 
 import java.util.List;
 
 public class ActionRegistryCommands {
   private IActionRegistry actionRegistry;
-  private LogService log;
-
+  private static Logger logger = Logger.getLogger(ActionRegistryCommands.class);
+  
   /**
    * Functions available to the gogo shell from this registry
    */
   public static String[] commands = {"show", "execute"};
 
-  public ActionRegistryCommands(IActionRegistryFactory actionRegistryFactory, LogService log) {
+  public ActionRegistryCommands(IActionRegistryFactory actionRegistryFactory) {
     this.actionRegistry = actionRegistryFactory.getInstance();
-    this.log = log;
 
     for (String command : commands) {
-      log.log(LogService.LOG_INFO, command + "() added.");
+      logger.info(command + "() added.");
     }
   }
 
@@ -39,7 +38,7 @@ public class ActionRegistryCommands {
 
     actionRegistry.executeAction(qualifier);
 
-    log.log(LogService.LOG_INFO, b.toString());
+    logger.info(b.toString());
     System.out.println(b.toString());
   }
 
@@ -57,7 +56,7 @@ public class ActionRegistryCommands {
       b.append("No Actions Registered.\n");
     }
 
-    log.log(LogService.LOG_INFO, b.toString());
+    logger.info(b.toString());
     System.out.println(b.toString());
   }
 }

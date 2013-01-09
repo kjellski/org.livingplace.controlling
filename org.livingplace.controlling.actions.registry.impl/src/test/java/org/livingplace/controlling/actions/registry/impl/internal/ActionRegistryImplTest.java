@@ -7,8 +7,6 @@ import org.livingplace.controlling.actions.api.IAction;
 import org.livingplace.controlling.actions.api.IActionStatus;
 import org.livingplace.controlling.actions.api.IActor;
 import org.livingplace.controlling.actions.registry.api.IActionRegistry;
-import org.mockito.Mockito;
-import org.osgi.service.log.LogService;
 
 import java.util.List;
 
@@ -19,7 +17,7 @@ public class ActionRegistryImplTest {
   @Before
   public void setUp() throws Exception {
     actor = new TestActor();
-    registry = new ActionRegistryImpl(Mockito.mock(LogService.class));
+    registry = new ActionRegistryImpl();
   }
 
   @Test

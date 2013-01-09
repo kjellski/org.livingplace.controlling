@@ -1,5 +1,7 @@
 package org.livingplace.controlling.knowledge.api.internal;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseConfiguration;
 import org.drools.KnowledgeBaseFactory;
@@ -18,9 +20,10 @@ import org.drools.runtime.KnowledgeSessionConfiguration;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.conf.ClockTypeOption;
 import org.livingplace.controlling.actions.registry.api.IActionRegistry;
-import org.osgi.service.log.LogService;
 
 public class DroolsManager extends Thread {
+
+  private static final Logger logger = Logger.getLogger(DroolsManager.class);
 
   private final String knowledgeLoggerLogFilePath = "./log/org.drools.KnowledgeRuntimeLogger.log";
   /* This one is used for the agend, should point to a folder that will be asked for changes */
@@ -34,14 +37,10 @@ public class DroolsManager extends Thread {
   private KnowledgeAgent kagent;
   private StatefulKnowledgeSession ksession;
 
-//  private WorkingMemoryEntryPoint entryPoint;
-
-  private LogService log;
   private boolean consolePrinting = true;
   private boolean newFact;
 
-  public DroolsManager(LogService log, IActionRegistry actionRegistry, ClassLoader classLoader) {
-    this.log = log;
+  public DroolsManager(IActionRegistry actionRegistry, ClassLoader classLoader) {
 
     this.kbuilder = getConfiguredKnowledgeBuilder(classLoader);
     if (this.kbuilder == null) throw new IllegalStateException("KnowledgeBuilder was null.");
@@ -59,9 +58,6 @@ public class DroolsManager extends Thread {
 
     this.ksession.setGlobal("action", actionRegistry);
 
-//    this.entryPoint = this.ksession.getWorkingMemoryEntryPoint("entryone");
-//    if (this.entryPoint == null ) throw new IllegalStateException("WorkingMemoryEntryPoint was null.");
-
     this.klogger = KnowledgeRuntimeLoggerFactory.newFileLogger(this.ksession, this.knowledgeLoggerLogFilePath);
     if (this.klogger == null) throw new IllegalStateException("KnowledgeRuntimeLogger was null.");
 
@@ -74,27 +70,27 @@ public class DroolsManager extends Thread {
 
   public void addFact(Object o) {
     this.newFact = true;
-    log(LogService.LOG_DEBUG, "Add Fact: \n\t" + o.toString());
+    logger.debug("Add Fact: \n\t" + o.toString());
     this.ksession.insert(o);
   }
 
   public void reason() {
     if (this.newFact) {
       this.newFact = false;
-      log(LogService.LOG_DEBUG, "Reasoning with " + this.ksession.getFactCount() + " Facts.");
+      logger.debug("Reasoning with " + this.ksession.getFactCount() + " Facts.");
     }
     this.ksession.fireAllRules();
   }
 
   private void shutdown() {
-    log.log(LogService.LOG_INFO, "Shutting down the " + this.getClass().getName() + " ...");
+    logger.info("Shutting down the " + this.getClass().getName() + " ...");
     ResourceFactory.getResourceChangeNotifierService().stop();
     ResourceFactory.getResourceChangeScannerService().stop();
 
     this.klogger.close();
     this.ksession.halt();
     this.ksession.dispose();
-    log.log(LogService.LOG_INFO, "... finished shutdown of " + this.getClass().getName() + ".");
+    logger.info("... finished shutdown of " + this.getClass().getName() + ".");
   }
 
   private StatefulKnowledgeSession getConfiguredKnowledgeSession(KnowledgeBase kbase) {
@@ -136,7 +132,7 @@ public class DroolsManager extends Thread {
     if (knowledgeBuilder.hasErrors()) {
       String errors = "There are errors in the rules: " + knowledgeBuilder.getErrors();
       System.out.println(errors);
-      log.log(LogService.LOG_ERROR, errors);
+      logger.error(errors);
       throw new IllegalRuleEvaluationException(errors);
     }
 
@@ -167,8 +163,8 @@ public class DroolsManager extends Thread {
     return KnowledgeAgentFactory.newKnowledgeAgent("KnowledgeBaseAgent", kbase, kagentConfiguration);
   }
 
-  private void log(int LogLevel, String msg) {
-    this.log.log(LogLevel, msg);
+  private void log(Priority prio, String msg) {
+    logger.log(prio, msg);
     if (this.consolePrinting)
       System.out.println(msg);
   }
@@ -184,8 +180,7 @@ public class DroolsManager extends Thread {
         this.reason();
       }
     } catch (InterruptedException e) {
-      log.log(LogService.LOG_INFO, "Interrupted the " + this.getClass().getName() + ", action interrupted: " + e.getMessage()
-              + ".");
+      logger.warn("Interrupted the " + this.getClass().getName() + ", action interrupted: " + e.getMessage() + ".");
     } finally {
       this.shutdown();
     }

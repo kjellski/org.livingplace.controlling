@@ -74,9 +74,8 @@
           -->
           <provision>
             <param>--platform=felix</param>
-            <!--<para-m>-log=info</param>-->
+            <param>--log=info</param>
             <param>--profiles=web</param>
-            <!--<para-m>-vmOptions="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"</param>-->
           </provision>
         </configuration>
         <executions>

@@ -2,6 +2,7 @@ package org.livingplace.controlling.knowledge.api.internal;
 
 
 import org.apache.felix.scr.annotations.*;
+import org.apache.log4j.Logger;
 import org.livingplace.controlling.actions.registry.api.IActionRegistry;
 import org.livingplace.controlling.actions.registry.api.IActionRegistryFactory;
 import org.livingplace.controlling.informations.api.IInformation;
@@ -9,7 +10,6 @@ import org.livingplace.controlling.informations.api.IInformationListener;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistry;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistryFactory;
 import org.livingplace.controlling.knowledge.api.IRuleEngine;
-import org.osgi.service.log.LogService;
 
 @Component(immediate = true)
 public class RuleEngine implements IRuleEngine {
@@ -20,27 +20,20 @@ public class RuleEngine implements IRuleEngine {
   @Reference
   IInformationRegistryFactory informationRegistryFactory;
 
-  @Reference
-  LogService log;
-
-  DroolsManager engineManager;
-
-  @Property(value = "default value given by annotation")
-  static final String CONSTANT_NAME = "property.name";
+  private DroolsManager engineManager;
+  private static final Logger logger = Logger.getLogger(RuleEngine.class);
 
   @Activate
   public void start() {
-    log.log(LogService.LOG_INFO, "\nSTARTING RULEENGINE...");
+    logger.info("STARTING RULEENGINE...");
     init();
-    log.log(LogService.LOG_INFO, "STARTED RULEENGINE.");
-    log.log(LogService.LOG_INFO, RuleEngine.class.getName() + " started.");
+    logger.info("STARTED RULEENGINE.");
   }
 
   @Deactivate
   public void stop() {
     engineManager.interrupt();
-    log.log(LogService.LOG_INFO, "STOPPED RULEENGINE!");
-    log.log(LogService.LOG_INFO, RuleEngine.class.getName() + " stopped.");
+    logger.info("STOPPED RULEENGINE!");
   }
 
   private void init() {
@@ -49,10 +42,10 @@ public class RuleEngine implements IRuleEngine {
       IInformationRegistry informationRegistry = informationRegistryFactory.getInstance();
 
       // show what's there:
-      log.log(LogService.LOG_INFO, "Registered Actions:      " + actionRegistry.getAllRegistered());
-      log.log(LogService.LOG_INFO, "Registered Informations: " + informationRegistry.getAllRegistered());
+      logger.info("Registered Actions:      " + actionRegistry.getAllRegistered());
+      logger.info("Registered Informations: " + informationRegistry.getAllRegistered());
 
-      engineManager = new DroolsManager(log, actionRegistry, new RegistryClassLoader(
+      engineManager = new DroolsManager(actionRegistry, new RegistryClassLoader(
               this.getClass().getClassLoader(),
               actionRegistry,
               informationRegistry));
@@ -61,6 +54,9 @@ public class RuleEngine implements IRuleEngine {
       IInformationListener factInsetionListener = new IInformationListener() {
         @Override
         public void sensedInformation(IInformation information) {
+          if (logger.isDebugEnabled()){
+            logger.debug(information.toString());
+          }
           engineManager.addFact(information);
         }
       };

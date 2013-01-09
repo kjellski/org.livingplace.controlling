@@ -14,8 +14,6 @@ import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
 import org.drools.conf.EventProcessingOption;
 import org.drools.io.ResourceFactory;
-import org.drools.logger.KnowledgeRuntimeLogger;
-import org.drools.logger.KnowledgeRuntimeLoggerFactory;
 import org.drools.runtime.KnowledgeSessionConfiguration;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.conf.ClockTypeOption;
@@ -25,13 +23,11 @@ public class DroolsManager extends Thread {
 
   private static final Logger logger = Logger.getLogger(DroolsManager.class);
 
-  private final String knowledgeLoggerLogFilePath = "./log/org.drools.KnowledgeRuntimeLogger.log";
   /* This one is used for the agend, should point to a folder that will be asked for changes */
   private static final String RULES_CHANGESET = "org/livingplace/controlling/knowledge/changeset.xml";
 
   private static final int EXECUTION_INTERVAL = 500;
 
-  private KnowledgeRuntimeLogger klogger;
   private KnowledgeBuilder kbuilder;
   private KnowledgeBase kbase;
   private KnowledgeAgent kagent;
@@ -57,9 +53,6 @@ public class DroolsManager extends Thread {
     if (this.ksession == null) throw new IllegalStateException("StatefulKnowledgeSession was null.");
 
     this.ksession.setGlobal("action", actionRegistry);
-
-    this.klogger = KnowledgeRuntimeLoggerFactory.newFileLogger(this.ksession, this.knowledgeLoggerLogFilePath);
-    if (this.klogger == null) throw new IllegalStateException("KnowledgeRuntimeLogger was null.");
 
     ResourceFactory.getResourceChangeNotifierService().start();
     ResourceFactory.getResourceChangeScannerService().start();
@@ -87,7 +80,6 @@ public class DroolsManager extends Thread {
     ResourceFactory.getResourceChangeNotifierService().stop();
     ResourceFactory.getResourceChangeScannerService().stop();
 
-    this.klogger.close();
     this.ksession.halt();
     this.ksession.dispose();
     logger.info("... finished shutdown of " + this.getClass().getName() + ".");

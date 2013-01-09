@@ -39,15 +39,7 @@
   <packaging>bundle</packaging>
 
   <dependencies>
-    <!--
-     | uncomment to add all imported (non-local) bundles to your compilation classpath
-    <dependency>
-      <type>pom</type>
-      <groupId>${parent.groupId}</groupId>
-      <artifactId>provision</artifactId>
-      <optional>true</optional>
-    </dependency>
-    -->
+    <!--OSGi Core Dependencies-->
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
@@ -58,36 +50,13 @@
       <artifactId>org.osgi.compendium</artifactId>
       <optional>true</optional>
     </dependency>
-    <!--Classloading Dependencies-->
-    <!--<dependency>-->
-    <!--<groupId>commons-lang</groupId>-->
-    <!--<artifactId>commons-lang</artifactId>-->
-    <!--<version>2.6</version>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.clapper</groupId>-->
-    <!--<artifactId>javautil</artifactId>-->
-    <!--<version>3.1.1</version>-->
-    <!--</dependency>-->
-    <!--Apache VFS-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.commons</groupId>-->
-    <!--<artifactId>commons-vfs2</artifactId>-->
-    <!--<version>2.0</version>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.slf4j</groupId>-->
-    <!--<artifactId>slf4j-log4j12</artifactId>-->
-    <!--<version>1.6.4</version>-->
-    <!--</dependency>-->
-
     <!--Logging Dependencies-->
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.16</version>
     </dependency>
-    <!--LP Controlling Dependencies-->
+    <!-- Controlling Dependencies -->
     <dependency>
       <groupId>org.livingplace.bundles.controlling</groupId>
       <artifactId>org.livingplace.controlling.api</artifactId>

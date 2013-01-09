@@ -1,6 +1,7 @@
 package org.livingplace.controlling.informations.sensors.time;
 
 import org.apache.felix.scr.annotations.*;
+import org.apache.log4j.Logger;
 import org.livingplace.controlling.informations.api.IInformation;
 import org.livingplace.controlling.informations.api.IInformationListener;
 import org.livingplace.controlling.informations.api.ISensor;
@@ -8,7 +9,6 @@ import org.livingplace.controlling.informations.api.providers.AbstractSensor;
 import org.livingplace.controlling.informations.api.providers.SensorQualifier;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistryFactory;
 import org.livingplace.controlling.informations.sensors.time.internal.UTCTimeInformation;
-import org.osgi.service.log.LogService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +21,7 @@ public class TimeSensor extends AbstractSensor implements ISensor
 {
   List<IInformationListener> listeners = new ArrayList<IInformationListener>();
   Timer timer = new Timer();
-
-  @Reference
-  protected LogService log;
+  private static Logger logger = Logger.getLogger(TimeSensor.class);
 
   @Reference
   protected IInformationRegistryFactory informationRegistryFactory;
@@ -34,7 +32,7 @@ public class TimeSensor extends AbstractSensor implements ISensor
 
   @Activate
   void start(){
-    log.log(LogService.LOG_INFO, "Timer started");
+    logger.info("Timer started");
 
     informations.add(new UTCTimeInformation(this));
 
@@ -62,13 +60,11 @@ public class TimeSensor extends AbstractSensor implements ISensor
 
   @Deactivate
   void stop(){
-    timer.cancel();
-
-    log.log(LogService.LOG_INFO, "Timer stopped");
-
     for (IInformation information : informations) {
       informationRegistryFactory.getInstance().unregister(information);
     }
+    timer.cancel();
+    logger.info("Timer stopped");
   }
 }
 

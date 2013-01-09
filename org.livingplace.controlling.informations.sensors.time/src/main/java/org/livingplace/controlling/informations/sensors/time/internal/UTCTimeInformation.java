@@ -9,7 +9,6 @@ import org.livingplace.controlling.informations.api.providers.InformationQualifi
 public class UTCTimeInformation extends AbstractInformation implements IInformation {
   public UTCTimeInformation(ISensor source) {
     super(source, new InformationQualifier("time", "UTCTime", "1.0"));
-
     this.setInformation(this.getQualifier() + " - UTCTime: " + DateTime.now());
   }
 }

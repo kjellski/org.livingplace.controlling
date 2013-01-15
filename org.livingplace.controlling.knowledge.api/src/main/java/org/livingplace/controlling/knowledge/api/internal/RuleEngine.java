@@ -1,7 +1,10 @@
 package org.livingplace.controlling.knowledge.api.internal;
 
 
-import org.apache.felix.scr.annotations.*;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Deactivate;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.log4j.Logger;
 import org.livingplace.controlling.actions.registry.api.IActionRegistry;
 import org.livingplace.controlling.actions.registry.api.IActionRegistryFactory;
@@ -52,12 +55,19 @@ public class RuleEngine implements IRuleEngine {
 
       // bind information listener!
       IInformationListener factInsetionListener = new IInformationListener() {
+
         @Override
         public void sensedInformation(IInformation information) {
-          if (logger.isDebugEnabled()){
+
+          if (logger.isDebugEnabled()) {
             logger.debug(information.toString());
           }
-          engineManager.addFact(information);
+          try {
+            engineManager.addFact(information);
+          } catch (Exception e) {
+            logger.error("An Information was sensed and an exception occured while "
+                    + "inserting it into the KnowledgeBase.", e);
+          }
         }
       };
 

@@ -45,7 +45,7 @@ public class InformationRegistryImpl implements IInformationRegistry {
   }
 
   @Override
-  public IInformationListener register(IInformation toBeRegistered) {
+  public IInformationListener registerOnListener(IInformation toBeRegistered) {
 
     Map.Entry<IInformation, IInformationListener> old = registry.put(toBeRegistered.getQualifier().getFullQualifier(),
             new AbstractMap.SimpleEntry<IInformation, IInformationListener>(toBeRegistered, BroadcasterListener));
@@ -56,6 +56,24 @@ public class InformationRegistryImpl implements IInformationRegistry {
 
     logger.info("Added " + toBeRegistered.getQualifier().getFullQualifier() + " to InformationRegistry.");
     return BroadcasterListener;
+  }
+
+  /**
+   * Registers an Information type to be known by the Knowledgebase.
+   * WARNING: When this method is used, you can't create this Information outside the KnowledgeBase since you don't
+   * get a Listener to be notified by the sensor. This is normally not what you want; use registerOnListener instead.
+   * @param toBeRegistered
+   */
+  @Override
+  public void register(IInformation toBeRegistered) {
+    Map.Entry<IInformation, IInformationListener> old = registry.put(toBeRegistered.getQualifier().getFullQualifier(),
+            new AbstractMap.SimpleEntry<IInformation, IInformationListener>(toBeRegistered, BroadcasterListener));
+
+    if (old != null)
+      logger.info("Replaced " + old.getKey().getQualifier().getFullQualifier() +
+              " with new " + toBeRegistered.getQualifier().getFullQualifier() + " in InformationRegistry.");
+
+    logger.info("Added " + toBeRegistered.getQualifier().getFullQualifier() + " to InformationRegistry.");
   }
 
   @Override

@@ -1,7 +1,6 @@
 package org.livingplace.controlling.knowledge.api.internal;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseConfiguration;
 import org.drools.KnowledgeBaseFactory;
@@ -38,27 +37,34 @@ public class DroolsManager extends Thread {
 
   public DroolsManager(IActionRegistry actionRegistry, ClassLoader classLoader) {
 
-    this.kbuilder = getConfiguredKnowledgeBuilder(classLoader);
-    if (this.kbuilder == null) throw new IllegalStateException("KnowledgeBuilder was null.");
+    try {
+      this.kbuilder = getConfiguredKnowledgeBuilder(classLoader);
+      if (this.kbuilder == null) throw new IllegalStateException("KnowledgeBuilder was null.");
 
-    this.kagent = getConfiguredKnowledgeAgent(this.kbuilder, classLoader);
-    this.kagent.applyChangeSet(ResourceFactory.newClassPathResource(RULES_CHANGESET, getClass()));
-    if (this.kagent == null) throw new IllegalStateException("KnowledgeAgent was null.");
+      this.kagent = getConfiguredKnowledgeAgent(this.kbuilder, classLoader);
+      this.kagent.applyChangeSet(ResourceFactory.newClassPathResource(RULES_CHANGESET, getClass()));
+      if (this.kagent == null) throw new IllegalStateException("KnowledgeAgent was null.");
 
-    this.kbase = this.kagent.getKnowledgeBase();
-    this.kbase.addKnowledgePackages(this.kbuilder.getKnowledgePackages());
-    if (this.kbase == null) throw new IllegalStateException("KnowledgeBase was null.");
+      this.kbase = this.kagent.getKnowledgeBase();
+      this.kbase.addKnowledgePackages(this.kbuilder.getKnowledgePackages());
+      if (this.kbase == null) throw new IllegalStateException("KnowledgeBase was null.");
 
-    this.ksession = getConfiguredKnowledgeSession(this.kbase);
-    if (this.ksession == null) throw new IllegalStateException("StatefulKnowledgeSession was null.");
+      this.ksession = getConfiguredKnowledgeSession(this.kbase);
+      if (this.ksession == null) throw new IllegalStateException("StatefulKnowledgeSession was null.");
 
-    this.ksession.setGlobal("action", actionRegistry);
+      this.ksession.setGlobal("action", actionRegistry);
 
-    ResourceFactory.getResourceChangeNotifierService().start();
-    ResourceFactory.getResourceChangeScannerService().start();
+      ResourceFactory.getResourceChangeNotifierService().start();
+      ResourceFactory.getResourceChangeScannerService().start();
 
-    this.setDaemon(true);
-    this.start();
+      this.setDaemon(true);
+      this.start();
+    } catch (Exception e) {
+      logger.error("While initializing the DroolsManager for the CEP Engine, an error occured.", e);
+      e.printStackTrace();
+    } finally {
+      shutdown();
+    }
   }
 
   public void addFact(Object o) {
@@ -153,12 +159,6 @@ public class DroolsManager extends Thread {
     KnowledgeAgentConfiguration kagentConfiguration = getKnowledgeAgentConfiguration();
 
     return KnowledgeAgentFactory.newKnowledgeAgent("KnowledgeBaseAgent", kbase, kagentConfiguration);
-  }
-
-  private void log(Priority prio, String msg) {
-    logger.log(prio, msg);
-    if (this.consolePrinting)
-      System.out.println(msg);
   }
 
   /**

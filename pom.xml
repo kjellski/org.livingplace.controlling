@@ -102,4 +102,16 @@
     </plugins>
   </build>
 
+  <distributionManagement>
+    <repository>
+      <id>devsupport.informatik.haw-hamburg.de-RELEASE</id>
+      <name>LivingPlace Nexus Release Repo</name>
+      <url>http://devsupport.informatik.haw-hamburg.de/nexus/content/repositories/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>devsupport.informatik.haw-hamburg.de-SNAPSHOT</id>
+      <name>LivingPlace Nexus Snapshots Repo</name>
+      <url>http://devsupport.informatik.haw-hamburg.de/nexus/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>

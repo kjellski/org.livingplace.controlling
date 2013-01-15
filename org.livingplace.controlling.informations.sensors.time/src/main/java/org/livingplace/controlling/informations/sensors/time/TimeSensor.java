@@ -37,7 +37,7 @@ public class TimeSensor extends AbstractSensor implements ISensor
     informations.add(new UTCTimeInformation(this));
 
     for (IInformation information : informations) {
-      listeners.add(informationRegistryFactory.getInstance().register(information));
+      listeners.add(informationRegistryFactory.getInstance().registerOnListener(information));
     }
 
     timer.schedule(new UTCTimeSensingTask(this), 1000, 10000);

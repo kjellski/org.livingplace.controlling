@@ -43,6 +43,8 @@ public class InformationRegistryCommandsProvider {
 
   @Deactivate
   void stop() {
+    InformationRegistryCommands.unregisterAllListeners();
+
     // from apache gogo shell sources
     Iterator<ServiceRegistration> iterator = regs.iterator();
     while (iterator.hasNext()) {

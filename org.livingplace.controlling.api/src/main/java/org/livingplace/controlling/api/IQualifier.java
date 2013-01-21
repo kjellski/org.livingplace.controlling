@@ -38,7 +38,7 @@ public interface IQualifier {
   String getPrefix();
 
   /**
-   * @see IQualifier.getFullQualifier()
+   * @see @link{IQualifier.getFullQualifier()}
    * @return getFullQualifier()
    */
   @Override

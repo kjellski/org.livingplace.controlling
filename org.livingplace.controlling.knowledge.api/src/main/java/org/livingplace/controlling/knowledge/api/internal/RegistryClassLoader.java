@@ -31,8 +31,7 @@ public class RegistryClassLoader extends ClassLoader {
 
     // this class should not be loaded from registries.
     if (!name.contains("org.livingplace.controlling")) {
-      debuggingClassloadingPrintouts("Searching " + name + "in parent. If your class name doesn't resolve in " +
-              "the package name of \"org.livingplave.controlling.*\" it will never be found.");
+      debuggingClassloadingPrintouts("Searching \"" + name + "\" in parent.");
       return super.loadClass(name);
     }
 
@@ -56,6 +55,8 @@ public class RegistryClassLoader extends ClassLoader {
         }
       }
     }
+
+    logger.error("Class " + name + " couldn't be found in registries.");
 
     throw new ClassNotFoundException("Class " + name + " couldn't be found in registries.");
   }

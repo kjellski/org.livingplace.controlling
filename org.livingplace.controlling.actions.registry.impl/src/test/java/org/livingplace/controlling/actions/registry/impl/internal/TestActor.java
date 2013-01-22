@@ -1,13 +1,13 @@
 package org.livingplace.controlling.actions.registry.impl.internal;
 
-import org.livingplace.controlling.actions.api.providers.AbstractActor;
+import org.livingplace.controlling.actions.api.providers.Actor;
 import org.livingplace.controlling.actions.api.providers.ActorQualifier;
 
 /**
  * This class is just for testing purposes and is unusable in production. It just shows how to implement
  * the concrete type.
  */
-public class TestActor extends AbstractActor {
+public class TestActor extends Actor {
 
   public static final int ACTION_COUNT = 3;
 

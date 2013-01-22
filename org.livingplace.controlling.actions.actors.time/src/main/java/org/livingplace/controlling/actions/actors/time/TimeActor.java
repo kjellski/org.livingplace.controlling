@@ -5,13 +5,13 @@ import org.apache.log4j.Logger;
 import org.livingplace.controlling.actions.actors.time.internal.BroadcastTimeOnAMQ;
 import org.livingplace.controlling.actions.api.IAction;
 import org.livingplace.controlling.actions.api.IActor;
-import org.livingplace.controlling.actions.api.providers.AbstractActor;
+import org.livingplace.controlling.actions.api.providers.Actor;
 import org.livingplace.controlling.actions.api.providers.ActorQualifier;
 import org.livingplace.controlling.actions.registry.api.IActionRegistryFactory;
 
 @Component(immediate = true)
 @Service
-public class TimeActor extends AbstractActor implements IActor {
+public class TimeActor extends Actor implements IActor {
 
   private static Logger logger = Logger.getLogger(TimeActor.class);
 

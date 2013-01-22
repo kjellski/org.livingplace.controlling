@@ -7,11 +7,11 @@ import org.livingplace.controlling.informations.api.ISensorQualifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AbstractSensor implements ISensor {
+public class Sensor implements ISensor {
   protected ISensorQualifier qualifier;
   protected List<IInformation> informations = new ArrayList<IInformation>();
 
-  protected AbstractSensor(ISensorQualifier qualifier) {
+  protected Sensor(ISensorQualifier qualifier) {
     this.qualifier = qualifier;
   }
 
@@ -19,8 +19,8 @@ public class AbstractSensor implements ISensor {
      * this one should never ever be used.
      */
   @SuppressWarnings("unused")
-  private AbstractSensor() {
-    throw new IllegalAccessError("A childclass of the " + AbstractSensor.class.getName()
+  private Sensor() {
+    throw new IllegalAccessError("A childclass of the " + Sensor.class.getName()
             + " was enforced to be instantiated in the wrong way.");
   }
 

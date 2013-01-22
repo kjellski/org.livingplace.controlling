@@ -4,7 +4,7 @@ package org.livingplace.controlling.informations.api.providers;
  * This class is just for testing purposes and is unusable in production. It just shows how to implement
  * the concrete type.
  */
-public class TestSensor extends AbstractSensor {
+public class TestSensor extends Sensor {
 
   public static final int INFORMATION_COUNT = 3;
 

@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import org.livingplace.controlling.informations.api.IInformation;
 import org.livingplace.controlling.informations.api.IInformationListener;
 import org.livingplace.controlling.informations.api.ISensor;
-import org.livingplace.controlling.informations.api.providers.AbstractSensor;
+import org.livingplace.controlling.informations.api.providers.Sensor;
 import org.livingplace.controlling.informations.api.providers.SensorQualifier;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistryFactory;
 import org.livingplace.controlling.informations.sensors.time.internal.UTCTimeInformation;
@@ -17,7 +17,7 @@ import java.util.TimerTask;
 
 @Component(immediate = true)
 @Service
-public class TimeSensor extends AbstractSensor implements ISensor
+public class TimeSensor extends Sensor implements ISensor
 {
   List<IInformationListener> listeners = new ArrayList<IInformationListener>();
   Timer timer = new Timer();

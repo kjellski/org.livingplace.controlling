@@ -52,13 +52,14 @@ public class DroolsManager extends Thread {
       this.ksession = getConfiguredKnowledgeSession(this.kbase);
       if (this.ksession == null) throw new IllegalStateException("StatefulKnowledgeSession was null.");
 
-      this.ksession.setGlobal("action", actionRegistry);
+      this.ksession.setGlobal("Actions", actionRegistry);
 
       ResourceFactory.getResourceChangeNotifierService().start();
       ResourceFactory.getResourceChangeScannerService().start();
 
       this.setDaemon(true);
       this.start();
+      logger.info("RuleEngine Deamon Thread started.");
     } catch (Exception e) {
       logger.error("While initializing the DroolsManager for the CEP Engine, an error occured.", e);
       e.printStackTrace();
@@ -144,7 +145,6 @@ public class DroolsManager extends Thread {
     agentConfiguration.setProperty("drools.agent.newInstance", "false");
     agentConfiguration.setProperty("drools.agent.scanDirectories", "true");
     agentConfiguration.setProperty("drools.agent.scanResources", "true");
-    agentConfiguration.setProperty("drools.agent.newInstance", "false");
     agentConfiguration.setProperty("drools.agent.useKBaseClassLoaderForCompiling", "true");
 
     return agentConfiguration;
@@ -172,7 +172,9 @@ public class DroolsManager extends Thread {
         this.reason();
       }
     } catch (InterruptedException e) {
-      logger.warn("Interrupted the " + this.getClass().getName() + ", action interrupted: " + e.getMessage() + ".");
+      logger.warn("Interrupted the CEP Machine, action interrupted: " + e.getMessage() + ".");
+    } catch (Exception e) {
+      logger.error("An error occured in the reasoning cycle of the CEP Machine, printing Exception: " + e.toString(), e);
     } finally {
       this.shutdown();
     }

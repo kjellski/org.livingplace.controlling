@@ -1,6 +1,6 @@
 package org.livingplace.controlling.informations.registry.impl.internal;
 
-import org.livingplace.controlling.informations.api.providers.AbstractSensor;
+import org.livingplace.controlling.informations.api.providers.Sensor;
 import org.livingplace.controlling.informations.api.providers.InformationQualifier;
 import org.livingplace.controlling.informations.api.providers.SensorQualifier;
 
@@ -8,7 +8,7 @@ import org.livingplace.controlling.informations.api.providers.SensorQualifier;
  * This class is just for testing purposes and is unusable in production. It just shows how to implement
  * the concrete type.
  */
-public class TestSensor extends AbstractSensor {
+public class TestSensor extends Sensor {
 
   public static String NAMESPACE = "TestNamespace";
   public static String NAME = "TestName";

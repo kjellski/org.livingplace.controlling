@@ -7,11 +7,11 @@ import org.livingplace.controlling.actions.api.IActorQualifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AbstractActor implements IActor {
+public class Actor implements IActor {
   protected final IActorQualifier qualifier;
   protected List<IAction> actions = new ArrayList<IAction>();
 
-  protected AbstractActor(IActorQualifier qualifier) {
+  protected Actor(IActorQualifier qualifier) {
     this.qualifier = qualifier;
   }
 
@@ -19,8 +19,8 @@ public class AbstractActor implements IActor {
      * this one should never ever be used.
      */
   @SuppressWarnings("unused")
-  private AbstractActor() {
-    throw new IllegalAccessError("A childclass of the " + AbstractActor.class.getName()
+  private Actor() {
+    throw new IllegalAccessError("A childclass of the " + Actor.class.getName()
             + " was enforced to be instantiated in the wrong way.");
   }
 

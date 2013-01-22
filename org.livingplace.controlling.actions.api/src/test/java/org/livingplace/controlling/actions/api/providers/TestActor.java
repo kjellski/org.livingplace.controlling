@@ -4,7 +4,7 @@ package org.livingplace.controlling.actions.api.providers;
  * This class is just for testing purposes and is unusable in production. It just shows how to implement
  * the concrete type.
  */
-public class TestActor extends AbstractActor {
+public class TestActor extends Actor {
 
   public static final int ACTION_COUNT = 3;
 

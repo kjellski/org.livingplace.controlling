@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.livingplace.controlling.informations.api.ISensor;
 import org.livingplace.controlling.informations.api.ISensorQualifier;
 
-public class AbstractSensorTest {
+public class SensorTest {
   ISensor sensor;
 
   @Before

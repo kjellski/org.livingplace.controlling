@@ -2,7 +2,7 @@ import org.livingplace.controlling.informations.sensors.time.internal.UTCTimeInf
 import org.livingplace.controlling.actions.actors.time.internal.BroadcastTimeOnAMQ;
 import org.livingplace.controlling.actions.api.IAction;
 
-global org.livingplace.controlling.actions.registry.api.IActionRegistry action;
+global org.livingplace.controlling.actions.registry.api.IActionRegistry Actions;
 
 declare UTCTimeInformation
     @role ( event )
@@ -14,5 +14,5 @@ rule "Timing rule"
     when
         t : UTCTimeInformation()
     then
-        action.executeAction(new BroadcastTimeOnAMQ());
+        Actions.executeAction(new BroadcastTimeOnAMQ());
 end

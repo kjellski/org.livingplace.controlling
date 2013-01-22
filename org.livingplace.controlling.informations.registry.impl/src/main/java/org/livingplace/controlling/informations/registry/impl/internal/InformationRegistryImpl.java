@@ -93,14 +93,14 @@ public class InformationRegistryImpl implements IInformationRegistry {
       res.add(informationListenerEntry.getKey());
     }
 
-    logger.info("Returning " + res.size() + " Entries from InformationRegistry.");
+    logger.debug("Returning " + res.size() + " Entries from InformationRegistry.");
 
     return res;
   }
 
   @Override
   public IInformation get(IQualifier qualifier) {
-    logger.info("Returning " + qualifier.getFullQualifier() + " from InformationRegistry.");
+    logger.debug("Returning " + qualifier.getFullQualifier() + " from InformationRegistry.");
     return registry.get(qualifier.getFullQualifier()).getKey();
   }
 
@@ -108,7 +108,7 @@ public class InformationRegistryImpl implements IInformationRegistry {
     @Override
     public void sensedInformation(IInformation information) {
       String out = "Sensed: " + information.toString();
-      logger.info(out);
+      logger.debug(out);
     }
   }
 }

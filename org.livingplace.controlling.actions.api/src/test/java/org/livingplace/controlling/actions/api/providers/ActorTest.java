@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.livingplace.controlling.actions.api.IActor;
 import org.livingplace.controlling.actions.api.IActorQualifier;
 
-public class AbstractActorTest {
+public class ActorTest {
   IActor actor;
 
   @Before

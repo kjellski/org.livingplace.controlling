@@ -55,9 +55,6 @@ public class RegistryClassLoader extends ClassLoader {
         }
       }
     }
-
-    logger.error("Class " + name + " couldn't be found in registries.");
-
     throw new ClassNotFoundException("Class " + name + " couldn't be found in registries.");
   }
 

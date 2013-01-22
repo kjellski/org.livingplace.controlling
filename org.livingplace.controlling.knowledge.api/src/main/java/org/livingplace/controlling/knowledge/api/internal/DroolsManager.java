@@ -32,8 +32,8 @@ public class DroolsManager extends Thread {
   private KnowledgeAgent kagent;
   private StatefulKnowledgeSession ksession;
 
-  private boolean consolePrinting = true;
-  private boolean newFact;
+  private boolean newFact = false;
+  private boolean shutdown = false;
 
   public DroolsManager(IActionRegistry actionRegistry, ClassLoader classLoader) {
 
@@ -57,15 +57,14 @@ public class DroolsManager extends Thread {
       ResourceFactory.getResourceChangeNotifierService().start();
       ResourceFactory.getResourceChangeScannerService().start();
 
-      this.setDaemon(true);
-      this.start();
-      logger.info("RuleEngine Deamon Thread started.");
     } catch (Exception e) {
       logger.error("While initializing the DroolsManager for the CEP Engine, an error occured.", e);
       e.printStackTrace();
-    } finally {
-      shutdown();
     }
+
+    this.setDaemon(true);
+    this.start();
+    logger.info("RuleEngine Deamon Thread started.");
   }
 
   public void addFact(Object o) {
@@ -83,13 +82,16 @@ public class DroolsManager extends Thread {
   }
 
   private void shutdown() {
-    logger.info("Shutting down the " + this.getClass().getName() + " ...");
-    ResourceFactory.getResourceChangeNotifierService().stop();
-    ResourceFactory.getResourceChangeScannerService().stop();
+    if (!this.shutdown){
+      this.shutdown = true;
+      logger.info("Shutting down the " + this.getClass().getName() + " ...");
+      ResourceFactory.getResourceChangeNotifierService().stop();
+      ResourceFactory.getResourceChangeScannerService().stop();
 
-    this.ksession.halt();
-    this.ksession.dispose();
-    logger.info("... finished shutdown of " + this.getClass().getName() + ".");
+      this.ksession.halt();
+      this.ksession.dispose();
+      logger.info("... finished shutdown of " + this.getClass().getName() + ".");
+    }
   }
 
   private StatefulKnowledgeSession getConfiguredKnowledgeSession(KnowledgeBase kbase) {

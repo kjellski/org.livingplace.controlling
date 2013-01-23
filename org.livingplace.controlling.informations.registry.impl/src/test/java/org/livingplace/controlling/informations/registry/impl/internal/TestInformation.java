@@ -3,13 +3,13 @@ package org.livingplace.controlling.informations.registry.impl.internal;
 import org.livingplace.controlling.informations.api.IInformation;
 import org.livingplace.controlling.informations.api.IInformationQualifier;
 import org.livingplace.controlling.informations.api.ISensor;
-import org.livingplace.controlling.informations.api.providers.AbstractInformation;
+import org.livingplace.controlling.informations.api.providers.Information;
 
 /**
  * This class is just for testing purposes and is unusable in production. It just shows how to implement
  * the concrete type.
  */
-public class TestInformation extends AbstractInformation implements IInformation {
+public class TestInformation extends Information implements IInformation {
   /**
    * Constructs a prototypical Event.
    *

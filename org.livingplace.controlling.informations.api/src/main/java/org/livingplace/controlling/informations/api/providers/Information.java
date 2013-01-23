@@ -6,7 +6,7 @@ import org.livingplace.controlling.informations.api.ISensor;
 
 import java.util.EventObject;
 
-public abstract class AbstractInformation extends EventObject implements IInformation {
+public class Information extends EventObject implements IInformation {
 
   protected final IInformationQualifier qualifier;
   protected Object information;
@@ -17,7 +17,7 @@ public abstract class AbstractInformation extends EventObject implements IInform
    * @param source The object on which the Event initially occurred.
    * @throws IllegalArgumentException if source is null.
    */
-  protected AbstractInformation(ISensor source, IInformationQualifier qualifier) {
+  protected Information(ISensor source, IInformationQualifier qualifier) {
     super(source);
     this.qualifier = qualifier;
   }
@@ -35,7 +35,7 @@ public abstract class AbstractInformation extends EventObject implements IInform
   }
 
   @Override
-  public String toString(){
+  public String toString() {
     StringBuilder b = new StringBuilder();
     b.append(qualifier.getFullQualifier() + ":" + this.information.toString());
     return b.toString();

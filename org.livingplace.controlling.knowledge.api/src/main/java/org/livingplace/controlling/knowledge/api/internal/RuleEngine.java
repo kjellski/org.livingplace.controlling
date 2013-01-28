@@ -8,8 +8,6 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.log4j.Logger;
 import org.livingplace.controlling.actions.registry.api.IActionRegistry;
 import org.livingplace.controlling.actions.registry.api.IActionRegistryFactory;
-import org.livingplace.controlling.informations.api.IInformation;
-import org.livingplace.controlling.informations.api.IInformationListener;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistry;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistryFactory;
 import org.livingplace.controlling.knowledge.api.IRuleEngine;
@@ -23,8 +21,9 @@ public class RuleEngine implements IRuleEngine {
   @Reference
   IInformationRegistryFactory informationRegistryFactory;
 
-  private DroolsManager engineManager;
   private static final Logger logger = Logger.getLogger(RuleEngine.class);
+  private DroolsManager engineManager;
+  private FactInsertionListener factInsetionListener;
 
   @Activate
   public void start() {
@@ -35,6 +34,7 @@ public class RuleEngine implements IRuleEngine {
 
   @Deactivate
   public void stop() {
+    informationRegistryFactory.getInstance().removeAllInformationsListener(factInsetionListener);
     engineManager.interrupt();
     logger.info("STOPPED RULEENGINE!");
   }
@@ -52,24 +52,7 @@ public class RuleEngine implements IRuleEngine {
               this.getClass().getClassLoader(),
               actionRegistry,
               informationRegistry));
-
-      // bind information listener!
-      IInformationListener factInsetionListener = new IInformationListener() {
-
-        @Override
-        public void sensedInformation(IInformation information) {
-
-          if (logger.isDebugEnabled()) {
-            logger.debug(information.toString());
-          }
-          try {
-            engineManager.addFact(information);
-          } catch (Exception e) {
-            logger.error("An Information was sensed and an exception occured while "
-                    + "inserting it into the KnowledgeBase.", e);
-          }
-        }
-      };
+      factInsetionListener = new FactInsertionListener(engineManager);
 
       informationRegistry.addAllInformationsListener(factInsetionListener);
     } catch (Exception e) {

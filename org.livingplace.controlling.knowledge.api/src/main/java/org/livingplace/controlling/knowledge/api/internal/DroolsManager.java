@@ -18,6 +18,8 @@ import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.conf.ClockTypeOption;
 import org.livingplace.controlling.actions.registry.api.IActionRegistry;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class DroolsManager extends Thread {
 
   private static final Logger logger = Logger.getLogger(DroolsManager.class);
@@ -33,7 +35,7 @@ public class DroolsManager extends Thread {
   private StatefulKnowledgeSession ksession;
 
   private boolean newFact = false;
-  private boolean shutdown = false;
+  public AtomicBoolean shutdown = new AtomicBoolean(false);
 
   public DroolsManager(IActionRegistry actionRegistry, ClassLoader classLoader) {
 
@@ -68,22 +70,40 @@ public class DroolsManager extends Thread {
   }
 
   public void addFact(Object o) {
-    this.newFact = true;
-    logger.debug("Add Fact: \n\t" + o.toString());
-    this.ksession.insert(o);
+    if (!this.shutdown.get()) {
+      this.newFact = true;
+      logger.debug("Add Fact: \n\t" + o.toString());
+      this.ksession.insert(o);
+    } else {
+      logger.error("The KnowledgeBase was shut down, using it after that is illegal.");
+    }
   }
 
   public void reason() {
-    if (this.newFact) {
-      this.newFact = false;
-      logger.debug("Reasoning with " + this.ksession.getFactCount() + " Facts.");
+    if (!this.shutdown.get()) {
+      if (this.newFact) {
+        this.newFact = false;
+        logger.debug("Reasoning with " + this.ksession.getFactCount() + " Facts.");
+      }
+      this.ksession.fireAllRules();
+    } else {
+      logger.error("The KnowledgeBase was shut down, using it after that is illegal.");
     }
-    this.ksession.fireAllRules();
   }
 
   private void shutdown() {
-    if (!this.shutdown){
-      this.shutdown = true;
+    /**
+     * From the JavaSE docs:
+     *
+     * public final boolean compareAndSet(boolean expect, boolean update)
+     * Atomically set the value to the given updated value if the current value == the expected value.
+     * Parameters:
+     *     expect - the expected value
+     *     update - the new value
+     * Returns:
+     *     true if successful. False return indicates that the actual value was not equal to the expected value.
+     */
+    if (!this.shutdown.compareAndSet(false, true)) {
       logger.info("Shutting down the " + this.getClass().getName() + " ...");
       ResourceFactory.getResourceChangeNotifierService().stop();
       ResourceFactory.getResourceChangeScannerService().stop();

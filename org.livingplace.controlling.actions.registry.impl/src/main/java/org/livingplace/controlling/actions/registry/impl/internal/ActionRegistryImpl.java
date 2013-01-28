@@ -29,7 +29,7 @@ public class ActionRegistryImpl implements IActionRegistry {
 
   @Override
   public void executeAction(IActionQualifier qualifier, IActionProperties properties) {
-    IAction action = (IAction) get((IQualifier) qualifier);
+    IAction action = get(qualifier);
     if (action != null) {
       action.setActionProperties(properties);
       logger.info(buildPrintoutFor(qualifier, properties, null));
@@ -46,8 +46,12 @@ public class ActionRegistryImpl implements IActionRegistry {
 
   @Override
   public void executeAction(IAction action) {
-    logger.info(buildPrintoutFor(action.getQualifier(), action.getActionProperties(), null));
-    executor.execute(action);
+    if (this.registry.containsKey(action.getQualifier().getFullQualifier())) {
+      logger.info(buildPrintoutFor(action.getQualifier(), action.getActionProperties(), null));
+      executor.execute(action);
+    } else {
+      logger.info("Not executing action that was not in the registry. Have you stopped the Actor?");
+    }
   }
 
   private String buildPrintoutFor(IActionQualifier actionQualifier, IActionProperties actionProperties, IActor actorToExecuteAction) {
@@ -87,8 +91,9 @@ public class ActionRegistryImpl implements IActionRegistry {
 
   @Override
   public void unregister(IAction action) {
-    this.registry.remove(action.getQualifier().getFullQualifier());
-    logger.info("Removed " + action.getQualifier().getFullQualifier() + " from ActionRegistry.");
+    logger.info("Removing " + this.registry.remove(action.getQualifier().getFullQualifier())
+            .getQualifier().getFullQualifier() + " ...");
+    logger.info("Removed  " + action.getQualifier().getFullQualifier() + " from ActionRegistry.");
   }
 
   @Override

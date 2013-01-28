@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Sensor implements ISensor {
-  protected ISensorQualifier qualifier;
+  protected final ISensorQualifier qualifier;
   protected List<IInformation> informations = new ArrayList<IInformation>();
 
   protected Sensor(ISensorQualifier qualifier) {

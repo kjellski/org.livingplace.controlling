@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Actor implements IActor {
   protected final IActorQualifier qualifier;
-  protected List<IAction> actions = new ArrayList<IAction>();
+  protected final List<IAction> actions = new ArrayList<IAction>();
 
   protected Actor(IActorQualifier qualifier) {
     this.qualifier = qualifier;

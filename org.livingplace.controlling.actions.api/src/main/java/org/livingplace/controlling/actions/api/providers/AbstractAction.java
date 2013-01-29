@@ -1,6 +1,5 @@
 package org.livingplace.controlling.actions.api.providers;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.livingplace.controlling.actions.api.*;
 
@@ -21,16 +20,13 @@ public abstract class AbstractAction implements IAction {
     this.qualifier = actionQualifier;
     this.status = new SimpleActionStatus();
 
-
-    if (logger.getLevel() == Level.DEBUG) {
-      // adding a state change listener while debugging
-      this.status.addActionStateChangedListener(new IActionStateChangedListener() {
-        @Override
-        public void actionStateChanged(IActionStatus.EActionState state) {
-          logger.debug(qualifier.getFullQualifier() + " State changed to: " + state);
-        }
-      });
-    }
+    // adding a state change listener while debugging
+    this.status.addActionStateChangedListener(new IActionStateChangedListener() {
+      @Override
+      public void actionStateChanged(IActionStatus.EActionState state) {
+        logger.debug(qualifier.getFullQualifier() + " State changed to: " + state);
+      }
+    });
   }
 
   /*

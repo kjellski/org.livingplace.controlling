@@ -24,12 +24,17 @@ public class TimeActor extends Actor implements IActor {
 
   @Activate
   void start(){
-    logger.info("TimerActor started.");
+    logger.info("Starting TimerActor ...");
+
     actions.add(new BroadcastTimeOnAMQ());
 
+    logger.info("TimerActor started with " + actions.size() + " actions: ");
     for (IAction action : actions) {
+      logger.info("Registering " + action);
       actionRegistryFactory.getInstance().register(action);
     }
+
+    logger.info("TimerActor started: " + this.toString());
   }
 
   @Deactivate

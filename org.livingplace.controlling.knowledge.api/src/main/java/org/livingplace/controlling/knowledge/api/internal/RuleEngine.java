@@ -52,11 +52,14 @@ public class RuleEngine implements IRuleEngine {
               this.getClass().getClassLoader(),
               actionRegistry,
               informationRegistry));
+
       factInsetionListener = new FactInsertionListener(engineManager);
 
       informationRegistry.addAllInformationsListener(factInsetionListener);
     } catch (Exception e) {
       e.printStackTrace(System.out);
+
+
     }
   }
 }

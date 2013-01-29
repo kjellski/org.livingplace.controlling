@@ -33,7 +33,7 @@ public class ActionRegistryImpl implements IActionRegistry {
     IAction action = get(qualifier);
     if (action != null) {
       action.setActionProperties(properties);
-      logger.info(buildPrintoutFor(qualifier, properties, null));
+      logger.debug(buildPrintoutFor(qualifier, properties, null));
       executor.execute(action);
     } else {
       logger.warn("Action not found: " + qualifier);
@@ -48,10 +48,10 @@ public class ActionRegistryImpl implements IActionRegistry {
   @Override
   public void executeAction(IAction action) {
     if (this.registry.containsKey(action.getQualifier().getFullQualifier())) {
-      logger.info(buildPrintoutFor(action.getQualifier(), action.getActionProperties(), null));
+      logger.debug(buildPrintoutFor(action.getQualifier(), action.getActionProperties(), null));
       executor.execute(action);
     } else {
-      logger.info("Not executing action that was not in the registry. Have you stopped the Actor?");
+      logger.debug("Not executing action that was not in the registry. Have you stopped the Actor?");
     }
   }
 
@@ -98,25 +98,25 @@ public class ActionRegistryImpl implements IActionRegistry {
       logger.warn("Replaced " + old.getQualifier().getFullQualifier() +
               " with new " + action.getQualifier().getFullQualifier() + " in ActionRegistry.");
     }
-    logger.info("Added " + action.getQualifier().getFullQualifier() + " to ActionRegistry.");
+    logger.debug("Added " + action.getQualifier().getFullQualifier() + " to ActionRegistry.");
   }
 
   @Override
   public void unregister(IAction action) {
-    logger.info("Removing " + this.registry.remove(action.getQualifier().getFullQualifier())
+    logger.debug("Removing " + this.registry.remove(action.getQualifier().getFullQualifier())
             .getQualifier().getFullQualifier() + " ...");
-    logger.info("Removed  " + action.getQualifier().getFullQualifier() + " from ActionRegistry.");
+    logger.debug("Removed  " + action.getQualifier().getFullQualifier() + " from ActionRegistry.");
   }
 
   @Override
   public List<IAction> getAllRegistered() {
-    logger.info("Returning all " + registry.size() + " registered actions from ActionRegistry.");
+    logger.debug("Returning all " + registry.size() + " registered actions from ActionRegistry.");
     return new ArrayList<IAction>(this.registry.values());
   }
 
   @Override
   public IAction get(IQualifier actionQualifier) {
-    logger.info("Found Action for Qualifier \"" + actionQualifier.getFullQualifier() + "\".");
+    logger.debug("Found Action for Qualifier \"" + actionQualifier.getFullQualifier() + "\".");
     return registry.get(actionQualifier.getFullQualifier());
   }
 }

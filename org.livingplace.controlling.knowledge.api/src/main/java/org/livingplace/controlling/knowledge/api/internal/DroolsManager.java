@@ -35,7 +35,7 @@ public class DroolsManager extends Thread {
   private StatefulKnowledgeSession ksession;
 
   private boolean newFact = false;
-  public AtomicBoolean shutdown = new AtomicBoolean(false);
+  public AtomicBoolean shutdown = new AtomicBoolean(true);
 
   public DroolsManager(IActionRegistry actionRegistry, ClassLoader classLoader) {
 
@@ -66,6 +66,8 @@ public class DroolsManager extends Thread {
 
     this.setDaemon(true);
     this.start();
+    // we're not shut down any more.
+    this.shutdown.set(false);
     logger.info("RuleEngine Deamon Thread started.");
   }
 

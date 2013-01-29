@@ -5,6 +5,7 @@ import org.livingplace.controlling.actions.api.IAction;
 import org.livingplace.controlling.actions.api.IActionProperties;
 import org.livingplace.controlling.actions.api.IActionQualifier;
 import org.livingplace.controlling.actions.api.IActor;
+import org.livingplace.controlling.actions.api.providers.ActionQualifierParser;
 import org.livingplace.controlling.actions.registry.api.IActionRegistry;
 import org.livingplace.controlling.api.IQualifier;
 
@@ -54,6 +55,17 @@ public class ActionRegistryImpl implements IActionRegistry {
     }
   }
 
+  @Override
+  public void executeAction(String fullQualifier) {
+    IAction action = get(ActionQualifierParser.parseActionQualifier(fullQualifier));
+    executeAction(action);
+  }
+
+  @Override
+  public void executeAction(String fullQualifier, IActionProperties actionProperties) {
+    executeAction(ActionQualifierParser.parseActionQualifier(fullQualifier), actionProperties);
+  }
+
   private String buildPrintoutFor(IActionQualifier actionQualifier, IActionProperties actionProperties, IActor actorToExecuteAction) {
 
     StringBuilder b = new StringBuilder();
@@ -83,7 +95,7 @@ public class ActionRegistryImpl implements IActionRegistry {
   public void register(IAction action) {
     IAction old = registry.put(action.getQualifier().getFullQualifier(), action);
     if (old != null) {
-      logger.info("Replaced " + old.getQualifier().getFullQualifier() +
+      logger.warn("Replaced " + old.getQualifier().getFullQualifier() +
               " with new " + action.getQualifier().getFullQualifier() + " in ActionRegistry.");
     }
     logger.info("Added " + action.getQualifier().getFullQualifier() + " to ActionRegistry.");
@@ -98,13 +110,13 @@ public class ActionRegistryImpl implements IActionRegistry {
 
   @Override
   public List<IAction> getAllRegistered() {
-    logger.info("Returning " + registry.size() + " Entries from ActionRegistry.");
+    logger.info("Returning all " + registry.size() + " registered actions from ActionRegistry.");
     return new ArrayList<IAction>(this.registry.values());
   }
 
   @Override
   public IAction get(IQualifier actionQualifier) {
-    logger.info("Returning " + actionQualifier.getFullQualifier() + " from ActionRegistry.");
+    logger.info("Found Action for Qualifier \"" + actionQualifier.getFullQualifier() + "\".");
     return registry.get(actionQualifier.getFullQualifier());
   }
 }

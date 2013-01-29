@@ -28,4 +28,21 @@ public interface IActionRegistry extends IRegistry<IAction> {
    * @param action
    */
   void executeAction(IAction action);
+
+  /**
+   * Executes the Action given by it's fullQualifier, therefor searches it in the registry first.
+   * @param fullQualifier full action qualifier given by IActionQualifier.getFullQualifier() in the form:
+   *                      "ACTION:time.broadcastTime:1.0"
+   */
+  void executeAction(String fullQualifier);
+
+  /**
+   * Executes the Action given by it's fullQualifier, therefor searches it in the registry first. Allows Parameter
+   * usage.
+   * @param fullQualifier
+   * @param actionProperties
+   */
+  void executeAction(String fullQualifier, IActionProperties actionProperties);
+
+
 }

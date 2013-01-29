@@ -14,5 +14,5 @@ rule "Timing rule"
     when
         t : UTCTimeInformation()
     then
-        Actions.executeAction(new BroadcastTimeOnAMQ());
+        Actions.executeAction("time.broadcastTime:1.0");
 end

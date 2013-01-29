@@ -2,10 +2,8 @@ package org.livingplace.controlling.actions.registry.impl.internal;
 
 import org.livingplace.controlling.actions.api.IAction;
 import org.livingplace.controlling.actions.api.IActionResult;
-import org.livingplace.controlling.actions.api.IActionStatus;
 import org.livingplace.controlling.actions.api.providers.AbstractAction;
 import org.livingplace.controlling.actions.api.providers.ActionQualifier;
-import org.livingplace.controlling.actions.api.providers.SimpleActionStatus;
 import org.livingplace.controlling.actions.api.providers.SimpleActionResult;
 
 /**
@@ -22,17 +20,11 @@ public class TestAction extends AbstractAction implements IAction {
   }
 
   @Override
-  public void run() {
-
+  public void execute() {
     IActionResult result = new SimpleActionResult();
     result.setResult("TestAction " + prefix + " ran!");
 
-    IActionStatus status = new SimpleActionStatus();
-
-    status.setActionResult(result);
-    status.setActionState(IActionStatus.EActionState.SUCCESSED);
-
-    setStatus(status);
+    this.status.setActionResult(result);
   }
 }
 

@@ -35,8 +35,7 @@ public class ActionRegistryImplTest {
     Assert.assertTrue(actionToExecute.getStatus() != null);
     Assert.assertTrue(actionToExecute.getStatus().getActionResult() != null);
 
-    while (actionToExecute.getStatus().getActionsState() == IActionStatus.EActionState.PROCESSING ||
-            actionToExecute.getStatus().getActionsState() == IActionStatus.EActionState.INITIALIZING){
+    while (actionToExecute.getStatus().getActionsState() != IActionStatus.EActionState.FINISHED){
       Thread.sleep(100);
     }
 

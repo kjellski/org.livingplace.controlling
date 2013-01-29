@@ -11,15 +11,11 @@ public interface IActionStatus {
   enum EActionState {
     /* to be set when collecting informations for an action to be started*/
     INITIALIZING,
-    /* to be set when an action is in any setup phase */
-    STARTED,
     /* to be set when an action is actually in progress */
     PROCESSING,
-    /* to be set and never changed when the action has finished in a successful state */
-    SUCCESSED,
-    /* to be set and never changed when the action has finished in a erroneous state */
-    FAILED
-  };
+    /* to be set when an action was run(), CAUTION: HAS NO MEANING IN REGARDS OF SUCCESS OR FAILURE */
+    FINISHED
+  }
 
   EActionState getActionsState();
 

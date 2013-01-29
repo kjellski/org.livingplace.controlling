@@ -29,12 +29,6 @@ public interface IAction extends IQualifiable, Runnable {
   IActionStatus getStatus();
 
   /**
-   * sets the status of the operation
-   * @param status
-   */
-  void setStatus(IActionStatus status);
-
-  /**
    * executes the action in the registrys executor poolw
    */
   void execute();

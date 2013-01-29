@@ -1,4 +1,5 @@
 # Bugs
+make sure there is only one time a result of an action gets set.
 
 # Design flaws
 

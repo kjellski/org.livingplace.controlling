@@ -17,8 +17,12 @@ public abstract class AbstractAction implements IAction {
   IActionProperties properties;
 
   protected AbstractAction(IActionQualifier actionQualifier) {
+    this(actionQualifier, new SimpleActionStatus());
+  }
+
+  protected AbstractAction(IActionQualifier actionQualifier, IActionStatus status) {
     this.qualifier = actionQualifier;
-    this.status = new SimpleActionStatus();
+    this.status = status;
 
     // adding a state change listener while debugging
     this.status.addActionStateChangedListener(new IActionStateChangedListener() {

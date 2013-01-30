@@ -30,10 +30,6 @@ public interface IInformationRegistry extends IRegistry<IInformation> {
   IInformationListener registerOnListener(IInformation toBeRegistered);
 
   /**
-   *
-   */
-
-  /**
    * shuts down all listeners and removes the information form the registry
    * @param toBeUnregistered
    */

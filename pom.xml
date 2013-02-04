@@ -54,6 +54,7 @@
     <module>org.livingplace.controlling.actions.registry.commands</module>
     <module>org.livingplace.controlling.actions.registry.impl</module>
     <module>org.livingplace.controlling.actions.actors.time</module>
+    <module>org.livingplace.controlling.actions.actors.temperature</module>
     <module>org.livingplace.controlling.informations.api</module>
     <module>org.livingplace.controlling.informations.registry.api</module>
     <module>org.livingplace.controlling.informations.registry.commands</module>
@@ -114,4 +115,5 @@
       <url>http://devsupport.informatik.haw-hamburg.de/nexus/content/repositories/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
+
 </project>

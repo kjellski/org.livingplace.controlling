@@ -29,7 +29,6 @@ public class DroolsManager extends Thread {
 
   private static final int EXECUTION_INTERVAL = 500;
 
-  private KnowledgeBuilder kbuilder;
   private KnowledgeBase kbase;
   private KnowledgeAgent kagent;
   private StatefulKnowledgeSession ksession;
@@ -39,15 +38,11 @@ public class DroolsManager extends Thread {
 
   public DroolsManager(IActionRegistry actionRegistry, ClassLoader classLoader) {
 
-    this.kbuilder = getConfiguredKnowledgeBuilder(classLoader);
-    if (this.kbuilder == null) throw new IllegalStateException("KnowledgeBuilder was null.");
-
-    this.kagent = getConfiguredKnowledgeAgent(this.kbuilder, classLoader);
+    this.kagent = getConfiguredKnowledgeAgent(classLoader);
     this.kagent.applyChangeSet(ResourceFactory.newClassPathResource(RULES_CHANGESET, getClass()));
     if (this.kagent == null) throw new IllegalStateException("KnowledgeAgent was null.");
 
     this.kbase = this.kagent.getKnowledgeBase();
-    this.kbase.addKnowledgePackages(this.kbuilder.getKnowledgePackages());
     if (this.kbase == null) throw new IllegalStateException("KnowledgeBase was null.");
 
     this.ksession = getConfiguredKnowledgeSession(this.kbase);
@@ -133,13 +128,19 @@ public class DroolsManager extends Thread {
     return kbaseConfig;
   }
 
-  /**
-   * Using the custom Classlaoder in order to get the right classes from registries loaded.
-   *
-   * @param classLoader
-   * @return
-   */
-  private KnowledgeBuilder getConfiguredKnowledgeBuilder(ClassLoader classLoader) {
+  private KnowledgeAgentConfiguration getKnowledgeAgentConfiguration() {
+    KnowledgeAgentConfiguration agentConfiguration = KnowledgeAgentFactory.newKnowledgeAgentConfiguration();
+
+    // we do not want to scan directories, just files
+    agentConfiguration.setProperty("drools.agent.newInstance", "false");
+    agentConfiguration.setProperty("drools.agent.scanDirectories", "true");
+    agentConfiguration.setProperty("drools.agent.scanResources", "true");
+    agentConfiguration.setProperty("drools.agent.useKBaseClassLoaderForCompiling", "true");
+
+    return agentConfiguration;
+  }
+
+  private KnowledgeAgent getConfiguredKnowledgeAgent(ClassLoader classLoader) {
     KnowledgeBuilderConfiguration kbconf = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(null, classLoader);
     KnowledgeBuilder knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(kbconf);
 
@@ -153,26 +154,10 @@ public class DroolsManager extends Thread {
       throw new IllegalRuleEvaluationException(errors);
     }
 
-    return knowledgeBuilder;
-  }
-
-  private KnowledgeAgentConfiguration getKnowledgeAgentConfiguration() {
-    KnowledgeAgentConfiguration agentConfiguration = KnowledgeAgentFactory.newKnowledgeAgentConfiguration();
-
-    // we do not want to scan directories, just files
-    agentConfiguration.setProperty("drools.agent.newInstance", "false");
-    agentConfiguration.setProperty("drools.agent.scanDirectories", "true");
-    agentConfiguration.setProperty("drools.agent.scanResources", "true");
-    agentConfiguration.setProperty("drools.agent.useKBaseClassLoaderForCompiling", "true");
-
-    return agentConfiguration;
-  }
-
-  private KnowledgeAgent getConfiguredKnowledgeAgent(KnowledgeBuilder kbuilder, ClassLoader classLoader) {
     KnowledgeBaseConfiguration kbaseconfig = getConfiguredKnowledgeBaseConfiguration(classLoader);
 
     KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase(kbaseconfig);
-    kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
+    kbase.addKnowledgePackages(knowledgeBuilder.getKnowledgePackages());
 
     KnowledgeAgentConfiguration kagentConfiguration = getKnowledgeAgentConfiguration();
 

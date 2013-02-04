@@ -60,6 +60,10 @@ public class DroolsManager extends Thread {
     logger.info("RuleEngine Deamon Thread started.");
   }
 
+  /**
+   * inserts a fact into the knowledge base
+   * @param o
+   */
   public void addFact(Object o) {
     if (!this.shutdown.get()) {
       this.newFact = true;
@@ -70,6 +74,9 @@ public class DroolsManager extends Thread {
     }
   }
 
+  /**
+   * method that gets the ruleengine evaluate on all known rules
+   */
   public void reason() {
     if (!this.shutdown.get()) {
       if (this.newFact) {
@@ -79,6 +86,25 @@ public class DroolsManager extends Thread {
       this.ksession.fireAllRules();
     } else {
       logger.error("The KnowledgeBase was shut down, using it after that is illegal.");
+    }
+  }
+
+  /**
+   * executes the resoning of the ruleengine all interval
+   */
+  public void run() {
+
+    try {
+      while (!Thread.currentThread().isInterrupted()) {
+        Thread.sleep(EXECUTION_INTERVAL);
+        this.reason();
+      }
+    } catch (InterruptedException e) {
+      logger.warn("Interrupted the CEP Machine, action interrupted: " + e.getMessage() + ".");
+    } catch (Exception e) {
+      logger.error("An error occured in the reasoning cycle of the CEP Machine, printing Exception: " + e.toString(), e);
+    } finally {
+      this.shutdown();
     }
   }
 
@@ -120,13 +146,6 @@ public class DroolsManager extends Thread {
     return ksessionConfig;
   }
 
-  private KnowledgeBaseConfiguration getConfiguredKnowledgeBaseConfiguration(ClassLoader classLoader) {
-    KnowledgeBaseConfiguration kbaseConfig = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
-
-    kbaseConfig.setOption(EventProcessingOption.STREAM);
-
-    return kbaseConfig;
-  }
 
   private KnowledgeAgentConfiguration getKnowledgeAgentConfiguration() {
     KnowledgeAgentConfiguration agentConfiguration = KnowledgeAgentFactory.newKnowledgeAgentConfiguration();
@@ -164,22 +183,12 @@ public class DroolsManager extends Thread {
     return KnowledgeAgentFactory.newKnowledgeAgent("KnowledgeBaseAgent", kbase, kagentConfiguration);
   }
 
-  /**
-   * executes the resoning of the ruleengine all interval
-   */
-  public void run() {
+  private KnowledgeBaseConfiguration getConfiguredKnowledgeBaseConfiguration(ClassLoader classLoader) {
+    KnowledgeBaseConfiguration kbaseConfig = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
 
-    try {
-      while (!Thread.currentThread().isInterrupted()) {
-        Thread.sleep(EXECUTION_INTERVAL);
-        this.reason();
-      }
-    } catch (InterruptedException e) {
-      logger.warn("Interrupted the CEP Machine, action interrupted: " + e.getMessage() + ".");
-    } catch (Exception e) {
-      logger.error("An error occured in the reasoning cycle of the CEP Machine, printing Exception: " + e.toString(), e);
-    } finally {
-      this.shutdown();
-    }
+    kbaseConfig.setOption(EventProcessingOption.STREAM);
+
+    return kbaseConfig;
   }
+
 }

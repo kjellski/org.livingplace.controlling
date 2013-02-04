@@ -33,8 +33,7 @@ public class ActionRegistryImpl implements IActionRegistry {
     IAction action = get(qualifier);
     if (action != null) {
       action.setActionProperties(properties);
-      logger.debug(buildPrintoutFor(qualifier, properties, null));
-      executor.execute(action);
+      exec(action);
     } else {
       logger.warn("Action not found: " + qualifier);
     }
@@ -48,11 +47,15 @@ public class ActionRegistryImpl implements IActionRegistry {
   @Override
   public void executeAction(IAction action) {
     if (this.registry.containsKey(action.getQualifier().getFullQualifier())) {
-      logger.debug(buildPrintoutFor(action.getQualifier(), action.getActionProperties(), null));
-      executor.execute(action);
+      exec(action);
     } else {
       logger.debug("Not executing action that was not in the registry. Have you stopped the Actor?");
     }
+  }
+
+  private void exec(IAction action){
+    logger.debug(buildPrintoutFor(action.getQualifier(), action.getActionProperties(), null));
+    executor.execute(action);
   }
 
   @Override

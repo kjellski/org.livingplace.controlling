@@ -12,6 +12,11 @@ public class BroadcastTimeOnAMQ extends AbstractAction implements IAction {
 
   @Override
   public void execute() {
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+    }
     System.out.println(this.getQualifier() + " - Time: " + System.currentTimeMillis());
   }
 }

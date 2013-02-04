@@ -16,10 +16,10 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.livingplace.bundles.controlling</groupId>
-  <artifactId>org.livingplace.controlling.informations.sensors.time</artifactId>
+  <artifactId>org.livingplace.controlling.informations.sensors.temperature</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>LivingPlace :: Controlling :: Informations :: Sensors :: Time</name>
+  <name>LivingPlace :: Controlling :: Informations :: Sensors :: Temperature</name>
 
   <packaging>bundle</packaging>
 

@@ -37,7 +37,16 @@ public class Information extends EventObject implements IInformation {
   @Override
   public String toString() {
     StringBuilder b = new StringBuilder();
-    b.append(qualifier.getFullQualifier() + ":" + this.information.toString());
+
+    if (this.information != null)
+      try {
+        b.append(qualifier.getFullQualifier() + ":" + this.information.toString());
+      } catch (Exception ex) {
+        b.append(qualifier.getFullQualifier() + ":" + "[ERROR] information.toString() threw an Exception: " + ex.getMessage());
+      }
+    else
+      b.append(qualifier.getFullQualifier() + ":" + "null");
+
     return b.toString();
   }
 }

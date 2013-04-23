@@ -59,6 +59,7 @@
     <module>org.livingplace.controlling.informations.registry.commands</module>
     <module>org.livingplace.controlling.informations.registry.impl</module>
     <module>org.livingplace.controlling.informations.sensors.time</module>
+    <module>org.livingplace.controlling.informations.sensors.position</module>
     <module>org.livingplace.controlling.knowledge.api</module>
   </modules>
 
@@ -114,4 +115,5 @@
       <url>http://devsupport.informatik.haw-hamburg.de/nexus/content/repositories/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
+
 </project>

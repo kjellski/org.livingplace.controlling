@@ -6,6 +6,7 @@ local/
 # runner folder, except the ones needed for the ruleengine.
 !runner/rules/.empty
 !runner/rules/test.drl
+!runner/configurations/services/org.ops4j.pax.logging.properties
 runner/bundles
 runner/cache
 runner/deploy-pom.xml

@@ -48,7 +48,18 @@
       <artifactId>log4j</artifactId>
       <version>1.2.16</version>
     </dependency>
-    <!-- ActiveMQ Dependencies -->
+    <!-- LPMessaging Dependencies -->
+    <dependency>
+      <groupId>org.livingplace.messaging</groupId>
+      <artifactId>org.livingplace.messaging.activemq.wrapper</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+    <!-- GSon -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.2.2</version>
+    </dependency>
 
     <!-- Controlling Dependencies -->
     <dependency>

@@ -1,8 +1,8 @@
 package org.livingplace.controlling.informations.sensors.position;
 
 import com.google.gson.Gson;
-import de.hawhamburg.livingplace.messaging.activemq.wrapper.ConnectionSettings;
-import de.hawhamburg.livingplace.messaging.activemq.wrapper.LPSubscriber;
+import org.livingplace.messaging.activemq.wrapper.ConnectionSettings;
+import org.livingplace.messaging.activemq.wrapper.LPSubscriber;
 import org.apache.felix.scr.annotations.*;
 import org.apache.log4j.Logger;
 import org.livingplace.controlling.informations.api.IInformation;

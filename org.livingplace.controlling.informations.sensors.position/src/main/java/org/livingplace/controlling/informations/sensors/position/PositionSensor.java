@@ -1,8 +1,6 @@
 package org.livingplace.controlling.informations.sensors.position;
 
 import com.google.gson.Gson;
-import org.livingplace.messaging.activemq.wrapper.ConnectionSettings;
-import org.livingplace.messaging.activemq.wrapper.LPSubscriber;
 import org.apache.felix.scr.annotations.*;
 import org.apache.log4j.Logger;
 import org.livingplace.controlling.informations.api.IInformation;
@@ -14,6 +12,8 @@ import org.livingplace.controlling.informations.registry.api.IInformationRegistr
 import org.livingplace.controlling.informations.sensors.position.internal.Position;
 import org.livingplace.controlling.informations.sensors.position.internal.PositionInformation;
 import org.livingplace.controlling.informations.sensors.position.internal.UbisensePositionMessage;
+import org.livingplace.messaging.activemq.impl.internal.ConnectionSettings;
+import org.livingplace.messaging.activemq.impl.internal.LPSubscriber;
 
 import javax.jms.JMSException;
 import java.util.ArrayList;

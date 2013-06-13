@@ -10,8 +10,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.livingplace.bundles.controlling.build</groupId>
   <artifactId>provision</artifactId>
-
   <name>controlling - imported bundles</name>
+  <packaging>pom</packaging>
 
   <properties>
     <!--OSGi Framework Basics-->
@@ -41,8 +41,6 @@
     <org.apache.felix.org.osgi.core.version>1.0.0</org.apache.felix.org.osgi.core.version>
     <pax-confman-propsloader.version>0.2.3</pax-confman-propsloader.version>
   </properties>
-
-  <packaging>pom</packaging>
 
   <!--
    | imported (non-local) bundles are listed here as dependencies

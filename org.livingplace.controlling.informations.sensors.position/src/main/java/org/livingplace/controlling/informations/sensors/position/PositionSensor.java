@@ -12,8 +12,9 @@ import org.livingplace.controlling.informations.registry.api.IInformationRegistr
 import org.livingplace.controlling.informations.sensors.position.internal.Position;
 import org.livingplace.controlling.informations.sensors.position.internal.PositionInformation;
 import org.livingplace.controlling.informations.sensors.position.internal.UbisensePositionMessage;
-import org.livingplace.messaging.activemq.impl.tmp.LPConnectionSettings;
-import org.livingplace.messaging.activemq.impl.tmp.LPSubscriber;
+import org.livingplace.messaging.activemq.api.ILPConnectionSettings;
+import org.livingplace.messaging.activemq.api.ILPMessagingFactory;
+import org.livingplace.messaging.activemq.api.ILPSubscriber;
 
 import javax.jms.JMSException;
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ public class PositionSensor extends Sensor implements ISensor {
     @Reference
     protected IInformationRegistryFactory informationRegistryFactory;
 
+    @Reference
+    protected ILPMessagingFactory messagingFactory;
+
     public PositionSensor() {
         super(new SensorQualifier("position", "positioner", "1.0"));
     }
@@ -45,12 +49,12 @@ public class PositionSensor extends Sensor implements ISensor {
             listeners.add(informationRegistryFactory.getInstance().registerOnListener(information));
         }
 
-        LPConnectionSettings cs = new LPConnectionSettings();
+        ILPConnectionSettings cs = messagingFactory.createLPConnectionSettings();
 //        cs.setActiveMQIp("172.16.0.200");
 //        cs.setMongoDBIp("172.16.0.200");
 
         try {
-            LPSubscriber subscriber = new LPSubscriber("UbisenseTracking", cs);
+            ILPSubscriber subscriber = messagingFactory.createLPSubscriberInstance("UbisenseTracking", cs);
 
             for (; ; ) {
                 Gson gson = new Gson();

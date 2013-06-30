@@ -54,11 +54,6 @@
             <artifactId>org.livingplace.messaging.activemq.api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>org.livingplace.bundles.messaging</groupId>
-            <artifactId>org.livingplace.messaging.activemq.impl</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         <!-- GSon -->
         <dependency>
             <groupId>com.google.code.gson</groupId>

@@ -3,3 +3,11 @@
 #-----------------------------------------------------------------
 
 Import-Service: org.livingplace.controlling.informations.registry.api.IInformationRegistry
+Import-Package: org.livingplace.messaging.activemq.*,\
+    com.google.gson,\
+    javax.jms,\
+    org.apache.log4j,\
+    org.livingplace.controlling.api,\
+    org.livingplace.controlling.informations.api,\
+    org.livingplace.controlling.informations.api.providers,\
+    org.livingplace.controlling.informations.registry.api

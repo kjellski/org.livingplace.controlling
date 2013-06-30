@@ -50,8 +50,9 @@
                 <configuration>
                     <provision>
                         <param>--platform=felix</param>
-                        <param>--log=info</param>
+                        <param>--log=debug</param>
                         <param>--profiles=web</param>
+                        <param>wrap:mvn:org.apache.activemq/activemq-client/5.8.0</param>
                     </provision>
                 </configuration>
             </plugin>

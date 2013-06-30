@@ -11,9 +11,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.livingplace.bundles.controlling.build</groupId>
   <artifactId>shared-plugin-settings</artifactId>
-
   <name>controlling - plugin configuration</name>
-
   <packaging>pom</packaging>
 
   <modules>

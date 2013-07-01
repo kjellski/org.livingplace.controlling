@@ -1,0 +1,30 @@
+
+import org.livingplace.controlling.actions.api.IAction;
+import org.livingplace.controlling.actions.api.IActionProperties;
+import org.livingplace.controlling.actions.api.providers.ActionProperties;
+
+#Door
+import org.livingplace.controlling.informations.sensors.doorcontrol.internal.DoorInformations;
+import org.livingplace.controlling.actions.actors.doorcontrol.internal.DeliverToDoor;
+#Postion
+import org.livingplace.controlling.informations.sensors.position.internal.PositionInformation;
+
+
+global org.livingplace.controlling.actions.registry.api.IActionRegistry Actions;
+
+declare UTCTimeInformation
+    @role ( event )
+    @expires( 30s )
+end
+
+rule "DoorControl rule"
+    dialect "mvel"
+    when
+        t : DoorInformations()
+        pos : PositionInformation(X == "", Y == "", Z = "")
+    then
+        IActionProperties properties = new ActionProperties();
+        properties.getDefaultProperties().setProperty("door", t.getInformation().getLPResName());
+        properties.getDefaultProperties().setProperty("operation", t.getInformation().getLPResFunctions().getFirst());
+        Actions.executeAction("Door.DevilverToDoorAction:1.0", properties);
+end

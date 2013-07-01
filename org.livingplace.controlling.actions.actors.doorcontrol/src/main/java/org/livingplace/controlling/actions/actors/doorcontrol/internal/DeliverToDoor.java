@@ -1,6 +1,6 @@
 package org.livingplace.controlling.actions.actors.doorcontrol.internal;
 
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 import org.apache.felix.scr.annotations.Reference;
 import org.livingplace.controlling.actions.api.IAction;
 import org.livingplace.controlling.actions.api.providers.AbstractAction;
@@ -9,7 +9,7 @@ import org.livingplace.messaging.activemq.api.ILPConnectionSettings;
 import org.livingplace.messaging.activemq.api.ILPMessagingFactory;
 import org.livingplace.messaging.activemq.api.ILPProducer;
 
-import org.haw.door.messages.*;
+//import org.haw.door.messages.*;
 
 
 import javax.jms.JMSException;
@@ -45,14 +45,14 @@ public class DeliverToDoor extends AbstractAction implements IAction {
         String door =  this.getActionProperties().getDefaultProperties().getProperty("LPResName");
         String operation = this.getActionProperties().getDefaultProperties().getProperty("Operation");
 
-        Gson gson = new Gson();
+//        Gson gson = new Gson();
         try {
             ILPProducer producer = messagingFactory.createLPProducer(door ,settings);
-            Messages msg = new Messages("2.0", "");
-            msg.setOperation(operation);
-
-            producer.produce(gson.toJson(msg));
-            producer.disconnect();
+//            Messages msg = new Messages("2.0", "");
+//            msg.setOperation(operation);
+//
+//            producer.produce(gson.toJson(msg));
+//            producer.disconnect();
 
         } catch (UnknownHostException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

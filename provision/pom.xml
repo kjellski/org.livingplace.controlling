@@ -172,6 +172,7 @@
           <artifactId>pax-logging-api</artifactId>
           <version>${pax-logging.version}</version>
       </dependency>
+
   </dependencies>
 
 </project>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <parent>
+    <relativePath>../poms/compiled/</relativePath>
+    <groupId>org.livingplace.bundles.controlling.build</groupId>
+    <artifactId>compiled-bundle-settings</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <properties>
+    <bundle.symbolicName>org.livingplace.controlling.actions.actors.doorcontrol</bundle.symbolicName>
+    <bundle.namespace>org.livingplace.controlling.actions.actors.doorcontrol</bundle.namespace>
+  </properties>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.livingplace.bundles.controlling</groupId>
+  <artifactId>org.livingplace.controlling.actions.actors.doorcontrol</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <name>LivingPlace :: Controlling :: Actions :: Actor :: DoorControl</name>
+
+  <packaging>bundle</packaging>
+
+  <dependencies>
+      <!--OSGi Core Dependencies-->
+      <dependency>
+          <groupId>org.osgi</groupId>
+          <artifactId>org.osgi.core</artifactId>
+          <optional>true</optional>
+      </dependency>
+      <dependency>
+          <groupId>org.osgi</groupId>
+          <artifactId>org.osgi.compendium</artifactId>
+          <optional>true</optional>
+      </dependency>
+      <!--Logging Dependencies-->
+      <dependency>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+          <version>1.2.16</version>
+      </dependency>
+      <!-- Controlling Dependencies -->
+      <dependency>
+          <groupId>org.livingplace.bundles.controlling</groupId>
+          <artifactId>org.livingplace.controlling.actions.registry.api</artifactId>
+          <version>1.0-SNAPSHOT</version>
+      </dependency>
+      <!-- Component Annotations Dependencies -->
+      <!--<dependency>-->
+          <!--<groupId>org.apache.felix</groupId>-->
+          <!--<artifactId>org.apache.felix.scr</artifactId>-->
+          <!--<version>1.6.0</version>-->
+      <!--</dependency>-->
+      <!--<dependency>-->
+          <!--<groupId>org.apache.felix</groupId>-->
+          <!--<artifactId>org.apache.felix.scr.annotations</artifactId>-->
+          <!--<version>1.7.0</version>-->
+      <!--</dependency>-->
+      <!-- Testing Dependencies -->
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.8.2</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.mockito</groupId>
+          <artifactId>mockito-all</artifactId>
+          <version>1.9.0</version>
+          <scope>test</scope>
+      </dependency>
+
+      <!-- Messages -->
+      <!--<dependency>-->
+          <!--<groupId>org.livingplace.controlling.doordefines</groupId>-->
+          <!--<artifactId>doordefines</artifactId>-->
+          <!--<version>1.7-SNAPSHOT</version>-->
+      <!--</dependency>-->
+      <!-- LPMessaging Dependencies -->
+      <dependency>
+          <groupId>org.livingplace.bundles.messaging</groupId>
+          <artifactId>org.livingplace.messaging.activemq.api</artifactId>
+          <version>1.0-SNAPSHOT</version>
+      </dependency>
+      <!-- GSon -->
+      <!--<dependency>-->
+          <!--<groupId>com.google.code.gson</groupId>-->
+          <!--<artifactId>gson</artifactId>-->
+          <!--<version>2.2.2</version>-->
+      <!--</dependency>-->
+
+
+  </dependencies>
+
+</project>

@@ -1,3 +1,6 @@
 #-----------------------------------------------------------------
 # Use this file to add customized Bnd instructions for the bundle
 #-----------------------------------------------------------------
+
+Import-Service: org.livingplace.controlling.actions.registry.api.IActionRegistryFactory,\
+    org.livingplace.messaging.activemq.api.ILPMessagingFactory

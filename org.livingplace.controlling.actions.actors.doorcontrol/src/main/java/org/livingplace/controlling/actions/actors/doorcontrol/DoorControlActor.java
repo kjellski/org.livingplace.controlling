@@ -5,11 +5,11 @@ import org.apache.log4j.Logger;
 import org.livingplace.controlling.actions.actors.doorcontrol.internal.DeliverToDoor;
 import org.livingplace.controlling.actions.api.IAction;
 import org.livingplace.controlling.actions.api.IActor;
-import org.livingplace.controlling.actions.api.IActorQualifier;
-import org.livingplace.controlling.actions.api.providers.ActionQualifier;
 import org.livingplace.controlling.actions.api.providers.Actor;
 import org.livingplace.controlling.actions.api.providers.ActorQualifier;
 import org.livingplace.controlling.actions.registry.api.IActionRegistryFactory;
+import org.livingplace.messaging.activemq.api.ILPMessaging;
+import org.livingplace.messaging.activemq.api.ILPMessagingFactory;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,11 +22,14 @@ import org.livingplace.controlling.actions.registry.api.IActionRegistryFactory;
 @Service
 public class DoorControlActor extends Actor implements IActor {
 
-
     private static Logger logger = Logger.getLogger(DoorControlActor.class);
 
     @Reference
     protected IActionRegistryFactory actionRegistryFactory;
+
+    @Reference
+    protected ILPMessagingFactory messagingFactory;
+    public static ILPMessaging messaging;
 
     public DoorControlActor() {
         super(new ActorQualifier("Door", "DoorControlAction", "1.0"));
@@ -34,6 +37,7 @@ public class DoorControlActor extends Actor implements IActor {
 
     @Activate
     void start(){
+        messaging = messagingFactory.getInstance();
         logger.info("Starting TimerActor ...");
 
         actions.add(new DeliverToDoor());

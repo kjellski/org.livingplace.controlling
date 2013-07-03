@@ -12,6 +12,7 @@ import org.livingplace.controlling.informations.registry.api.IInformationRegistr
 import org.livingplace.controlling.informations.sensors.position.internal.PositionInformation;
 import org.livingplace.controlling.informations.sensors.position.internal.UbisensePositionMessage;
 import org.livingplace.messaging.activemq.api.ILPConnectionSettings;
+import org.livingplace.messaging.activemq.api.ILPMessaging;
 import org.livingplace.messaging.activemq.api.ILPMessagingFactory;
 import org.livingplace.messaging.activemq.api.ILPSubscriber;
 
@@ -32,6 +33,7 @@ public class PositionSensor extends Sensor implements ISensor {
 
     @Reference
     protected ILPMessagingFactory messagingFactory;
+    protected ILPMessaging messaging;
 
     public PositionSensor() {
         super(new SensorQualifier("position", "positioner", "1.0"));
@@ -39,6 +41,7 @@ public class PositionSensor extends Sensor implements ISensor {
 
     @Activate
     void start() {
+        messaging = messagingFactory.getInstance();
         logger.info("PositionSensor started");
 
         informations.add(new PositionInformation(this, new UbisensePositionMessage()));
@@ -47,12 +50,12 @@ public class PositionSensor extends Sensor implements ISensor {
             listeners.add(informationRegistryFactory.getInstance().registerOnListener(information));
         }
 
-        ILPConnectionSettings cs = messagingFactory.createLPConnectionSettings();
+        ILPConnectionSettings cs = messaging.createLPConnectionSettings();
 //        cs.setActiveMQIp("172.16.0.200");
 //        cs.setMongoDBIp("172.16.0.200");
 
         try {
-            ILPSubscriber subscriber = messagingFactory.createLPSubscriberInstance("UbisenseTracking", cs);
+            ILPSubscriber subscriber = messaging.createLPSubscriberInstance("UbisenseTracking", cs);
             Gson gson = new Gson();
             for (; ; ) {
 

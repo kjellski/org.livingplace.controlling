@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistry;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistryFactory;
 
-
 @Service(serviceFactory = true)
 @Component
 public class InformationRegistryFactoryImpl implements IInformationRegistryFactory {

@@ -1,15 +1,13 @@
 package org.livingplace.controlling.actions.actors.doorcontrol.internal;
 
 import com.google.gson.Gson;
-import org.apache.felix.scr.annotations.Reference;
 import org.livingplace.bundles.messagingdefines.messages.Messages;
+import org.livingplace.controlling.actions.actors.doorcontrol.DoorControlActor;
 import org.livingplace.controlling.actions.api.IAction;
 import org.livingplace.controlling.actions.api.providers.AbstractAction;
 import org.livingplace.controlling.actions.api.providers.ActionQualifier;
 import org.livingplace.messaging.activemq.api.ILPConnectionSettings;
-import org.livingplace.messaging.activemq.api.ILPMessagingFactory;
 import org.livingplace.messaging.activemq.api.ILPProducer;
-
 
 import javax.jms.JMSException;
 import java.net.UnknownHostException;
@@ -23,10 +21,6 @@ import java.net.UnknownHostException;
  */
 public class DeliverToDoor extends AbstractAction implements IAction {
 
-
-    @Reference
-    protected ILPMessagingFactory messagingFactory;
-
     public DeliverToDoor() {
         super(new ActionQualifier("Door", "DevilverToDoorAction", "1.0"));
     }
@@ -36,9 +30,8 @@ public class DeliverToDoor extends AbstractAction implements IAction {
      */
     @Override
     public void execute() {
-        ILPConnectionSettings settings = messagingFactory.createLPConnectionSettings();
+        ILPConnectionSettings settings = DoorControlActor.messaging.createLPConnectionSettings();
         //set ips
-
 
         // set data to send
 //        String door =  this.getActionProperties().getDefaultProperties().getProperty("LPResName");
@@ -46,7 +39,7 @@ public class DeliverToDoor extends AbstractAction implements IAction {
 
         Gson gson = new Gson();
         try {
-            ILPProducer producer = messagingFactory.createLPProducer("door" ,settings);
+            ILPProducer producer = DoorControlActor.messaging.createLPProducer("door" ,settings);
             Messages msg = new Messages("2.0", "");
             msg.setOperation("OPEN");
 

@@ -13,6 +13,7 @@ import org.livingplace.controlling.informations.api.providers.SensorQualifier;
 import org.livingplace.controlling.informations.registry.api.IInformationRegistryFactory;
 import org.livingplace.controlling.informations.sensors.doorcontrol.internal.DoorInformations;
 import org.livingplace.messaging.activemq.api.ILPConnectionSettings;
+import org.livingplace.messaging.activemq.api.ILPMessaging;
 import org.livingplace.messaging.activemq.api.ILPMessagingFactory;
 import org.livingplace.messaging.activemq.api.ILPSubscriber;
 
@@ -39,29 +40,31 @@ public class DoorControlSensor extends Sensor implements ISensor {
 
     @Reference
     protected ILPMessagingFactory messagingFactory;
+    protected ILPMessaging messaging;
 
 
-    public DoorControlSensor (){
+    public DoorControlSensor() {
         super(new SensorQualifier("Door", "DoorControlSensor", "1.0"));
     }
 
     @Activate
-    void start(){
+    void start() {
+        messaging = messagingFactory.getInstance();
         logger.info("DoorControl Sensor started");
 
-       informations.add(new DoorInformations(this, new LPResource()));
+        informations.add(new DoorInformations(this, new LPResource()));
 
         for (IInformation information : informations) {
             listeners.add(informationRegistryFactory.getInstance().registerOnListener(information));
         }
 
 
-        ILPConnectionSettings cs = messagingFactory.createLPConnectionSettings();
+        ILPConnectionSettings cs = messaging.createLPConnectionSettings();
 //        cs.setActiveMQIp("172.16.0.200");
 //        cs.setMongoDBIp("172.16.0.200");
 
         try {
-            ILPSubscriber subscriber = messagingFactory.createLPSubscriberInstance("UbisenseTracking", cs);
+            ILPSubscriber subscriber = messaging.createLPSubscriberInstance("UbisenseTracking", cs);
             Gson gson = new Gson();
             for (; ; ) {
 
@@ -80,7 +83,7 @@ public class DoorControlSensor extends Sensor implements ISensor {
     }
 
     @Deactivate
-    void stop(){
+    void stop() {
         for (IInformation information : informations) {
             informationRegistryFactory.getInstance().unregister(information);
         }

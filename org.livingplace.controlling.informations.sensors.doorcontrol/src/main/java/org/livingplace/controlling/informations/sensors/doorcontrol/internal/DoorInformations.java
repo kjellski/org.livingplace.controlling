@@ -1,6 +1,7 @@
 package org.livingplace.controlling.informations.sensors.doorcontrol.internal;
 
-//import org.haw.door.objects.LPResource;
+
+import org.livingplace.bundles.messagingdefines.objects.LPResource;
 import org.livingplace.controlling.informations.api.IInformation;
 import org.livingplace.controlling.informations.api.ISensor;
 import org.livingplace.controlling.informations.api.providers.Information;
@@ -21,16 +22,16 @@ public class DoorInformations extends Information implements IInformation{
      * @throws IllegalArgumentException
      *          if source is null.
      */
-    public DoorInformations(ISensor source, String door) {
-        super(source, new InformationQualifier("Door", "DoorInformations", "1.0"));
-        this.setInformation(door);
-    }
-//    public DoorInformations(ISensor source, LPResource door) {
+//    public DoorInformations(ISensor source, String door) {
 //        super(source, new InformationQualifier("Door", "DoorInformations", "1.0"));
 //        this.setInformation(door);
 //    }
+    public DoorInformations(ISensor source, LPResource door) {
+        super(source, new InformationQualifier("Door", "DoorInformations", "1.0"));
+        this.setInformation(door);
+    }
 
-//    public void setDoor(LPResource door){
-//        this.setInformation(door);
-//    }
+    public void setDoor(LPResource door){
+        this.setInformation(door);
+    }
 }

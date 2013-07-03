@@ -173,6 +173,14 @@
           <version>${pax-logging.version}</version>
       </dependency>
 
+
+      <!-- Messages -->
+      <dependency>
+          <groupId>org.livingplace.controlling.doordefines</groupId>
+          <artifactId>doordefines</artifactId>
+          <version>1.7-SNAPSHOT</version>
+      </dependency>
+
   </dependencies>
 
 </project>

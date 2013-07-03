@@ -1,30 +1,64 @@
+//
+//import org.livingplace.controlling.actions.api.IAction
+//import org.livingplace.controlling.actions.api.IActionProperties
+//import org.livingplace.controlling.actions.api.providers.ActionProperties
+//
+//#Door
+//import org.livingplace.controlling.informations.sensors.doorcontrol.internal.DoorInformations
+//import org.livingplace.controlling.actions.actors.doorcontrol.internal.DeliverToDoor
+//import org.livingplace.bundles.messagingdefines.objects.LPResource
+//#Postion
+//import org.livingplace.controlling.informations.sensors.position.internal.PositionInformation
+//import org.livingplace.controlling.informations.sensors.position.internal.UbisensePositionMessage
+//
+//global org.livingplace.controlling.actions.registry.api.IActionRegistry Actions
+//
+//declare UTCTimeInformation
+//    @role ( event )
+//    @expires( 30s )
+//end
+//
+//rule "DoorControl rule"
+//    dialect "mvel"
+//    when
+//        # wenn message auf doorcontrol an kam und position == vor der tür ist... dann tür steuern
+//
+//
+//        $resource : DoorInformations()
+//        $message : PositionInformation($pos : NewPosition)
+//
+//
+//    then
+//        System.out.println("rule ######### doorcontrol");
+////        IActionProperties properties = new ActionProperties();
+////        properties.getDefaultProperties().setProperty("door", t.getInformation().getLPResName());
+////        properties.getDefaultProperties().setProperty("operation", t.getInformation().getLPResFunctions().getFirst());
+////        Actions.executeAction("Door.DevilverToDoorAction:1.0", properties);
+//end
+//import org.livingplace.controlling.informations.sensors.position.internal.UbisensePositionMessage;
 
-import org.livingplace.controlling.actions.api.IAction;
-import org.livingplace.controlling.actions.api.IActionProperties;
-import org.livingplace.controlling.actions.api.providers.ActionProperties;
+ import org.livingplace.controlling.informations.sensors.position.internal.PositionInformation;
+ import org.livingplace.controlling.actions.actors.doorcontrol.internal.DeliverToDoor;
+ import org.livingplace.controlling.actions.api.IAction;
 
-#Door
-import org.livingplace.controlling.informations.sensors.doorcontrol.internal.DoorInformations;
-import org.livingplace.controlling.actions.actors.doorcontrol.internal.DeliverToDoor;
-#Postion
-import org.livingplace.controlling.informations.sensors.position.internal.PositionInformation;
+ global org.livingplace.controlling.actions.registry.api.IActionRegistry Actions;
 
+ declare UTCTimeInformation
+     @role ( event )
+     @expires( 30s )
+ end
 
-global org.livingplace.controlling.actions.registry.api.IActionRegistry Actions;
-
-declare UTCTimeInformation
-    @role ( event )
-    @expires( 30s )
-end
-
-rule "DoorControl rule"
-    dialect "mvel"
-    when
-        t : DoorInformations()
-        pos : PositionInformation(X == "", Y == "", Z = "")
-    then
-        IActionProperties properties = new ActionProperties();
-        properties.getDefaultProperties().setProperty("door", t.getInformation().getLPResName());
-        properties.getDefaultProperties().setProperty("operation", t.getInformation().getLPResFunctions().getFirst());
-        Actions.executeAction("Door.DevilverToDoorAction:1.0", properties);
-end
+ rule "Door rule"
+     dialect "mvel"
+     when
+         t : PositionInformation()
+//         MVEL Examples
+//         Person personInst = new Person();
+//         personInst.setName("Mr. Foo");
+//
+//         Object result = MVEL.eval("name == 'Mr. Foo'", personInst);
+//            String result = (String) MVEL.eval("name", personInst);
+//            assert "Mr. Foo".equals(result);
+     then
+         Actions.executeAction("Door.DevilverToDoorAction:1.0");
+ end

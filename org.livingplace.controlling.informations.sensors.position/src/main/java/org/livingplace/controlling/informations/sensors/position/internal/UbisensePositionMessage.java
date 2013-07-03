@@ -1,49 +1,59 @@
 package org.livingplace.controlling.informations.sensors.position.internal;
 
 public class UbisensePositionMessage {
-  private String Unit;
-  private String Version;
-  private String Id;
-  private String Ontology;
-  private Position NewPosition;
 
-  public String getUnit() {
-    return Unit;
-  }
+    private String UbisenseTagId;
+    private String Unit;
+    private String Version;
+    private String Id;
+    private String Ontology;
+    private Position NewPosition;
 
-  public void setUnit(String unit) {
-    Unit = unit;
-  }
+    public String getUbisenseTagId() {
+        return UbisenseTagId;
+    }
 
-  public String getVersion() {
-    return Version;
-  }
+    public void setUbisenseTagId(String ubisenseTagId) {
+        UbisenseTagId = ubisenseTagId;
+    }
 
-  public void setVersion(String version) {
-    Version = version;
-  }
+    public String getUnit() {
+        return Unit;
+    }
 
-  public String getId() {
-    return Id;
-  }
+    public void setUnit(String unit) {
+        Unit = unit;
+    }
 
-  public void setId(String id) {
-    Id = id;
-  }
+    public String getVersion() {
+        return Version;
+    }
 
-  public String getOntology() {
-    return Ontology;
-  }
+    public void setVersion(String version) {
+        Version = version;
+    }
 
-  public void setOntology(String ontology) {
-    Ontology = ontology;
-  }
+    public String getId() {
+        return Id;
+    }
 
-  public Position getNewPosition() {
-    return NewPosition;
-  }
+    public void setId(String id) {
+        Id = id;
+    }
 
-  public void setNewPosition(Position NewPosition) {
-    this.NewPosition = NewPosition;
-  }
+    public String getOntology() {
+        return Ontology;
+    }
+
+    public void setOntology(String ontology) {
+        Ontology = ontology;
+    }
+
+    public Position getNewPosition() {
+        return NewPosition;
+    }
+
+    public void setNewPosition(Position NewPosition) {
+        this.NewPosition = NewPosition;
+    }
 }

@@ -13,12 +13,12 @@ public class PositionInformation extends Information implements IInformation {
    * @throws IllegalArgumentException
    *          if source is null.
    */
-  public PositionInformation(ISensor source, Position position) {
+  public PositionInformation(ISensor source, UbisensePositionMessage msg) {
     super(source, new InformationQualifier("Position", "Position", "1.0"));
-    this.setInformation(position);
+    this.setInformation(msg);
   }
 
-  public void setPostition(Position position){
-    this.setInformation(position);
+  public void setPostition(UbisensePositionMessage msg){
+    this.setInformation(msg);
   }
 }

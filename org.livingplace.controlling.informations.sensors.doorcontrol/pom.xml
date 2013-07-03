@@ -25,12 +25,7 @@
   <packaging>bundle</packaging>
 
 
-      <!-- Messages -->
-      <!--<dependency>-->
-          <!--<groupId>org.livingplace.controlling.doordefines</groupId>-->
-          <!--<artifactId>doordefines</artifactId>-->
-          <!--<version>1.7-SNAPSHOT</version>-->
-      <!--</dependency>-->
+
 
     <repositories>
         <repository>
@@ -64,11 +59,11 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- GSon -->
-        <!--<dependency>-->
-            <!--<groupId>com.google.code.gson</groupId>-->
-            <!--<artifactId>gson</artifactId>-->
-            <!--<version>2.2.2</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.2</version>
+        </dependency>
 
         <!-- Controlling Dependencies -->
         <!--<dependency>-->
@@ -92,6 +87,19 @@
             <!--<artifactId>org.apache.felix.scr.annotations</artifactId>-->
             <!--<version>1.7.0</version>-->
         <!--</dependency>-->
+
+        <!-- Messages -->
+        <!--<dependency>-->
+        <!--<groupId>org.livingplace.controlling.doordefines</groupId>-->
+        <!--<artifactId>doordefines</artifactId>-->
+        <!--<version>1.7-SNAPSHOT</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.livingplace.bundles.messagingdefines</groupId>
+            <artifactId>org.livingplace.bundles.messagingdefines</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 
